@@ -23,6 +23,10 @@ const router = express.Router();
  *         type: integer
  *         description: Unique identifier representing a specific user
  *         example: 2
+*       username:
+ *         type: string
+ *         description: username
+ *         example: Timilsina
  *       first_name:
  *         type: string
  *         description: first name of the user
@@ -41,18 +45,10 @@ const router = express.Router();
  *         description: password of the user
  *         required: true
  *         example: "1234"
- *       status:
- *         type: integer
- *         description: status of the user
- *         example: 1
- *       created_at:
+ *       created:
  *         type: string
  *         format: date-time
  *         description: User creation datetime
- *       updated_at:
- *         type: string
- *         format: date-time
- *         description: User update datetime
  *   Error:
  *     type: object
  *     properties:

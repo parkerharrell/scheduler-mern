@@ -5,9 +5,11 @@ import {Field, reduxForm} from 'redux-form'
 import {withStyles} from '@material-ui/core/styles';
 import {Card, CardHeader, CardContent} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import * as moment from 'moment-timezone';
 
 // Import custom components
 import renderText from '../common/form/renderText';
+import renderSelect from '../common/form/renderSelect';
 
 const styles = {
     root: {
@@ -35,9 +37,23 @@ const styles = {
     }
 };
 
+const getTimeZoneDetail = (tz) => {
+	const dtobj = moment().tz(tz);
+    const offset = moment(dtobj).utcOffset();
+    let offsetString = 'GMT';
+    offsetString += (offset >= 0) ? '+' : '';
+    offsetString = offsetString + (offset/60);
+    return {
+        label: tz + ' (' + offsetString + ')',
+        value: tz
+    };
+}
+
 const SignUpForm = props => {
 
     const {handleSubmit, onSubmit, classes} = props;
+    const timezoneList = moment.tz.names();
+    const timezones = timezoneList.map(tz => getTimeZoneDetail(tz));
 
     return (
         <div className={classes.root}>
@@ -50,9 +66,16 @@ const SignUpForm = props => {
                     <form method="post" onSubmit={handleSubmit(onSubmit)}>
                         <Field
                             type="text"
+                            name="email"
+                            component={renderText}
+                            label="Email *"
+                        />
+                        <br/>
+                        <Field
+                            type="text"
                             name="first_name"
                             component={renderText}
-                            label="First Name"
+                            label="First Name *"
 
                         />
                         <br />
@@ -60,23 +83,40 @@ const SignUpForm = props => {
                             type="text"
                             name="last_name"
                             component={renderText}
-                            label="Last Name"
+                            label="Last Name *"
 
                         />
                         <br />
+                        {/* Start My Timezone */}
+                        <Field
+                            name="timezone"
+                            label="My Timezone"
+                            component={renderSelect}
+                            data={timezones}
+                        >
+                        </Field>
+                        <br /><br /><br />
+                        {/* End My Timezone */}
                         <Field
                             type="text"
-                            name="email"
+                            name="username"
                             component={renderText}
-                            label="Email"
+                            label="Username *"
                         />
                         <br />
                         <Field
                             type="password"
                             name="password"
                             component={renderText}
-                            label="Password"
+                            label="Password *"
 
+                        />
+                        <br />
+                        <Field
+                            type="password"
+                            name="confirm_password"
+                            component={renderText}
+                            label="Confirm Password *"
                         />
                         <br />
                         <div className={classes.btnDiv}>
@@ -99,11 +139,17 @@ const validateSignUp = values => {
         'first_name',
         'last_name',
         'email',
-        'password'
+        'password',
+        'confirm_password',
+        'username',
     ];
     requiredFields.forEach(field => {
         if (!values[field]) {
             errors[field] = '(The ' + field + ' field is required.)';
+        }
+        if (values['password'] !== values['confirm_password']) {
+            errors['password'] = '';
+            errors['confirm_password'] = '(Password fields does not match.)';
         }
     });
 

@@ -53,19 +53,19 @@ export function findById(req, res) {
 }
 
 /**
- * Store new user
+ * store new user
  *
  * @param {object} req
  * @param {object} res
  * @returns {*}
  */
 export function store(req, res) {
-    const {first_name, last_name, email} = req.body;
+    const {first_name, last_name, email, username, created} = req.body;
     const password = bcrypt.hashSync(req.body.password, 10);
 
     User.forge({
-        first_name, last_name, email, password
-    }, {hasTimestamps: true}).save()
+        first_name, last_name, email, password, username, created
+    }, {hasTimestamps: false}).save()
         .then(user => res.json({
                 success: true,
                 data: user.toJSON()

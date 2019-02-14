@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import * as moment from 'moment';
 
 import {USERS} from '../../constants/entity'
 import * as crudAction from '../../actions/crudAction'
@@ -22,7 +23,8 @@ class SignUpContainer extends Component {
      * @param {object} formProps
      */
     submitForm(formProps) {
-
+        console.log('---formProps', formProps);
+        formProps.created = moment.tz(formProps.tz).unix();
         this.props.actions.submitForm(USERS, formProps);
     }
 

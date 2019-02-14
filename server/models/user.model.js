@@ -4,12 +4,13 @@ import bookshelf from '../config/bookshelf';
  * User model.
  */
 class User extends bookshelf.Model {
+    
     get tableName() {
-        return 'users';
+        return 'ha45_users';
     }
 
     get hasTimestamps() {
-        return true;
+        return false;
     }
 
     verifyPassword(password) {
