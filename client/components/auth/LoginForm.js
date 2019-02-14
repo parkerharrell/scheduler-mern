@@ -57,7 +57,7 @@ const LoginForm = props => {
                     <form method="post" onSubmit={handleSubmit(onSubmit)}>
                         <Field
                             type="text"
-                            name="email"
+                            name="username"
                             component={renderText}
                             label="Username"
                         />
@@ -86,7 +86,7 @@ const validateLogin = values => {
     const errors = {};
 
     const requiredFields = [
-        'email',
+        'username',
         'password'
     ];
     requiredFields.forEach(field => {
@@ -95,9 +95,6 @@ const validateLogin = values => {
         }
     });
 
-    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = '(Invalid email address.)';
-    }
     return errors
 };
 

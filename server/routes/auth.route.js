@@ -16,16 +16,16 @@ const router = express.Router();
  *   Login:
  *     type: object
  *     properties:
- *       email:
+ *       username:
  *         type: string
- *         example: test@gmail.com
+ *         example: jacksonworld123
  *       password:
  *         type: string
  *         example: "1234"
  *   Token:
  *    type: object
  *    properties:
- *      email:
+ *      username:
  *        type: string
  *        example: test@gmail.com
  *      token:

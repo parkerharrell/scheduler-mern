@@ -7,10 +7,10 @@ import history from '../utils/history';
 import {BASE_URL, API_URL} from '../config/config';
 import {setToken, clearToken} from '../utils/storageUtil';
 
-export function login({email, password}) {
+export function login({username, password}) {
 
     return function (dispatch) {
-        axios.post(API_URL + 'auth/login', {email, password}).then((response) => {
+        axios.post(API_URL + 'auth/login', {username, password}).then((response) => {
 
             dispatch(AuthAction.loginSuccess(response.data.token));
 

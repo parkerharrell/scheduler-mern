@@ -5,29 +5,30 @@ import User from '../models/user.model';
 import logger from '../config/winston';
 
 /**
- * Returns jwt token if valid email and password is provided
+ * Returns jwt token if valid username and password is provided
  *
  * @param {object} req
  * @param {object} res
  * @returns {*}
  */
 export function login(req, res) {
-    const {email, password} = req.body;
+    const {username, password} = req.body;
+    console.log('------username----', username);
     User.query({
-        where: {email: email},
+        where: {username: username},
     }).fetch().then(user => {
         if (user) {
             if (bcrypt.compareSync(password, user.get('password'))) {
 
                 const token = jwt.sign({
                     id: user.get('id'),
-                    email: user.get('email')
+                    username: user.get('username')
                 }, process.env.TOKEN_SECRET_KEY);
 
                 res.json({
                     success: true,
                     token,
-                    email:  user.get('email')
+                    username:  user.get('username')
                 });
             } else {
                 logger.log('error', 'Authentication failed. Invalid password.');
