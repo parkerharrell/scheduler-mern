@@ -55,9 +55,6 @@ class MainLayout extends Component {
                         {this.props.children}
                     </main>
                 </div>
-
-                <Footer/>
-
             </div>
         )
     }
