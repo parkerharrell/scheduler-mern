@@ -1,17 +1,16 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import Header from '../common/header';
+import Locations from '../locations';
 
-const Dashboard = props => {
+const Dashboard = (props) => {
+  return (
+    <div>
+      <Header />
+      <main>
+          <Locations />
+      </main>
+    </div>
+  )
+}
 
-    return (
-        <div>
-            <h2 style={{paddingBottom: '15px'}}>Dashboard</h2>
-        </div>
-    )
-};
-
-Dashboard.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default Dashboard
+export default Dashboard;

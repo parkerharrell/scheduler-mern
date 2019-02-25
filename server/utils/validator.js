@@ -10,7 +10,16 @@ export default {
             password: Joi.string().min(6).required(),
             created: Joi.number().required(),
             confirm_password: Joi.string(),
-            timezone: Joi.string(),
+            contact_phone: Joi.string(),
+            alternate_phone: Joi.string(),
+            street_address: Joi.string(),
+            address_2: Joi.string(),
+            city: Joi.string(),
+            state: Joi.string(),
+            zipcode: Joi.string().required(),
+            ex_customer: Joi.boolean(),
+            preseller_initials: Joi.string(),
+            notes: Joi.string()
         }
     },
 
