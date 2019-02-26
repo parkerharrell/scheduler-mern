@@ -6,17 +6,27 @@ import {ConnectedRouter} from 'react-router-redux';
 import history from '../utils/history';
 
 // Import custom components
+import MainLayout from '../components/common/layout/MainLayout';
 import NotFound from '../components/error/NotFound';
 import LoginForm from '../containers/auth/LoginContainer';
 import SignUpForm from '../containers/auth/SignUpContainer';
 import Dashboard from '../containers/dashboard/DashboardContainer';
+import AuthenticatedRoute from './AuthenticatedRoute';
+import Home from '../containers/Home';
 
 const Router = () => (
     <ConnectedRouter history={history}>
         <Switch>
-            <Route exact path="/" component={Dashboard}/>
+            <Route exact path="/" component={Home}/>
             <Route path="/signup" component={SignUpForm}/>
             <Route path="/login" component={LoginForm}/>
+
+            <MainLayout>
+                <Switch>
+                    <AuthenticatedRoute path="/admin" component={Dashboard}/>
+                </Switch>
+            </MainLayout>
+
             <Route component={NotFound}/>
         </Switch>
     </ConnectedRouter>
