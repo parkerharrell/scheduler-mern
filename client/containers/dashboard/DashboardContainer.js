@@ -13,7 +13,7 @@ class DashboardContainer extends Component {
 
     render() {
         return (
-            <Dashboard/>
+            <Dashboard />
         )
     }
 
