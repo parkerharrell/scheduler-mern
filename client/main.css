@@ -18,12 +18,8 @@ body, html, #app, #app > div {
     height: 100%;
 }
 
-a {
+a, a:hover {
     text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
 }
 
 .m-b-15 {
