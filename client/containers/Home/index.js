@@ -1,22 +1,21 @@
 import React, {Component} from 'react';
 
 // Import custom components
-import Dashboard from '../../components/dashboard/Dashboard';
+import Home from '../../components/home';
 
-class DashboardContainer extends Component {
+class HomeContainer extends Component {
 
     constructor(props) {
         super(props);
 
     }
 
-
     render() {
         return (
-            <Dashboard />
+            <Home />
         )
     }
 
 }
 
-export default DashboardContainer
+export default HomeContainer;
