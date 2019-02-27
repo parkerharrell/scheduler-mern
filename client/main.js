@@ -9,6 +9,7 @@ import {ThroughProvider} from 'react-through'
 import store from './store/store';
 import {verifyToken} from './actions/tokenAction';
 import App from './containers/app/AppContainer';
+import './main.css';
 
 const mountNode = document.getElementById('root');
 const theme = createMuiTheme({

@@ -41,7 +41,11 @@ const config = {
                     cacheDirectory: true,
                     plugins: ['react-hot-loader/babel', '@babel/plugin-proposal-function-bind', '@babel/plugin-proposal-class-properties'],
                 },
-            }
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+            },
         ]
     },
     devtool: "inline-source-map"
