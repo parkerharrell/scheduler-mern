@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {withStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
+import { Link } from 'react-router-dom';
 import {List, ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography'
-import Avatar from '@material-ui/core/Avatar';
 import HomeIcon from '@material-ui/icons/Home';
 import PersonIcon from '@material-ui/icons/Person';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -79,42 +77,54 @@ const MiniDrawer = (props) => {
             <Divider />
 
             <List>
-                <CustomListItem button>
-                    <ListItemIcon>
-                        <HomeIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Dashboard"/>
-                </CustomListItem>
-                <CustomListItem button>
-                    <ListItemIcon>
-                        <ServicesIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Services"/>
-                </CustomListItem>
-                <CustomListItem button>
-                    <ListItemIcon>
-                        <LocationOnIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Locations"/>
-                </CustomListItem>
-                <CustomListItem button>
-                    <ListItemIcon>
-                        <BookIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Appointments"/>
-                </CustomListItem>
-                <CustomListItem button>
-                    <ListItemIcon>
-                        <PersonIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Users"/>
-                </CustomListItem>
-                <CustomListItem button>
-                    <ListItemIcon>
-                        <SettingsIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Settings"/>
-                </CustomListItem>
+                <Link to={'/admin'}>
+                    <CustomListItem button>
+                        <ListItemIcon>
+                            <HomeIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Dashboard"/>
+                    </CustomListItem>
+                </Link>
+                <Link to={'/admin/services'}>
+                    <CustomListItem button>
+                        <ListItemIcon>
+                            <ServicesIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Services"/>
+                    </CustomListItem>
+                </Link>
+                <Link to={'/admin/locations'}>
+                    <CustomListItem button>
+                        <ListItemIcon>
+                            <LocationOnIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Locations"/>
+                    </CustomListItem>
+                </Link>
+                <Link to={'/admin/appointments'}>
+                    <CustomListItem button>
+                        <ListItemIcon>
+                            <BookIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Appointments"/>
+                    </CustomListItem>
+                </Link>
+                <Link to={'/admin/users'}>
+                    <CustomListItem button>
+                        <ListItemIcon>
+                            <PersonIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Users"/>
+                    </CustomListItem>
+                </Link>
+                <Link to={'/admin/settings'}>
+                    <CustomListItem button>
+                        <ListItemIcon>
+                            <SettingsIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Settings"/>
+                    </CustomListItem>
+                </Link>
             </List>
         </Drawer>
     )

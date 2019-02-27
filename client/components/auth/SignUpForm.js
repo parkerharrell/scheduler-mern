@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {Field, reduxForm} from 'redux-form'

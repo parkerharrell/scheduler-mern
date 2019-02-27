@@ -16,7 +16,7 @@ export function login({username, password}) {
 
             setToken(response.data.token);
 
-            history.push('/dashboard');
+            history.push('/admin');
             // window.location.href = BASE_URL + 'dashboard';
         })
             .catch((error) => {
