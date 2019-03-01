@@ -55,23 +55,29 @@ export default {
 
     updateService: {
         body: {
-            title: Joi.string(),
-            description: Joi.string(),
-            min_from_now: Joi.number(),
-            max_from_now: Joi.number(),
-            min_cancel: Joi.number(),
-            allow_queue: Joi.number(),
-            pack_only: Joi.number(),
-            class_type: Joi.number(),
-            duration: Joi.string(),
-            until_closed: Joi.string(),
-            lead_in: Joi.string(),
-            lead_out: Joi.string(),
-            price: Joi.string(),
+            title: Joi.string().required(),
+            description: Joi.string().required(),
+            min_from_now: Joi.number().required(),
+            max_from_now: Joi.number().required(),
+            price: Joi.number(),
             recur_total: Joi.string(),
             recur_options: Joi.string(),
-            show_order: Joi.string(),
-            return_url: Joi.string(),
+        },
+        params: {
+            id: Joi.string().hex().required()
+        }
+    },
+    storeLocation: {
+        body: {
+            title: Joi.string().required(),
+            description: Joi.string().required(),
+        }
+    },
+
+    updateLocation: {
+        body: {
+            title: Joi.string().required(),
+            description: Joi.string().required(),
         },
         params: {
             id: Joi.string().hex().required()
