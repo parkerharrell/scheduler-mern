@@ -6,16 +6,17 @@ import {
     ENTITY_DELETE,
     CLEAR_ENTITY_LIST
 } from '../constants/actionType';
-
-
-let initialState = {
-   services: [],
-};
+const moment = require('moment-timezone');
 
 /**
  * A reducer takes two arguments, the current state and an action.
  */
 export default function (state, action) {
+    let initialState = {
+        services: [],
+        selectedService: {},
+    };
+
     state = state || initialState;
     let newState = Object.assign({}, state);
 
@@ -25,20 +26,31 @@ export default function (state, action) {
             return newState;
 
         case ENTITY_UPDATE:
-            newState[action.entity] = Object.assign({}, state, action.data);
+            newState[action.entity] = Object.assign({}, action.data);
             return newState;
 
         case ENTITY_FETCH:
-            newState[action.entity] = action.data.slice();
+            const apiData = action.data.slice();
+            const tz = moment.tz.guess();
+            const result = apiData.map(data => {
+                data.startdate = moment(data.min_from_now * 1000).tz(tz).format('YYYY/MM/DD');
+                data.enddate = moment(data.max_from_now * 1000).tz(tz).format('YYYY/MM/DD');
+                return data;
+            });
+            newState[action.entity] = result;
             return newState;
 
         case ENTITY_DELETE:
-            const data = Object.assign({}, state);
-            newState[action.entity] = data.filter(data => data.id !== action.id);
+            newState[action.entity] = state[action.entity].filter(item => item.id !== action.id);
             return newState;
 
         case SELECT_ENTITY_ITEM:
-            newState.selectedItem[action.entity] = Object.assign({}, state, action.data);
+            const data = Object.assign({}, action.data);
+            const tz1 = moment.tz.guess();
+            data.startdate = moment(data.min_from_now * 1000).tz(tz1).format('YYYY-MM-DD');
+            data.enddate = moment(data.max_from_now * 1000).tz(tz1).format('YYYY-MM-DD');
+            console.log('----- state date:', data);
+            newState[action.entity] = Object.assign({}, data);
             return newState;
 
         case CLEAR_ENTITY_LIST:

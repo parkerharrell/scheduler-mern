@@ -11,27 +11,42 @@ import { isUndefined } from 'lodash';
 
 import { fetchAll } from '../../actions/serviceAction';
 
-class ServicesContainer extends Component {
-    state = {
-        columnDefs: [
-            {headerName: "Id", field: "id"},
-            {headerName: "Title", field: "title"},
-            {headerName: "Description", field: "description"},
-            {headerName: "Min from Now", field: "min_from_now"},
-            {headerName: "Max from Now", field: "max_from_now"},
-            {headerName: "Price", field: "price"},            
-            {headerName: "Recur Total", field: "recur_total"},
-            {headerName: "Recur Options", field: "recur_options"},
-        ]
+class ActionsCellRenderer extends Component {
+    render() {
+    // put in render logic
+        console.log('this.props:', this.props);
+        const { data } = this.props;
+        return (
+            <React.Fragment>
+                <Link to={`/admin/services/${data.id}`}>Edit</Link>&nbsp;&nbsp;
+            </React.Fragment>
+        );
     }
+}
+
+const columnDefs = [
+    {
+        headerName: "",
+        field: "actions",
+        width: 50,
+        cellRendererFramework: ActionsCellRenderer,
+    },
+    {headerName: "Id", field: "id",  width: 100},
+    {headerName: "Title", field: "title"},
+    {headerName: "Description", field: "description"},
+    {headerName: "Start Date", field: "startdate"},
+    {headerName: "Expire Date", field: "enddate"},
+    {headerName: "Price", field: "price"},            
+    {headerName: "Recur Total", field: "recur_total"},
+    {headerName: "Recur Options", field: "recur_options"},
+];
+
+
+class ServicesContainer extends Component {
 
     componentDidMount() {
         const { fetchAll } = this.props;
         fetchAll();
-    }
-
-    getRowData = () => {
-        const columns = Object.keys(services[0]);
     }
 
     render() {
@@ -61,7 +76,7 @@ class ServicesContainer extends Component {
                     <AgGridReact
                         enableSorting={true}
                         pagination={true}
-                        columnDefs={this.state.columnDefs}
+                        columnDefs={columnDefs}
                         rowData={rowData}>
                     </AgGridReact>
                 </div>
