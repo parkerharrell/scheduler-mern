@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 
-const renderText = ({input, label, type, meta: {touched, error, invalid}}) => (
+const renderDate = ({input, label, type, meta: {touched, error, invalid}}) => (
 
     <TextField
-        type={type}
+        type="date"
         label={label}
         error={touched && invalid}
         helperText={touched && error}
@@ -19,10 +19,10 @@ const renderText = ({input, label, type, meta: {touched, error, invalid}}) => (
 
 );
 
-renderText.propTypes = {
+renderDate.propTypes = {
     input: PropTypes.object.isRequired,
     label: PropTypes.string.isRequired,
     meta: PropTypes.object
 };
 
-export default renderText;
+export default renderDate;

@@ -65,7 +65,7 @@ function destroy(id) {
 function selectItem(data) {
     return {
         type: SELECT_ENTITY_ITEM,
-        entity: 'services',
+        entity: 'selectedService',
         data: data
     }
 }
@@ -110,7 +110,7 @@ export function storeItem(data) {
     };
 }
 
-export function updateItem(service, data, id) {
+export function updateItem(id, data) {
     return function (dispatch) {
         return httpService.updateEntity('services', data, id).then((response) => {
             history.goBack();
@@ -121,10 +121,10 @@ export function updateItem(service, data, id) {
     };
 }
 
-export function destroyItem(service, id, data) {
+export function destroyItem(id) {
     return function (dispatch) {
         return httpService.destroyEntity('services', id).then((response) => {
-            dispatch(fetchAll(data));
+            dispatch(fetchAll());
         })
             .catch((error) => {
                 dispatch(failure(error));

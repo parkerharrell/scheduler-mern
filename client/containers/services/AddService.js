@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import { cloneDeep } from 'lodash';
 import Button from '@material-ui/core/Button';
 import {Field, reduxForm} from 'redux-form'
+import * as moment from 'moment';
 
 import { storeItem } from '../../actions/serviceAction';
 import renderText from '../../components/common/form/renderText';
@@ -16,11 +17,10 @@ import renderDate from '../../components/common/form/renderDate';
 class AddService extends Component {
 
     onSubmit = (formProps) => {
-        console.log('handle submit --- add service', formProps);
         const { createService } = this.props;
         const result = cloneDeep(formProps);
-        result.min_from_now = new Date(formProps.startdate).getTime();
-        result.max_from_now = new Date(formProps.enddate).getTime();
+        result.min_from_now = (moment(result.startdate).utc().valueOf() + 1000) / 1000;
+        result.max_from_now = (moment(result.enddate).utc().valueOf() + 1000) / 1000;
         delete result.enddate;
         delete result.startdate;
         createService(result);
