@@ -10,7 +10,6 @@ import Service from '../models/service.model';
  * @returns {*}
  */
 export function findAll(req, res) {
-    console.log('here is serve find all');
     Service.forge()
         .fetchAll()
         .then(service => res.json({
