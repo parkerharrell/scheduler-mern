@@ -16,6 +16,7 @@ import Locations from '../containers/locations';
 import Appointments from '../containers/appointments';
 import Users from '../containers/users';
 import Settings from '../containers/settings';
+import AddService from '../containers/services/AddService';
 
 import AuthenticatedRoute from './AuthenticatedRoute';
 import Home from '../containers/Home';
@@ -31,6 +32,7 @@ const Router = () => (
                 <Switch>
                     <AuthenticatedRoute exact path="/admin" component={Dashboard}/>
                     <AuthenticatedRoute exact path="/admin/services" component={Services}/>
+                    <AuthenticatedRoute exact path="/admin/services/new" component={AddService}/>
                     <AuthenticatedRoute exact path="/admin/locations" component={Locations}/>
                     <AuthenticatedRoute exact path="/admin/appointments" component={Appointments}/>
                     <AuthenticatedRoute exact path="/admin/users" component={Users}/>

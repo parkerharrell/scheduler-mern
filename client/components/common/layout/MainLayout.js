@@ -21,15 +21,19 @@ const styles = theme => ({
         height: '100%',
     },
     content: {
-        width: '100%',
+        width: 'calc(100% - 250px)',
         flexGrow: 1,
         padding: 24,
         height: 'calc(100% - 56px)',
         marginTop: 56,
+        boxSizing: 'border-box',
         [theme.breakpoints.up('sm')]: {
             height: 'calc(100% - 64px)',
             marginTop: 64,
         },
+    },
+    collapsed: {
+        width: 'calc(100% - 60px)',
     }
 });
 
@@ -51,7 +55,7 @@ class MainLayout extends Component {
                 <div className={classes.appFrame}>
                     <Header navDrawerOpen={open} handleToggleDrawer={this.handleToggle}/>
                     <MiniDrawer navDrawerOpen={open}/>
-                    <main className={classes.content}>
+                    <main className={`${classes.content} ${open ? '' : classes.collapsed}`}>
                         {this.props.children}
                     </main>
                 </div>

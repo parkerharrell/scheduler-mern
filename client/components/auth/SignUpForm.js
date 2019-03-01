@@ -56,7 +56,6 @@ const SignUpForm = props => {
 
     const {handleSubmit, onSubmit, classes} = props;
     const timezoneList = moment.tz.names();
-    const timezones = timezoneList.map(tz => getTimeZoneDetail(tz));
 
     return (
         <div className={classes.root}>

@@ -3,12 +3,12 @@ import {reducer as formReducer} from 'redux-form';
 
 // Import custom components
 import authReducer from './authReducer';
-import servicesReducer from './servicesReducer';
+import dataReducer from './dataReducer';
 
 const rootReducer = combineReducers({
     auth: authReducer,
     form: formReducer, // ← redux-form
-    service: servicesReducer, 
+    data: dataReducer, 
 });
 
 export default rootReducer;

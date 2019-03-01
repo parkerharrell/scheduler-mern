@@ -13,26 +13,26 @@ import * as httpService from '../services/httpService';
  * service = 'Product', 'Employee', ...
  */
 import {
-    SERVICE_FAILURE,
-    SERVICE_CREATE,
-    SERVICE_UPDATE,
-    SERVICE_FETCH,
-    SERVICE_DELETE,
-    SELECT_SERVICE_ITEM,
-    CLEAR_SERVICE_LIST
+    ENTITY_FAILURE,
+    ENTITY_CREATE,
+    ENTITY_UPDATE,
+    ENTITY_FETCH,
+    ENTITY_DELETE,
+    SELECT_ENTITY_ITEM,
+    CLEAR_ENTITY_LIST
 
 } from '../constants/actionType';
 
 function failure(error) {
     return {
-        type: SERVICE_FAILURE,
+        type: ENTITY_FAILURE,
         error: error
     }
 }
 
 function add(data) {
     return {
-        type: SERVICE_CREATE,
+        type: ENTITY_CREATE,
         entity: 'services',
         data: data
     }
@@ -40,7 +40,7 @@ function add(data) {
 
 function update(data) {
     return {
-        type: SERVICE_UPDATE,
+        type: ENTITY_UPDATE,
         entity: 'services',
         data: data
     }
@@ -48,7 +48,7 @@ function update(data) {
 
 function fetch(data) {
     return {
-        type: SERVICE_FETCH,
+        type: ENTITY_FETCH,
         entity: 'services',
         data: data
     }
@@ -56,7 +56,7 @@ function fetch(data) {
 
 function destroy(id) {
     return {
-        type: SERVICE_DELETE,
+        type: ENTITY_DELETE,
         entity: 'services',
         id: id
     }
@@ -64,7 +64,7 @@ function destroy(id) {
 
 function selectItem(data) {
     return {
-        type: SELECT_SERVICE_ITEM,
+        type: SELECT_ENTITY_ITEM,
         entity: 'services',
         data: data
     }
@@ -72,7 +72,7 @@ function selectItem(data) {
 
 function clearList(service) {
     return {
-        type: CLEAR_SERVICE_LIST,
+        type: CLEAR_ENTITY_LIST,
         entity: 'services'
     }
 }
@@ -80,7 +80,7 @@ function clearList(service) {
 export function fetchAll() {
     return function (dispatch) {
         return httpService.fetchEntity('services').then((response) => {
-            dispatch(fetch(response.data));
+            dispatch(fetch(response['data'].data));
         })
             .catch((error) => {
                 dispatch(failure(error));
@@ -91,17 +91,17 @@ export function fetchAll() {
 export function fetchById(id) {
     return function (dispatch) {
         return httpService.fetchEntityById('services', id).then((response) => {
-            dispatch(selectItem(response.data));
+            dispatch(selectItem(response['data'].data));
         })
             .catch((error) => {
                 dispatch(failure(error));
             });
     };
 }
-
-export function storeItem(service, data) {
+  
+export function storeItem(data) {
     return function (dispatch) {
-        return httpService.storeservice('services', data).then((response) => {
+        return httpService.storeEntity('services', data).then((response) => {
             history.goBack();
         })
             .catch((error) => {
@@ -112,7 +112,7 @@ export function storeItem(service, data) {
 
 export function updateItem(service, data, id) {
     return function (dispatch) {
-        return httpService.updateservice('services', data, id).then((response) => {
+        return httpService.updateEntity('services', data, id).then((response) => {
             history.goBack();
         })
             .catch((error) => {
@@ -123,7 +123,7 @@ export function updateItem(service, data, id) {
 
 export function destroyItem(service, id, data) {
     return function (dispatch) {
-        return httpService.destroyservice('services', id).then((response) => {
+        return httpService.destroyEntity('services', id).then((response) => {
             dispatch(fetchAll(data));
         })
             .catch((error) => {

@@ -1,18 +1,15 @@
 import {
-    SERVICE_CREATE,
-    SERVICE_UPDATE,
-    SERVICE_FETCH,
-    SELECT_SERVICE_ITEM,
-    SERVICE_DELETE,
-    CLEAR_SERVICE_LIST
+    ENTITY_CREATE,
+    ENTITY_UPDATE,
+    ENTITY_FETCH,
+    SELECT_ENTITY_ITEM,
+    ENTITY_DELETE,
+    CLEAR_ENTITY_LIST
 } from '../constants/actionType';
 
 
 let initialState = {
-    products: [],
-    selectedItem: {
-        product: {},
-    }
+   services: [],
 };
 
 /**
@@ -20,31 +17,31 @@ let initialState = {
  */
 export default function (state, action) {
     state = state || initialState;
-    let newState;
+    let newState = Object.assign({}, state);
 
     switch (action.type) {
-        case SERVICE_CREATE:
+        case ENTITY_CREATE:
             newState[action.entity] = Object.assign({}, state, action.data);
             return newState;
 
-        case SERVICE_UPDATE:
+        case ENTITY_UPDATE:
             newState[action.entity] = Object.assign({}, state, action.data);
             return newState;
 
-        case SERVICE_FETCH:
-            newState[action.entity] = Object.assign({}, state, action.data);
+        case ENTITY_FETCH:
+            newState[action.entity] = action.data.slice();
             return newState;
 
-        case SERVICE_DELETE:
+        case ENTITY_DELETE:
             const data = Object.assign({}, state);
-            newState[action.entity] = data.filter(data => data.id !== action.data.id);
+            newState[action.entity] = data.filter(data => data.id !== action.id);
             return newState;
 
-        case SELECT_SERVICE_ITEM:
+        case SELECT_ENTITY_ITEM:
             newState.selectedItem[action.entity] = Object.assign({}, state, action.data);
             return newState;
 
-        case CLEAR_SERVICE_LIST:
+        case CLEAR_ENTITY_LIST:
             newState[action.entity] = {};
             return newState;
 
