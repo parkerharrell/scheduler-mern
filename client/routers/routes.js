@@ -12,12 +12,15 @@ import LoginForm from '../containers/auth/LoginContainer';
 import SignUpForm from '../containers/auth/SignUpContainer';
 import Dashboard from '../containers/dashboard/DashboardContainer';
 import Services from '../containers/services';
-import Locations from '../containers/locations';
 import Appointments from '../containers/appointments';
 import Users from '../containers/users';
 import Settings from '../containers/settings';
 import AddService from '../containers/services/AddService';
 import EditService from '../containers/services/EditService';
+import Locations from '../containers/locations';
+import AddLocation from '../containers/locations/AddLocation';
+import EditLocation from '../containers/locations/EditLocation';
+
 
 import AuthenticatedRoute from './AuthenticatedRoute';
 import Home from '../containers/Home';
@@ -36,6 +39,8 @@ const Router = () => (
                     <AuthenticatedRoute exact path="/admin/services/new" component={AddService}/>
                     <AuthenticatedRoute exact path="/admin/services/:id" component={EditService}/>
                     <AuthenticatedRoute exact path="/admin/locations" component={Locations}/>
+                    <AuthenticatedRoute exact path="/admin/locations/new" component={AddLocation}/>
+                    <AuthenticatedRoute exact path="/admin/locations/:id" component={EditLocation}/>
                     <AuthenticatedRoute exact path="/admin/appointments" component={Appointments}/>
                     <AuthenticatedRoute exact path="/admin/users" component={Users}/>
                     <AuthenticatedRoute exact path="/admin/settings" component={Settings}/>
