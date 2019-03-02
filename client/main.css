@@ -25,3 +25,7 @@ a, a:hover {
 .m-b-15 {
     margin-bottom: 15px
 }
+
+.ag-root.ag-layout-normal {
+    min-height: 200px !important;
+}

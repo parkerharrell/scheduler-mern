@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 
-const renderText = ({input, label, type, meta: {touched, error, invalid}}) => (
+const renderText = ({input, label, type, placeholder, meta: {touched, error, invalid}}) => (
 
     <TextField
         type={type}
@@ -14,6 +14,10 @@ const renderText = ({input, label, type, meta: {touched, error, invalid}}) => (
         multiline={true}
         rows={4}
         rowsMax={8}
+        placeholder={placeholder}
+        InputLabelProps={{
+            shrink: true
+        }}
         {...input}
     />
 );
