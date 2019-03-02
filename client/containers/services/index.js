@@ -13,8 +13,6 @@ import { fetchAll } from '../../actions/serviceAction';
 
 class ActionsCellRenderer extends Component {
     render() {
-    // put in render logic
-        console.log('this.props:', this.props);
         const { data } = this.props;
         return (
             <React.Fragment>
@@ -76,6 +74,7 @@ class ServicesContainer extends Component {
                     <AgGridReact
                         enableSorting={true}
                         pagination={true}
+                        resizable={true}
                         columnDefs={columnDefs}
                         rowData={rowData}>
                     </AgGridReact>

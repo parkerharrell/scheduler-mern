@@ -15,6 +15,8 @@ export default function (state, action) {
     let initialState = {
         services: [],
         selectedService: {},
+        locations: [],
+        selectedLocation: {},
     };
 
     state = state || initialState;
@@ -31,12 +33,18 @@ export default function (state, action) {
 
         case ENTITY_FETCH:
             const apiData = action.data.slice();
-            const tz = moment.tz.guess();
-            const result = apiData.map(data => {
-                data.startdate = moment(data.min_from_now * 1000).tz(tz).format('YYYY/MM/DD');
-                data.enddate = moment(data.max_from_now * 1000).tz(tz).format('YYYY/MM/DD');
-                return data;
-            });
+            let result = [];
+            if(action.entity === 'services') {
+                const tz = moment.tz.guess();
+                result = apiData.map(data => {
+                    data.startdate = moment(data.min_from_now * 1000).tz(tz).format('YYYY/MM/DD');
+                    data.enddate = moment(data.max_from_now * 1000).tz(tz).format('YYYY/MM/DD');
+                    return data;
+                });
+            }
+            if (action.entity === 'locations') {
+                result = apiData;
+            }
             newState[action.entity] = result;
             return newState;
 
@@ -46,10 +54,14 @@ export default function (state, action) {
 
         case SELECT_ENTITY_ITEM:
             const data = Object.assign({}, action.data);
-            const tz1 = moment.tz.guess();
-            data.startdate = moment(data.min_from_now * 1000).tz(tz1).format('YYYY-MM-DD');
-            data.enddate = moment(data.max_from_now * 1000).tz(tz1).format('YYYY-MM-DD');
-            console.log('----- state date:', data);
+            if(action.entity === 'selectedService') {
+                const tz1 = moment.tz.guess();
+                data.startdate = moment(data.min_from_now * 1000).tz(tz1).format('YYYY-MM-DD');
+                data.enddate = moment(data.max_from_now * 1000).tz(tz1).format('YYYY-MM-DD');
+            }
+            if (action.entity === 'selectedLocation') {
+
+            }
             newState[action.entity] = Object.assign({}, data);
             return newState;
 
