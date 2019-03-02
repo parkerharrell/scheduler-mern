@@ -17,6 +17,8 @@ export default function (state, action) {
         selectedService: {},
         locations: [],
         selectedLocation: {},
+        users: [],
+        selectedUser: {},
     };
 
     state = state || initialState;
@@ -34,8 +36,9 @@ export default function (state, action) {
         case ENTITY_FETCH:
             const apiData = action.data.slice();
             let result = [];
+            const tz = moment.tz.guess();
+
             if(action.entity === 'services') {
-                const tz = moment.tz.guess();
                 result = apiData.map(data => {
                     data.startdate = moment(data.min_from_now * 1000).tz(tz).format('YYYY/MM/DD');
                     data.enddate = moment(data.max_from_now * 1000).tz(tz).format('YYYY/MM/DD');
@@ -44,6 +47,12 @@ export default function (state, action) {
             }
             if (action.entity === 'locations') {
                 result = apiData;
+            }
+            if (action.entity === 'users') {
+                result = apiData.map(data => {
+                    data.createdAt = moment(data.created * 1000).tz(tz).format('YYYY/MM/DD');
+                    return data;
+                });
             }
             newState[action.entity] = result;
             return newState;
@@ -54,13 +63,13 @@ export default function (state, action) {
 
         case SELECT_ENTITY_ITEM:
             const data = Object.assign({}, action.data);
+            const tz1 = moment.tz.guess();
             if(action.entity === 'selectedService') {
-                const tz1 = moment.tz.guess();
                 data.startdate = moment(data.min_from_now * 1000).tz(tz1).format('YYYY-MM-DD');
                 data.enddate = moment(data.max_from_now * 1000).tz(tz1).format('YYYY-MM-DD');
             }
-            if (action.entity === 'selectedLocation') {
-
+            if (action.entity === 'selectedUser') {
+                data.createdAt = moment(data.created * 1000).tz(tz1).format('YYYY-MM-DD');
             }
             newState[action.entity] = Object.assign({}, data);
             return newState;

@@ -109,12 +109,12 @@ const MiniDrawer = (props) => {
                         <ListItemText primary="Appointments"/>
                     </CustomListItem>
                 </Link>
-                <Link to={'/admin/users'}>
+                <Link to={'/admin/customers'}>
                     <CustomListItem button>
                         <ListItemIcon>
                             <PersonIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Users"/>
+                        <ListItemText primary="Customers"/>
                     </CustomListItem>
                 </Link>
                 <Link to={'/admin/settings'}>
