@@ -18,8 +18,8 @@ const Dashboard = props => {
                 <Grid item xs>
                     <SummaryBox Icon={AddShoppingCart}
                                 color={pink[600]}
-                                title="Total Services"
-                                value="1500k"
+                                title="Services"
+                                value="10"
                     />
                 </Grid>
 
@@ -27,7 +27,7 @@ const Dashboard = props => {
                     <SummaryBox Icon={ThumbUp}
                                 color={cyan[600]}
                                 title="Locations"
-                                value="4231"
+                                value="20"
                     />
                 </Grid>
 
@@ -35,14 +35,14 @@ const Dashboard = props => {
                     <SummaryBox Icon={Assessment}
                                 color={purple[600]}
                                 title="Appointments"
-                                value="460"
+                                value="0"
                     />
                 </Grid>
 
                 <Grid item xs>
                     <SummaryBox Icon={Face}
                                 color={orange[600]}
-                                title="Users"
+                                title="Customers"
                                 value="248"
                     />
                 </Grid>
