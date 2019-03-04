@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import Grid from '@material-ui/core/Grid';
 import { isUndefined } from 'lodash';
-import TickIcon from '@material-ui/icons/doneOutline';
+import TickIcon from '@material-ui/icons/DoneOutline';
 
 import { fetchAll } from '../../actions/serviceAction';
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 // Import routing components
 import {Route, Switch} from 'react-router-dom';
-import {ConnectedRouter} from 'react-router-redux';
+import {ConnectedRouter} from 'connected-react-router';
 import history from '../utils/history';
 
 // Import custom components
