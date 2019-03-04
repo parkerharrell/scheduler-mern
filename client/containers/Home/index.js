@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 
 // Import custom components
 import Home from '../../components/home';
+import HomeHeader from '../../components/common/homeHeader';
+
 
 class HomeContainer extends Component {
 
@@ -12,7 +14,12 @@ class HomeContainer extends Component {
 
     render() {
         return (
-            <Home />
+            <React.Fragment>
+                <HomeHeader />
+                <div style={{ paddingTop: 100 }}>
+                    <Home />
+                </div>
+            </React.Fragment>
         )
     }
 

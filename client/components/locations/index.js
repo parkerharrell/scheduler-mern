@@ -30,6 +30,7 @@ const DetailLI = styled.div`
     &:hover {
         position: relative;
         box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 16px 1px !important;
+        border: 1px solid transparent !important;
         
         .overlay {
             position: absolute;
