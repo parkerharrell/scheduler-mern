@@ -11,7 +11,7 @@ body {
 
 body {
     margin: 0;
-    background-color: #f2f2f2;
+    padding-top: 50px;
 }
 
 body, html, #app, #app > div {

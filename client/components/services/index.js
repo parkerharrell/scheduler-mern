@@ -7,12 +7,12 @@ import Grid from '@material-ui/core/Grid';
 import { isUndefined } from 'lodash';
 import TickIcon from '@material-ui/icons/doneOutline';
 
-import { fetchAll } from '../../actions/locationAction';
+import { fetchAll } from '../../actions/serviceAction';
 
 const DetailLI = styled.div`
     cursor: pointer;
     min-height: 150px;
-
+    
     .title {
         font-weight: 800;
         font-size: 1.3em;
@@ -60,10 +60,7 @@ const Item = ({ data, onclick, active }) => (
     <DetailLI style={styles.card}>
         <span className="title">{data.title}</span>
         <p>
-            <span className="availability">Nearest Availability:</span>&nbsp;&nbsp;{data.startdate}
-        </p>
-        <p>
-            <span className="availability">Contact Info:</span>&nbsp;&nbsp;{data.description}
+            {data.description}
         </p>
         <div className={`overlay ${active ? 'active' : ''}`} onClick={onclick}>
             <TickIcon className="checkbox"  />
@@ -71,7 +68,7 @@ const Item = ({ data, onclick, active }) => (
     </DetailLI>
 );
 
-class Locations extends Component {
+class Services extends Component {
     state = {
         active: undefined,
     }
@@ -81,7 +78,7 @@ class Locations extends Component {
         fetchAll();
     }
 
-    setLocation = (index) => {
+    setService = (index) => {
         const { goToNextStep } = this.props;
         this.setState({ active: index });
         setTimeout(() => {
@@ -90,11 +87,11 @@ class Locations extends Component {
     }
 
     render() {
-        const { locations } = this.props;
+        const { services } = this.props;
         const { active } =  this.state;
         let rowData = [];
-        if (!isUndefined(locations)) {
-            rowData = locations;
+        if (!isUndefined(services)) {
+            rowData = services;
         }
 
         return (
@@ -102,7 +99,7 @@ class Locations extends Component {
                 <Grid container spacing={24}>
                     {rowData.map((item, index) =>
                         <Grid item md={4} key={index} >
-                            <Item data={item} active={active === index} onclick={() => this.setLocation(index)}/>
+                            <Item data={item} active={active === index} onclick={() => this.setService(index)}/>
                         </Grid>
                     )}
                 </Grid>
@@ -116,7 +113,7 @@ class Locations extends Component {
  * Map the state to props.
  */
 const mapStateToProps = state => ({
-    locations: state.data.locations,
+    services: state.data.services,
 });
 
 /**
@@ -126,7 +123,7 @@ const mapDispatchToProps = dispatch => ({
     fetchAll: bindActionCreators(fetchAll, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Locations)
+export default connect(mapStateToProps, mapDispatchToProps)(Services)
 
 const styles = {
     container: {
