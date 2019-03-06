@@ -1,7 +1,12 @@
 'use strict';
 const webpack = require('webpack');
 const path = require('path');
-const env = process.env.NODE_ENV;
+
+const env = require('dotenv').config().parsed;
+const envKeys = Object.keys(env).reduce((prev, next) => {
+    prev[`process.env.${next}`] = JSON.stringify(env[next]);
+    return prev;
+}, {});
 /*
  * so process.cwd() is used instead to determine the correct base directory
  * Read more: https://nodejs.org/api/process.html#process_process_cwd
@@ -22,7 +27,7 @@ var config = {
         publicPath: '/dist/',
     },
     plugins: [
-        
+        new webpack.DefinePlugin(envKeys),
     ],
     module: {
         rules: [

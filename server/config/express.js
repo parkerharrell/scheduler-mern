@@ -10,10 +10,16 @@ import constant from '../config/directory';
 
 const app = express();
 
-require('dotenv').config();
 
-app.set('port',  process.env.APP_PORT || 3000);
-app.set('host',  process.env.APP_HOST || 'localhost');
+if (process.env.NODE_ENV == 'development') {
+    require('dotenv').config({ path: '.env.development' });
+
+} else {
+    require('dotenv').config();
+}
+
+app.set('port',  process.env.APP_PORT);
+app.set('host',  process.env.APP_HOST);
 
 app.use(express.static(constant.distDir));
 

@@ -38,8 +38,8 @@ app.use(joiErrorHandler);
 app.use(errorHandler.notFoundErrorHandler);
 app.use(errorHandler.errorHandler);
 
-app.listen(app.get('port'), app.get('host'), () => {
-    console.log(`Server running at http://${app.get('host')}:${app.get('port')}`);
+app.listen(app.get('port'), () => {
+    console.log(`Server running at ${app.get('host')}:${app.get('port')}`);
 });
 
 export default app;

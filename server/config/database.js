@@ -1,4 +1,9 @@
-require('dotenv').config();
+if (process.env.NODE_ENV == 'development') {
+    require('dotenv').config({ path: '.env.development' });
+
+} else {
+    require('dotenv').config();
+}
 
 export default {
     client: process.env.DB_CLIENT,

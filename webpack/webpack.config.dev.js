@@ -2,11 +2,17 @@
 const webpack = require('webpack');
 const path = require('path');
 
+const env = require('dotenv').config({ path: '.env.development' }).parsed;
 /*
  * so process.cwd() is used instead to determine the correct base directory
  * Read more: https://nodejs.org/api/process.html#process_process_cwd
  */
 const CURRENT_WORKING_DIR = process.cwd();
+
+const envKeys = Object.keys(env).reduce((prev, next) => {
+    prev[`process.env.${next}`] = JSON.stringify(env[next]);
+    return prev;
+}, {});
 
 const config = {
     context: path.resolve(CURRENT_WORKING_DIR, 'client'),
@@ -24,7 +30,8 @@ const config = {
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(), // enable HMR globally
-        new webpack.NoEmitOnErrorsPlugin(),  // do not emit compiled assets that include errors
+        new webpack.NoEmitOnErrorsPlugin(),  // do not emit compiled assets that include errors\
+        new webpack.DefinePlugin(envKeys),
     ],
     module: {
         rules: [
