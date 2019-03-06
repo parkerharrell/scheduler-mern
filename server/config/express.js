@@ -18,7 +18,7 @@ if (process.env.NODE_ENV == 'development') {
     require('dotenv').config();
 }
 
-app.set('port',  process.env.APP_PORT);
+app.set('port',  process.env.PORT || process.env.APP_PORT);
 app.set('host',  process.env.APP_HOST);
 
 app.use(express.static(constant.distDir));
