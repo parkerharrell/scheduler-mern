@@ -80,8 +80,8 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(Service, "Service", "E:\\Scheduler_node_react\\server\\models\\service.model.js");
-  reactHotLoader.register(_default, "default", "E:\\Scheduler_node_react\\server\\models\\service.model.js");
+  reactHotLoader.register(Service, "Service", "E:\\scheduler_react\\server\\models\\service.model.js");
+  reactHotLoader.register(_default, "default", "E:\\scheduler_react\\server\\models\\service.model.js");
 })();
 
 ;

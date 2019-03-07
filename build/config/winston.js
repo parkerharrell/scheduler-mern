@@ -54,10 +54,10 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(LOG_DIR, "LOG_DIR", "E:\\Scheduler_node_react\\server\\config\\winston.js");
-  reactHotLoader.register(LOG_LEVEL, "LOG_LEVEL", "E:\\Scheduler_node_react\\server\\config\\winston.js");
-  reactHotLoader.register(logger, "logger", "E:\\Scheduler_node_react\\server\\config\\winston.js");
-  reactHotLoader.register(_default, "default", "E:\\Scheduler_node_react\\server\\config\\winston.js");
+  reactHotLoader.register(LOG_DIR, "LOG_DIR", "E:\\scheduler_react\\server\\config\\winston.js");
+  reactHotLoader.register(LOG_LEVEL, "LOG_LEVEL", "E:\\scheduler_react\\server\\config\\winston.js");
+  reactHotLoader.register(logger, "logger", "E:\\scheduler_react\\server\\config\\winston.js");
+  reactHotLoader.register(_default, "default", "E:\\scheduler_react\\server\\config\\winston.js");
 })();
 
 ;

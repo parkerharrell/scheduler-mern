@@ -62,8 +62,8 @@ function errorHandler(err, req, res, next) {
     return;
   }
 
-  reactHotLoader.register(notFoundErrorHandler, "notFoundErrorHandler", "E:\\Scheduler_node_react\\server\\middlewares\\errorHandler.js");
-  reactHotLoader.register(errorHandler, "errorHandler", "E:\\Scheduler_node_react\\server\\middlewares\\errorHandler.js");
+  reactHotLoader.register(notFoundErrorHandler, "notFoundErrorHandler", "E:\\scheduler_react\\server\\middlewares\\errorHandler.js");
+  reactHotLoader.register(errorHandler, "errorHandler", "E:\\scheduler_react\\server\\middlewares\\errorHandler.js");
 })();
 
 ;

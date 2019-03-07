@@ -55,10 +55,10 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(swaggerDefinition, "swaggerDefinition", "E:\\Scheduler_node_react\\server\\config\\swagger.js");
-  reactHotLoader.register(swaggerOptions, "swaggerOptions", "E:\\Scheduler_node_react\\server\\config\\swagger.js");
-  reactHotLoader.register(swagger, "swagger", "E:\\Scheduler_node_react\\server\\config\\swagger.js");
-  reactHotLoader.register(_default, "default", "E:\\Scheduler_node_react\\server\\config\\swagger.js");
+  reactHotLoader.register(swaggerDefinition, "swaggerDefinition", "E:\\scheduler_react\\server\\config\\swagger.js");
+  reactHotLoader.register(swaggerOptions, "swaggerOptions", "E:\\scheduler_react\\server\\config\\swagger.js");
+  reactHotLoader.register(swagger, "swagger", "E:\\scheduler_react\\server\\config\\swagger.js");
+  reactHotLoader.register(_default, "default", "E:\\scheduler_react\\server\\config\\swagger.js");
 })();
 
 ;

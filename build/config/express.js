@@ -60,8 +60,8 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(app, "app", "E:\\Scheduler_node_react\\server\\config\\express.js");
-  reactHotLoader.register(_default, "default", "E:\\Scheduler_node_react\\server\\config\\express.js");
+  reactHotLoader.register(app, "app", "E:\\scheduler_react\\server\\config\\express.js");
+  reactHotLoader.register(_default, "default", "E:\\scheduler_react\\server\\config\\express.js");
 })();
 
 ;

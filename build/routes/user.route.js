@@ -266,8 +266,8 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(router, "router", "E:\\Scheduler_node_react\\server\\routes\\user.route.js");
-  reactHotLoader.register(_default, "default", "E:\\Scheduler_node_react\\server\\routes\\user.route.js");
+  reactHotLoader.register(router, "router", "E:\\scheduler_react\\server\\routes\\user.route.js");
+  reactHotLoader.register(_default, "default", "E:\\scheduler_react\\server\\routes\\user.route.js");
 })();
 
 ;

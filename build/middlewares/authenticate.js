@@ -76,7 +76,7 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(_default, "default", "E:\\Scheduler_node_react\\server\\middlewares\\authenticate.js");
+  reactHotLoader.register(_default, "default", "E:\\scheduler_react\\server\\middlewares\\authenticate.js");
 })();
 
 ;

@@ -80,7 +80,7 @@ function login(req, res) {
     return;
   }
 
-  reactHotLoader.register(login, "login", "E:\\Scheduler_node_react\\server\\controllers\\auth.controller.js");
+  reactHotLoader.register(login, "login", "E:\\scheduler_react\\server\\controllers\\auth.controller.js");
 })();
 
 ;

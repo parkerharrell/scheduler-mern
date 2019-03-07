@@ -178,11 +178,11 @@ function destroy(req, res) {
     return;
   }
 
-  reactHotLoader.register(findAll, "findAll", "E:\\Scheduler_node_react\\server\\controllers\\location.controller.js");
-  reactHotLoader.register(findById, "findById", "E:\\Scheduler_node_react\\server\\controllers\\location.controller.js");
-  reactHotLoader.register(store, "store", "E:\\Scheduler_node_react\\server\\controllers\\location.controller.js");
-  reactHotLoader.register(update, "update", "E:\\Scheduler_node_react\\server\\controllers\\location.controller.js");
-  reactHotLoader.register(destroy, "destroy", "E:\\Scheduler_node_react\\server\\controllers\\location.controller.js");
+  reactHotLoader.register(findAll, "findAll", "E:\\scheduler_react\\server\\controllers\\location.controller.js");
+  reactHotLoader.register(findById, "findById", "E:\\scheduler_react\\server\\controllers\\location.controller.js");
+  reactHotLoader.register(store, "store", "E:\\scheduler_react\\server\\controllers\\location.controller.js");
+  reactHotLoader.register(update, "update", "E:\\scheduler_react\\server\\controllers\\location.controller.js");
+  reactHotLoader.register(destroy, "destroy", "E:\\scheduler_react\\server\\controllers\\location.controller.js");
 })();
 
 ;

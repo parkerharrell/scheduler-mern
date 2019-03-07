@@ -80,8 +80,8 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(Location, "Location", "E:\\Scheduler_node_react\\server\\models\\location.model.js");
-  reactHotLoader.register(_default, "default", "E:\\Scheduler_node_react\\server\\models\\location.model.js");
+  reactHotLoader.register(Location, "Location", "E:\\scheduler_react\\server\\models\\location.model.js");
+  reactHotLoader.register(_default, "default", "E:\\scheduler_react\\server\\models\\location.model.js");
 })();
 
 ;

@@ -82,7 +82,7 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(_default, "default", "E:\\Scheduler_node_react\\server\\app.js");
+  reactHotLoader.register(_default, "default", "E:\\scheduler_react\\server\\app.js");
 })();
 
 ;

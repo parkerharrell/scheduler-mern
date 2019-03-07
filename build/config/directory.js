@@ -30,9 +30,9 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(rootPath, "rootPath", "E:\\Scheduler_node_react\\server\\config\\directory.js");
-  reactHotLoader.register(directory, "directory", "E:\\Scheduler_node_react\\server\\config\\directory.js");
-  reactHotLoader.register(_default, "default", "E:\\Scheduler_node_react\\server\\config\\directory.js");
+  reactHotLoader.register(rootPath, "rootPath", "E:\\scheduler_react\\server\\config\\directory.js");
+  reactHotLoader.register(directory, "directory", "E:\\scheduler_react\\server\\config\\directory.js");
+  reactHotLoader.register(_default, "default", "E:\\scheduler_react\\server\\config\\directory.js");
 })();
 
 ;
