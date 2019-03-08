@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 
 import Locations from '../locations';
 import Services from '../services';
+import ScheduleCalendar from '../scheduleCalendar';
 
 function TabContainer(props) {
   return (
@@ -62,7 +63,7 @@ class Home extends React.Component {
         </Tabs>
         {value === 0 &&
           <TabContainer>
-            <Locations goToNextStep={() => this.goToNextStep(value)} />
+            <ScheduleCalendar />
           </TabContainer>
         }
         {value === 1 && 
@@ -70,7 +71,10 @@ class Home extends React.Component {
             <Services goToNextStep={() => this.goToNextStep(value)} />
           </TabContainer>
         }
-        {value === 2 && <TabContainer>Gsuite Date Calendar</TabContainer>}
+        {value === 2 &&
+          <TabContainer>
+            <Locations goToNextStep={() => this.goToNextStep(value)} />
+          </TabContainer>}
         {value === 3 && <TabContainer>Item Four</TabContainer>}
       </div>
     );
