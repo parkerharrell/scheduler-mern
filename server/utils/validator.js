@@ -83,4 +83,12 @@ export default {
 			id: Joi.string().hex().required()
 		}
 	},
+	storeEvent: {
+		body: {
+			summary: Joi.string(),
+			start: Joi.string(),
+			end: Joi.string(),
+			description: Joi.string(),
+		}
+	},
 };
