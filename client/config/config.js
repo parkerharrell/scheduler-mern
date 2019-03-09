@@ -5,5 +5,4 @@ export const APP_PORT = process.env.APP_PORT;
 export const HOST = `http://${APP_HOST}:${APP_PORT}/`;
 
 export const BASE_URL = `${HOST}`;
-console.log('process.env.API_URL:', process.env.API_URL);
 export const API_URL = process.env.API_URL ? `${process.env.API_URL}${apiPath}` : `${HOST}${apiPath}`;

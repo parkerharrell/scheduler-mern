@@ -26,31 +26,31 @@ import AuthenticatedRoute from './AuthenticatedRoute';
 import Home from '../containers/Home';
 
 const Router = () => (
-    <ConnectedRouter history={history}>
-        <Switch>
-            <Route exact path="/"  component={Home}/>
-            <Route exact path="/signup" component={SignUpForm}/>
-            <Route exact path="/login" component={LoginForm}/>
+	<ConnectedRouter history={history}>
+		<Switch>
+			<Route exact path="/"  component={Home}/>
+			<Route exact path="/signup" component={SignUpForm}/>
+			<Route exact path="/login" component={LoginForm}/>
 
-            <MainLayout>
-                <Switch>
-                    <AuthenticatedRoute exact path="/admin" component={Dashboard}/>
-                    <AuthenticatedRoute exact path="/admin/services" component={Services}/>
-                    <AuthenticatedRoute exact path="/admin/services/new" component={AddService}/>
-                    <AuthenticatedRoute exact path="/admin/services/:id" component={EditService}/>
-                    <AuthenticatedRoute exact path="/admin/locations" component={Locations}/>
-                    <AuthenticatedRoute exact path="/admin/locations/new" component={AddLocation}/>
-                    <AuthenticatedRoute exact path="/admin/locations/:id" component={EditLocation}/>
-                    <AuthenticatedRoute exact path="/admin/customers" component={Customers}/>
-                    <AuthenticatedRoute exact path="/admin/customers/:id" component={CustomerDetails}/>
-                    <AuthenticatedRoute exact path="/admin/appointments" component={Appointments}/>
-                    <AuthenticatedRoute exact path="/admin/settings" component={Settings}/>
-                </Switch>
-            </MainLayout>
+			<MainLayout>
+				<Switch>
+					<AuthenticatedRoute exact path="/admin" component={Dashboard}/>
+					<AuthenticatedRoute exact path="/admin/services" component={Services}/>
+					<AuthenticatedRoute exact path="/admin/services/new" component={AddService}/>
+					<AuthenticatedRoute exact path="/admin/services/:id" component={EditService}/>
+					<AuthenticatedRoute exact path="/admin/locations" component={Locations}/>
+					<AuthenticatedRoute exact path="/admin/locations/new" component={AddLocation}/>
+					<AuthenticatedRoute exact path="/admin/locations/:id" component={EditLocation}/>
+					<AuthenticatedRoute exact path="/admin/customers" component={Customers}/>
+					<AuthenticatedRoute exact path="/admin/customers/:id" component={CustomerDetails}/>
+					<AuthenticatedRoute exact path="/admin/appointments" component={Appointments}/>
+					<AuthenticatedRoute exact path="/admin/settings" component={Settings}/>
+				</Switch>
+			</MainLayout>
 
-            <Route component={NotFound}/>
-        </Switch>
-    </ConnectedRouter>
+			<Route component={NotFound}/>
+		</Switch>
+	</ConnectedRouter>
 );
 
 export default Router;

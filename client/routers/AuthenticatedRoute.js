@@ -1,23 +1,29 @@
 import React from 'react';
+import PropTypes from 'process';
 import {Route, Redirect} from 'react-router-dom';
 
-import {getToken} from '../utils/storageUtil'
+import {getToken} from '../utils/storageUtil';
 
 const isAuthenticated = () => {
-    return !!getToken();
+	return !!getToken();
 };
 
 const AuthenticatedRoute = ({component: Component, ...rest}) => (
-    <Route {...rest} render={props => (
-        isAuthenticated() ? (
-            <Component {...props}/>
-        ) : (
-            <Redirect to={{
-                pathname: '/login',
-                state: {from: props.location}
-            }}/>
-        )
-    )}/>
+	<Route {...rest} render={props => (
+		isAuthenticated() ? (
+			<Component {...props}/>
+		) : (
+			<Redirect to={{
+				pathname: '/login',
+				state: {from: props.location}
+			}}/>
+		)
+	)}/>
 );
+
+AuthenticatedRoute.propTypes = {
+	location: PropTypes.object,
+	component: PropTypes.any,
+};
 
 export default AuthenticatedRoute;

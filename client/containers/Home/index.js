@@ -7,21 +7,21 @@ import HomeHeader from '../../components/common/homeHeader';
 
 class HomeContainer extends Component {
 
-    constructor(props) {
-        super(props);
+	constructor(props) {
+		super(props);
 
-    }
+	}
 
-    render() {
-        return (
-            <React.Fragment>
-                <HomeHeader />
-                <div style={{ paddingTop: 100 }}>
-                    <Home />
-                </div>
-            </React.Fragment>
-        )
-    }
+	render() {
+		return (
+			<React.Fragment>
+				<HomeHeader />
+				<div style={{ paddingTop: 100 }}>
+					<Home />
+				</div>
+			</React.Fragment>
+		);
+	}
 
 }
 

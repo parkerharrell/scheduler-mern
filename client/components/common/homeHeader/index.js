@@ -6,17 +6,17 @@ import { Link } from 'react-router-dom';
 
 class HomeHeader extends Component {
 
-    render() {
-        return (
-            <div>
-                <AppBar style={{ background: 'white' }}>
-                    <Toolbar style={{ justifyContent: 'flex-end' }}>
-                        <Link to='/admin'><Button>Admin</Button></Link>
-                    </Toolbar>
-                </AppBar>
-            </div>
-        )
-    }
+	render() {
+		return (
+			<div>
+				<AppBar style={{ background: 'white' }}>
+					<Toolbar style={{ justifyContent: 'flex-end' }}>
+						<Link to='/admin'><Button>Admin</Button></Link>
+					</Toolbar>
+				</AppBar>
+			</div>
+		);
+	}
 }
 
 export default HomeHeader;

@@ -13,7 +13,7 @@ import rootReducer from '../reducers/rootReducer';
  * Create redux store that holds the app state.
  */
 const store = createStore(rootReducer(history), compose(
-    applyMiddleware(thunkMiddleware, middleware, logger)
+ 	applyMiddleware(thunkMiddleware, middleware, logger)
 ));
 
 export default store;

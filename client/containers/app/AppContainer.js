@@ -7,12 +7,12 @@ import MainRouter from '../../routers/routes';
 
 class AppContainer extends Component {
 
-    render() {
+	render() {
 
-        return (
-            <MainRouter />
-        );
-    }
+		return (
+			<MainRouter />
+		);
+	}
 }
 
 export default hot(module)(AppContainer);

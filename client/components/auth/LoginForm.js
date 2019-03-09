@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import {Field, reduxForm} from 'redux-form'
+import {Field, reduxForm} from 'redux-form';
 import {withStyles} from '@material-ui/core/styles';
 import {Card, CardHeader, CardContent} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
@@ -11,99 +11,102 @@ import renderText from '../common/form/renderText';
 import CustomizedSnackbar from '../common/snakebar/CustomizedSnackbar';
 
 const styles = {
-    root: {
-        minWidth: 320,
-        maxWidth: 400,
-        height: 'auto',
-        position: 'absolute',
-        top: '15%',
-        left: 0,
-        right: 0,
-        margin: 'auto'
-    },
-    card: {
-        padding: 20,
-        overflow: 'auto'
-    },
-    cardHeader: {
-        textAlign: 'center'
-    },
-    btnDiv: {
-        textAlign: 'center'
-    },
-    btn: {
-        marginTop: 21,
-    }
+	root: {
+		minWidth: 320,
+		maxWidth: 400,
+		height: 'auto',
+		position: 'absolute',
+		top: '15%',
+		left: 0,
+		right: 0,
+		margin: 'auto'
+	},
+	card: {
+		padding: 20,
+		overflow: 'auto'
+	},
+	cardHeader: {
+		textAlign: 'center'
+	},
+	btnDiv: {
+		textAlign: 'center'
+	},
+	btn: {
+		marginTop: 21,
+	}
 };
 
 const LoginForm = props => {
 
-    const {handleSubmit, onSubmit, classes, errorMessage} = props;
+	const {handleSubmit, onSubmit, classes, errorMessage} = props;
 
-    return (
-        <div className={classes.root}>
-            <Card className={classes.card}>
-                <CardHeader
-                    className={classes.cardHeader}
-                    title="Login"
-                />
-                {errorMessage  &&
-                <CustomizedSnackbar
-                    variant="error"
-                    className={classes.margin}
-                    message={ errorMessage }
-                />}
-                <CardContent>
-                    <form method="post" onSubmit={handleSubmit(onSubmit)}>
-                        <Field
-                            type="text"
-                            name="username"
-                            component={renderText}
-                            label="Username"
-                        />
-                        <br />
-                        <Field
-                            type="password"
-                            name="password"
-                            component={renderText}
-                            label="Password"
+	return (
+		<div className={classes.root}>
+			<Card className={classes.card}>
+				<CardHeader
+					className={classes.cardHeader}
+					title="Login"
+				/>
+				{errorMessage  &&
+          <CustomizedSnackbar
+          	variant="error"
+          	className={classes.margin}
+          	message={ errorMessage }
+          />
+				}
+				<CardContent>
+					<form method="post" onSubmit={handleSubmit(onSubmit)}>
+						<Field
+							type="text"
+							name="username"
+							component={renderText}
+							label="Username"
+						/>
+						<br />
+						<Field
+							type="password"
+							name="password"
+							component={renderText}
+							label="Password"
 
-                        />
-                        <br />
-                        <div className={classes.btnDiv}>
-                            <Button className={classes.btn} type="submit" variant="raised" color="primary">Login</Button>
-                            <p>Don't have an account? <Link to={'/signup'}>Create one</Link>.</p>
-                        </div>
-                    </form>
-                </CardContent>
+						/>
+						<br />
+						<div className={classes.btnDiv}>
+							<Button className={classes.btn} type="submit" variant="raised" color="primary">Login</Button>
+							<p>Don&rsquo;t have an account? <Link to={'/signup'}>Create one</Link>.</p>
+						</div>
+					</form>
+				</CardContent>
 
-            </Card>
-        </div>
-    )
+			</Card>
+		</div>
+	);
 };
 
 const validateLogin = values => {
-    const errors = {};
+	const errors = {};
 
-    const requiredFields = [
-        'username',
-        'password'
-    ];
-    requiredFields.forEach(field => {
-        if (!values[field]) {
-            errors[field] = '(The ' + field + ' field is required.)';
-        }
-    });
+	const requiredFields = [
+		'username',
+		'password'
+	];
+	requiredFields.forEach(field => {
+		if (!values[field]) {
+			errors[field] = '(The ' + field + ' field is required.)';
+		}
+	});
 
-    return errors
+	return errors;
 };
 
 LoginForm.propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    classes: PropTypes.object.isRequired
+	onSubmit: PropTypes.func.isRequired,
+	classes: PropTypes.object.isRequired,
+	handleSubmit: PropTypes.func,
+	errorMessage: PropTypes.string,
 };
 
 export default reduxForm({
-    form: 'LoginForm', // a unique identifier for this form
-    validate: validateLogin // ←Callback function for client-side validation
-})(withStyles(styles)(LoginForm))
+	form: 'LoginForm', // a unique identifier for this form
+	validate: validateLogin // ←Callback function for client-side validation
+})(withStyles(styles)(LoginForm));
