@@ -15,11 +15,12 @@
     "eqeqeq": 2,
     "spaced-comment": 2,
     "space-infix-ops": 2,
-    "newline-before-return": 2,
-    "linebreak-style": [2, "unix"],
+    "newline-before-return": 0,
     "camelcase": [2, {"properties": "never"}],
     "quotes": [2, "single", {"allowTemplateLiterals": true}],
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
+    "indent": ["error", "tab"],
+    "no-mixed-spaces-and-tabs": 0
   }
 }
