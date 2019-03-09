@@ -5,17 +5,17 @@ import bookshelf from '../config/bookshelf';
  */
 class User extends bookshelf.Model {
     
-    get tableName() {
-        return 'ha45_users';
-    }
+	get tableName() {
+		return 'ha45_users';
+	}
 
-    get hasTimestamps() {
-        return false;
-    }
+	get hasTimestamps() {
+		return false;
+	}
 
-    verifyPassword(password) {
-        return this.get('password') === password;
-    }
+	verifyPassword(password) {
+		return this.get('password') === password;
+	}
 }
 
 export default User;

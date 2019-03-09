@@ -115,11 +115,11 @@ router.route('/')
  *             $ref: '#/definitions/Error'
  */
 
-    .post(validate(schema.storeUser), (req, res) => {
-        userCtrl.store(req, res);
-    })
+	.post(validate(schema.storeUser), (req, res) => {
+		userCtrl.store(req, res);
+	})
 
-    /**
+/**
      * @swagger
      * /users:
      *   get:
@@ -139,9 +139,9 @@ router.route('/')
      *            type: object
      */
 
-    .get( (req, res) => {
-        userCtrl.findAll(req, res);
-    });
+	.get( (req, res) => {
+		userCtrl.findAll(req, res);
+	});
 
 
 router.route('/:id')
@@ -175,11 +175,11 @@ router.route('/:id')
  *             $ref: '#/definitions/Error'
  */
 
-    .get( (req, res) => {
-        userCtrl.findById(req, res);
-    })
+	.get( (req, res) => {
+		userCtrl.findById(req, res);
+	})
 
-    /**
+/**
      * @swagger
      * /users/{id}:
      *   put:
@@ -214,11 +214,11 @@ router.route('/:id')
      *         description: Invalid user
      */
 
-    .put(isAuthenticated, (req, res) => {
-        userCtrl.update(req, res);
-    })
+	.put(isAuthenticated, (req, res) => {
+		userCtrl.update(req, res);
+	})
 
-    /**
+/**
      * @swagger
      * /users/{id}:
      *   delete:
@@ -243,9 +243,9 @@ router.route('/:id')
      *          description: "Invalid ID"
      */
 
-    .delete(isAuthenticated, (req, res) => {
-        userCtrl.destroy(req, res);
-    });
+	.delete(isAuthenticated, (req, res) => {
+		userCtrl.destroy(req, res);
+	});
 
 
 export default router;

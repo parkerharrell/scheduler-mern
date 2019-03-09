@@ -11,11 +11,11 @@ import constant from '../config/directory';
 const app = express();
 
 
-if (process.env.NODE_ENV == 'development') {
-    require('dotenv').config({ path: '.env.development' });
+if (process.env.NODE_ENV === 'development') {
+	require('dotenv').config({ path: '.env.development' });
 
 } else {
-    require('dotenv').config();
+	require('dotenv').config();
 }
 
 app.set('port',  process.env.PORT || process.env.APP_PORT);

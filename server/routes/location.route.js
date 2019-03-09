@@ -76,11 +76,11 @@ router.route('/')
  *             $ref: '#/definitions/Error'
  */
 
-    .post(validate(schema.storeLocation), (req, res) => {
-        locationCtrl.store(req, res);
-    })
+	.post(validate(schema.storeLocation), (req, res) => {
+		locationCtrl.store(req, res);
+	})
 
-    /**
+/**
      * @swagger
      * /locations:
      *   get:
@@ -100,9 +100,9 @@ router.route('/')
      *            type: object
      */
 
-    .get( (req, res) => {
-        locationCtrl.findAll(req, res);
-    });
+	.get( (req, res) => {
+		locationCtrl.findAll(req, res);
+	});
 
 
 router.route('/:id')
@@ -136,11 +136,11 @@ router.route('/:id')
  *             $ref: '#/definitions/Error'
  */
 
-    .get( (req, res) => {
-        locationCtrl.findById(req, res);
-    })
+	.get( (req, res) => {
+		locationCtrl.findById(req, res);
+	})
 
-    /**
+/**
      * @swagger
      * /locations/{id}:
      *   put:
@@ -175,14 +175,11 @@ router.route('/:id')
      *         description: Invalid location
      */
 
-    // .put(isAuthenticated, (req, res) => {
-    //     locationCtrl.update(req, res);
-    // })
-    .put((req, res) => {
-        locationCtrl.update(req, res);
-    })
+  .put(isAuthenticated, (req, res) => {
+    locationCtrl.update(req, res);
+  });
 
-    /**
+/**
      * @swagger
      * /locations/{id}:
      *   delete:
@@ -206,13 +203,10 @@ router.route('/:id')
      *       400:
      *          description: "Invalid ID"
      */
-
-    // .delete(isAuthenticated, (req, res) => {
-    //     locationCtrl.destroy(req, res);
-    // });
-    .delete((req, res) => {
-        locationCtrl.destroy(req, res);
-    });
+  
+  .delete(isAuthenticated, (req, res) => {
+    locationCtrl.destroy(req, res);
+  });
 
 
 export default router;

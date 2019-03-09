@@ -16,11 +16,11 @@
     "spaced-comment": 2,
     "space-infix-ops": 2,
     "newline-before-return": 0,
-    "camelcase": [2, {"properties": "never"}],
     "quotes": [2, "single", {"allowTemplateLiterals": true}],
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "indent": ["error", "tab"],
-    "no-mixed-spaces-and-tabs": 0
+    "no-mixed-spaces-and-tabs": 0,
+    "camelcase": 0
   }
 }

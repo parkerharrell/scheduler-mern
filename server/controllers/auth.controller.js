@@ -12,38 +12,37 @@ import logger from '../config/winston';
  * @returns {*}
  */
 export function login(req, res) {
-    const {username, password} = req.body;
-    console.log('------username----', username);
-    User.query({
-        where: {username: username},
-    }).fetch().then(user => {
-        if (user) {
-            if (bcrypt.compareSync(password, user.get('password'))) {
+	const {username, password} = req.body;
+	User.query({
+		where: {username: username},
+	}).fetch().then(user => {
+		if (user) {
+			if (bcrypt.compareSync(password, user.get('password'))) {
 
-                const token = jwt.sign({
-                    id: user.get('id'),
-                    username: user.get('username')
-                }, process.env.TOKEN_SECRET_KEY);
+				const token = jwt.sign({
+					id: user.get('id'),
+					username: user.get('username')
+				}, process.env.TOKEN_SECRET_KEY);
 
-                res.json({
-                    success: true,
-                    token,
-                    username:  user.get('username')
-                });
-            } else {
-                logger.log('error', 'Authentication failed. Invalid password.');
+				res.json({
+					success: true,
+					token,
+					username:  user.get('username')
+				});
+			} else {
+				logger.log('error', 'Authentication failed. Invalid password.');
 
-                res.status(HttpStatus.UNAUTHORIZED).json({
-                    success: false,
-                    message: 'Authentication failed. Invalid password.'
-                });
-            }
-        } else {
-            logger.log('error', 'Invalid username or password.');
+				res.status(HttpStatus.UNAUTHORIZED).json({
+					success: false,
+					message: 'Authentication failed. Invalid password.'
+				});
+			}
+		} else {
+			logger.log('error', 'Invalid username or password.');
 
-            res.status(HttpStatus.UNAUTHORIZED).json({
-                success: false, message: 'Invalid username or password.'
-            });
-        }
-    });
+			res.status(HttpStatus.UNAUTHORIZED).json({
+				success: false, message: 'Invalid username or password.'
+			});
+		}
+	});
 }

@@ -136,11 +136,11 @@ router.route('/')
  *             $ref: '#/definitions/Error'
  */
 
-    .post(validate(schema.storeService), (req, res) => {
-        serviceCtrl.store(req, res);
-    })
+	.post(validate(schema.storeService), (req, res) => {
+		serviceCtrl.store(req, res);
+	})
 
-    /**
+/**
      * @swagger
      * /services:
      *   get:
@@ -160,9 +160,9 @@ router.route('/')
      *            type: object
      */
 
-    .get( (req, res) => {
-        serviceCtrl.findAll(req, res);
-    });
+	.get( (req, res) => {
+		serviceCtrl.findAll(req, res);
+	});
 
 
 router.route('/:id')
@@ -196,11 +196,11 @@ router.route('/:id')
  *             $ref: '#/definitions/Error'
  */
 
-    .get( (req, res) => {
-        serviceCtrl.findById(req, res);
-    })
+	.get( (req, res) => {
+		serviceCtrl.findById(req, res);
+	})
 
-    /**
+/**
      * @swagger
      * /services/{id}:
      *   put:
@@ -235,14 +235,12 @@ router.route('/:id')
      *         description: Invalid service
      */
 
-    // .put(isAuthenticated, (req, res) => {
-    //     serviceCtrl.update(req, res);
-    // })
-    .put((req, res) => {
-        serviceCtrl.update(req, res);
-    })
+	.put(isAuthenticated, (req, res) => {
+		serviceCtrl.update(req, res);
+	})
 
-    /**
+
+/**
      * @swagger
      * /services/{id}:
      *   delete:
@@ -267,12 +265,9 @@ router.route('/:id')
      *          description: "Invalid ID"
      */
 
-    // .delete(isAuthenticated, (req, res) => {
-    //     serviceCtrl.destroy(req, res);
-    // });
-    .delete((req, res) => {
-        serviceCtrl.destroy(req, res);
-    });
+	.delete(isAuthenticated, (req, res) => {
+		serviceCtrl.destroy(req, res);
+	});
 
 
 export default router;

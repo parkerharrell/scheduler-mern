@@ -1,4 +1,3 @@
-import bcrypt from 'bcrypt';
 import HttpStatus from 'http-status-codes';
 import location from '../models/location.model';
 
@@ -10,17 +9,17 @@ import location from '../models/location.model';
  * @returns {*}
  */
 export function findAll(req, res) {
-    location.forge()
-        .fetchAll()
-        .then(location => res.json({
-                error: false,
-                data: location.toJSON()
-            })
-        )
-        .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                error: err
-            })
-        );
+	location.forge()
+		.fetchAll()
+		.then(location => res.json({
+			error: false,
+			data: location.toJSON()
+		})
+		)
+		.catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+			error: err
+		})
+		);
 }
 
 /**
@@ -31,25 +30,25 @@ export function findAll(req, res) {
  * @returns {*}
  */
 export function findById(req, res) {
-    location.forge({id: req.params.id})
-        .fetch()
-        .then(location => {
-            if (!location) {
-                res.status(HttpStatus.NOT_FOUND).json({
-                    error: true, data: {}
-                });
-            }
-            else {
-                res.json({
-                    error: false,
-                    data: location.toJSON()
-                });
-            }
-        })
-        .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                error: err
-            })
-        );
+	location.forge({id: req.params.id})
+		.fetch()
+		.then(location => {
+			if (!location) {
+				res.status(HttpStatus.NOT_FOUND).json({
+					error: true, data: {}
+				});
+			}
+			else {
+				res.json({
+					error: false,
+					data: location.toJSON()
+				});
+			}
+		})
+		.catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+			error: err
+		})
+		);
 }
 
 /**
@@ -60,18 +59,18 @@ export function findById(req, res) {
  * @returns {*}
  */
 export function store(req, res) {
-    location.forge({
-        ...req.body
-    }, {hasTimestamps: false}).save()
-        .then(location => res.json({
-                success: true,
-                data: location.toJSON()
-            })
-        )
-        .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                error: err
-            })
-        );
+	location.forge({
+		...req.body
+	}, {hasTimestamps: false}).save()
+		.then(location => res.json({
+			success: true,
+			data: location.toJSON()
+		})
+		)
+		.catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+			error: err
+		})
+		);
 }
 
 /**
@@ -82,24 +81,24 @@ export function store(req, res) {
  * @returns {*}
  */
 export function update(req, res) {
-    location.forge({id: req.params.id})
-        .fetch({require: true})
-        .then(location => location.save({ ...req.body })
-                .then(() => res.json({
-                        error: false,
-                        data: location.toJSON()
-                    })
-                )
-                .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                        error: true,
-                        data: {message: err.message}
-                    })
-                )
-        )
-        .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                error: err
-            })
-        );
+	location.forge({id: req.params.id})
+		.fetch({require: true})
+		.then(location => location.save({ ...req.body })
+			.then(() => res.json({
+				error: false,
+				data: location.toJSON()
+			})
+			)
+			.catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+				error: true,
+				data: {message: err.message}
+			})
+			)
+		)
+		.catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+			error: err
+		})
+		);
 }
 
 /**
@@ -110,22 +109,22 @@ export function update(req, res) {
  * @returns {*}
  */
 export function destroy(req, res) {
-    location.forge({id: req.params.id})
-        .fetch({require: true})
-        .then(location => location.destroy()
-            .then(() => res.json({
-                    error: false,
-                    data: {message: 'location deleted successfully.'}
-                })
-            )
-            .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                    error: true,
-                    data: {message: err.message}
-                })
-            )
-        )
-        .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                error: err
-            })
-        );
+	location.forge({id: req.params.id})
+		.fetch({require: true})
+		.then(location => location.destroy()
+			.then(() => res.json({
+				error: false,
+				data: {message: 'location deleted successfully.'}
+			})
+			)
+			.catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+				error: true,
+				data: {message: err.message}
+			})
+			)
+		)
+		.catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+			error: err
+		})
+		);
 }

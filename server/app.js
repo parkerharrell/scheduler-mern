@@ -12,14 +12,14 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from '../webpack/webpack.config.dev';
 
 if (process.env.NODE_ENV === 'development') {
-  const compiler = webpack(webpackConfig);
-  app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: webpackConfig.output.publicPath}));
-  app.use(webpackHotMiddleware(compiler));
+	const compiler = webpack(webpackConfig);
+	app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: webpackConfig.output.publicPath}));
+	app.use(webpackHotMiddleware(compiler));
 }
 
 // Swagger API documentation
 app.get('/swagger.json', (req, res) => {
-   res.json(swagger);
+	res.json(swagger);
 });
 
 // Router
@@ -27,7 +27,7 @@ app.use('/api', routes);
 
 // Landing page
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+	res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 // Joi Error Handler
@@ -38,7 +38,8 @@ app.use(errorHandler.notFoundErrorHandler);
 app.use(errorHandler.errorHandler);
 
 app.listen(app.get('port'), () => {
-    console.log(`Server running at ${app.get('host')}:${app.get('port')}`);
+	// eslint-disable-next-line no-console
+	console.log(`Server running at ${app.get('host')}:${app.get('port')}`);
 });
 
 export default app;

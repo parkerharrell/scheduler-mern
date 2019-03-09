@@ -5,13 +5,13 @@ import bookshelf from '../config/bookshelf';
  */
 class Location extends bookshelf.Model {
     
-    get tableName() {
-        return 'ha45_locations';
-    }
+	get tableName() {
+		return 'ha45_locations';
+	}
 
-    get hasTimestamps() {
-        return false;
-    }
+	get hasTimestamps() {
+		return false;
+	}
 
 }
 
