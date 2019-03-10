@@ -9,6 +9,13 @@ import Typography from '@material-ui/core/Typography';
 import Locations from '../locations';
 import Services from '../services';
 import ScheduleCalendar from '../scheduleCalendar';
+import ConfirmPage from '../confirm';
+import { getToken } from '../../utils/storageUtil';
+import { LoginForm } from '../auth/LoginForm';
+
+const isAuthenticated = () => {
+	return !!getToken();
+};
 
 function TabContainer(props) {
 	return (
@@ -64,7 +71,7 @@ class Home extends React.Component {
   			</Tabs>
   			{value === 0 &&
           <TabContainer>
-          	<ScheduleCalendar />
+          	<Locations goToNextStep={() => this.goToNextStep(value)} />
           </TabContainer>
   			}
   			{value === 1 && 
@@ -74,9 +81,18 @@ class Home extends React.Component {
   			}
   			{value === 2 &&
           <TabContainer>
-          	<Locations goToNextStep={() => this.goToNextStep(value)} />
+          	<ScheduleCalendar goToNextStep={() => this.goToNextStep(value)} />
           </TabContainer>}
-  			{value === 3 && <TabContainer>Item Four</TabContainer>}
+  			{value === 3 &&
+					<TabContainer>
+						{ isAuthenticated &&
+							<ConfirmPage />
+						}
+						{ !isAuthenticated &&
+							<LoginForm />
+						}
+					</TabContainer>
+			  }
   		</div>
   	);
   }

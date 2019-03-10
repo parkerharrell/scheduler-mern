@@ -175,17 +175,17 @@ router.route('/:id')
      *         description: Invalid location
      */
 
-  .put(isAuthenticated, (req, res) => {
-    locationCtrl.update(req, res);
-  });
+	.put(isAuthenticated, (req, res) => {
+		locationCtrl.update(req, res);
+	})
 
 /**
      * @swagger
-     * /locations/{id}:
+     * /services/{id}:
      *   delete:
      *     tags:
-     *       - location
-     *     summary: Delete the location by ID
+     *       - service
+     *     summary: Delete the service by ID
      *     security:
      *       - Bearer: []
      *     operationId: destroy
@@ -194,7 +194,7 @@ router.route('/:id')
      *     parameters:
      *       - name: id
      *         in: path
-     *         description: id of location that needs to be deleted
+     *         description: id of service that needs to be deleted
      *         required: true
      *         type: integer
      *     responses:
@@ -203,10 +203,10 @@ router.route('/:id')
      *       400:
      *          description: "Invalid ID"
      */
-  
-  .delete(isAuthenticated, (req, res) => {
-    locationCtrl.destroy(req, res);
-  });
 
+	.delete(isAuthenticated, (req, res) => {
+		locationCtrl.destroy(req, res);
+	});
+  
 
 export default router;
