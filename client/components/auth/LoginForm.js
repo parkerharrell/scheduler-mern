@@ -16,10 +16,10 @@ const styles = {
 		maxWidth: 400,
 		height: 'auto',
 		position: 'absolute',
-		top: '15%',
+		top: 200,
 		left: 0,
 		right: 0,
-		margin: 'auto'
+		margin: 'auto',
 	},
 	card: {
 		padding: 20,
@@ -38,10 +38,10 @@ const styles = {
 
 const LoginForm = props => {
 
-	const {handleSubmit, onSubmit, classes, errorMessage} = props;
+	const {handleSubmit, onSubmit, classes, errorMessage, onSignup} = props;
 
 	return (
-		<div className={classes.root}>
+		<div className={classes.root} >
 			<Card className={classes.card}>
 				<CardHeader
 					className={classes.cardHeader}
@@ -73,7 +73,12 @@ const LoginForm = props => {
 						<br />
 						<div className={classes.btnDiv}>
 							<Button className={classes.btn} type="submit" variant="raised" color="primary">Login</Button>
-							<p>Don&rsquo;t have an account? <Link to={'/signup'}>Create one</Link>.</p>
+							{onSignup !== undefined &&
+								<p>Don&rsquo;t have an account? <a href="#" onClick={onSignup}>Create one</a>.</p>
+							}
+							{onSignup === undefined &&
+								<p>Don&rsquo;t have an account? <Link to={'/signup'}>Create one</Link>.</p>
+							}
 						</div>
 					</form>
 				</CardContent>
@@ -104,6 +109,7 @@ LoginForm.propTypes = {
 	classes: PropTypes.object.isRequired,
 	handleSubmit: PropTypes.func,
 	errorMessage: PropTypes.string,
+	onSignup: PropTypes.func,
 };
 
 export default reduxForm({

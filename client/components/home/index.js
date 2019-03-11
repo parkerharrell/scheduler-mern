@@ -5,17 +5,15 @@ import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
+import {connect} from 'react-redux';
 
 import Locations from '../locations';
 import Services from '../services';
 import ScheduleCalendar from '../scheduleCalendar';
 import ConfirmPage from '../confirm';
-import { getToken } from '../../utils/storageUtil';
-import LoginForm from '../auth/LoginForm';
+import NoRedirectLoginContainer from '../../containers/auth/NoRedirectLoginContainer';
+import NoRedirectSignUpContainer from '../../containers/auth/NoRedirectSignUpContainer';
 
-const isAuthenticated = () => {
-	return !!getToken();
-};
 
 function TabContainer(props) {
 	return (
@@ -39,7 +37,8 @@ const styles = theme => ({
 
 class Home extends React.Component {
   state = {
-  	value: 0,
+		value: 0,
+		showSignUp: false,
   };
 
   handleChange = (event, value) => {
@@ -48,11 +47,20 @@ class Home extends React.Component {
 
   goToNextStep = (value) => {
   	this.setState({ value: value + 1});
-  }
+	};
+	
+	onSignUp = () => {
+		this.setState({ showSignUp: true });
+	}
 
-  render() {
+	onLogin = () => {
+		this.setState({ showSignUp: false });
+	}
+
+	render() {
   	const { classes } = this.props;
-  	const { value } = this.state;
+  	const { value, showSignUp } = this.state;
+  	const { isAuthenticated } = this.props;
 
   	return (
   		<div className={classes.root}>
@@ -88,18 +96,27 @@ class Home extends React.Component {
 						{ isAuthenticated &&
 							<ConfirmPage />
 						}
-						{ !isAuthenticated &&
-							<LoginForm />
+						{ !isAuthenticated && !showSignUp &&
+							<NoRedirectLoginContainer onSignup={this.onSignUp} />
+						}
+						{ !isAuthenticated && showSignUp &&
+							<NoRedirectSignUpContainer onLogin={this.onLogin} />
 						}
 					</TabContainer>
 			  }
   		</div>
   	);
-  }
+	}
 }
 
 Home.propTypes = {
 	classes: PropTypes.object.isRequired,
+	isAuthenticated: PropTypes.bool
 };
 
-export default withStyles(styles)(Home);
+const mapStateToProps = state => ({
+	isAuthenticated: state.auth.isAuthenticated,
+});
+
+
+export default withStyles(styles)(connect(mapStateToProps, null)(Home));

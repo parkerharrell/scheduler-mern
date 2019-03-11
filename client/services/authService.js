@@ -25,6 +25,23 @@ export function login({username, password}) {
 	};
 }
 
+export function noredirect({username, password}) {
+
+	return function (dispatch) {
+		axios.post(API_URL + 'auth/login', {username, password}).then((response) => {
+
+			dispatch(AuthAction.loginSuccess(response.data.token));
+
+			setToken(response.data.token);
+
+			// window.location.href = BASE_URL + 'dashboard';
+		})
+			.catch((error) => {
+				dispatch(AuthAction.loginFailure(error.response.data));
+			});
+	};
+}
+
 export function logout() {
 	return function (dispatch) {
 
