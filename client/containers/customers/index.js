@@ -12,12 +12,11 @@ import { isUndefined } from 'lodash';
 
 import { fetchAll } from '../../actions/userAction';
 
-
-ActionsCellRenderer.propTypes = {
-	data: PropTypes.object,
-};
-
 class ActionsCellRenderer extends Component {
+	static propTypes = {
+		data: PropTypes.object,
+	};
+
 	render() {
 		// put in render logic
 		const { data } = this.props;

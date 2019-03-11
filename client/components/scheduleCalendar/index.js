@@ -15,6 +15,10 @@ import Button from '@material-ui/core/Button';
 
 const localizer = BigCalendar.momentLocalizer(moment);
 class Selectable extends React.Component {
+	static propTypes = {
+		goToNextStep: PropTypes.func,
+	}
+
 	constructor(...args) {
 		super(...args);
 		this.state = { 
@@ -43,6 +47,10 @@ class Selectable extends React.Component {
 		this.setState({
 			visible: false,
 		});
+		setTimeout(() => {
+			const { goToNextStep } = this.props;
+			goToNextStep();
+		}, 500);
 	}
 
   handleSelect = ({ start, end }) => {

@@ -11,7 +11,7 @@ import Services from '../services';
 import ScheduleCalendar from '../scheduleCalendar';
 import ConfirmPage from '../confirm';
 import { getToken } from '../../utils/storageUtil';
-import { LoginForm } from '../auth/LoginForm';
+import LoginForm from '../auth/LoginForm';
 
 const isAuthenticated = () => {
 	return !!getToken();
