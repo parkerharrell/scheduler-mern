@@ -1,9 +1,4 @@
-### 1. Prerequisites
-
-- [NodeJs](https://nodejs.org/en/)
-- [NPM](https://npmjs.org/) - Node package manager
-
-### 2. Installation
+### 1. Installation
 
 On the command prompt run the following commands:
 
@@ -26,24 +21,8 @@ List of NPM Commands:
   $ npm run clean      # remove dist and node_modules folder and install dependencies
  ```
 
-### 3. Usage
+### 2. Usage
 
 URL : http://localhost:3000/
 
 Navigate to http://localhost:3000/swagger for the API documentation.
-
-### 4. Useful Link
-- Web framework for Node.js - [Express](http://expressjs.com/)
-- JavaScript ORM  for Node.js - [Bookshelf](http://bookshelfjs.org/)
-- SQL Query Builder for Postgres, MSSQL, MySQL, MariaDB, SQLite3, and Oracle - [Knex](http://knexjs.org/)
-- JSON Web Tokens(jwt) - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
-- Logging Library - [Winston](https://www.npmjs.com/package/winston)
-- Object schema validation  - [Joi](https://www.npmjs.com/package/joi)
-- API documentation using [swagger-jsdoc](https://www.npmjs.com/package/swagger-jsdoc) and [swagger-ui](https://www.npmjs.com/package/swagger-ui)
-- JavaScript library for building user interfaces - [React](https://facebook.github.io/react/)
-- Predictable state container - [Redux](http://redux.js.org/)
-- A React component library implementing Google's Material Design - [Material-UI](https://material-ui-1dab0.firebaseapp.com/)
-- Redux Form - [Redux Form](http://redux-form.com/7.4.2/)
-- Declarative routing for React - [React-Router](https://reacttraining.com/react-router/)
-- Promise based HTTP client - [Axios](https://github.com/mzabriskie/axios)
-- Code linting tool - [ESLint](http://eslint.org/)
