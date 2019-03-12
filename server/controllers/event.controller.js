@@ -3,7 +3,7 @@ import fs from 'fs';
 import readline from 'readline';
 const {google} = require('googleapis');
 import moment from 'moment';
-import momenttz from 'moment-timezone';
+import { isUndefined } from 'lodash';
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/calendar.events'];
@@ -68,6 +68,12 @@ function getAccessToken(oAuth2Client, callback) {
  */
 function listEvents(auth, req, res) {
 	const { date } = req.query;
+	if (isUndefined(date)) {
+		return res.json({
+			error: false,
+			data: []
+		});
+	}
 	const timezone = date.slice(-6);
 	const dd = moment(date).format("YYYY-MM-DD");
   const startOfDate = moment(dd).startOf('day').format("YYYY-MM-DDTHH:mm:ss") + timezone;
@@ -81,12 +87,12 @@ function listEvents(auth, req, res) {
     orderBy: 'startTime',
   }, (err, resp) => {
 		if (err) {
-			res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+			return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
 				error: err
 			})
 		}
     const events = resp.data.items;
-		res.json({
+		return res.json({
 			error: false,
 			data: events
 		})
