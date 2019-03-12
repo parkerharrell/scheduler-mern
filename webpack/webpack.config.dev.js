@@ -24,9 +24,9 @@ const config = {
     },
     mode: 'development',
     output: {
-        path: path.resolve(CURRENT_WORKING_DIR, 'dist'), //  destination
+        path: path.resolve(CURRENT_WORKING_DIR, 'public'), //  destination
         filename: 'client.bundle.js',
-        publicPath: '/dist/'
+        publicPath: '/'
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(), // enable HMR globally

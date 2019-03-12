@@ -22,9 +22,9 @@ var config = {
     },
     mode: 'production',
     output: {
-        path: path.resolve(CURRENT_WORKING_DIR, 'dist'), //  destination
+        path: path.resolve(CURRENT_WORKING_DIR, 'public'), //  destination
         filename: 'client.bundle.js',
-        publicPath: '/dist/',
+        publicPath: '/',
     },
     plugins: [
         new webpack.DefinePlugin(envKeys),
