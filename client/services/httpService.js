@@ -1,8 +1,12 @@
 // Import custom utils
 import {fetch, store, update, destroy} from '../utils/httpUtil';
-import {getPathParam} from '../utils/serializeUtil';
+import {getPathParam, getQueryParam} from '../utils/serializeUtil';
 
 import {API_URL} from '../config/config';
+
+export function fetchEntityWithData(entityName, data) {
+	return fetch(API_URL, entityName.toLowerCase() + getQueryParam(data));
+}
 
 export function fetchEntity(entityName) {
 	return fetch(API_URL, entityName.toLowerCase());
