@@ -1,8 +1,9 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import BigCalendar from 'react-big-calendar';
-import events from './events';
 import * as moment from 'moment';
 import styled from 'styled-components';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -12,6 +13,8 @@ import Modal from 'react-awesome-modal';
 import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import { isNull, isUndefined } from 'lodash';
+import { fetchAll, storeItem } from '../../actions/eventAction';
 
 const localizer = BigCalendar.momentLocalizer(moment);
 class Selectable extends React.Component {
@@ -22,12 +25,12 @@ class Selectable extends React.Component {
 	constructor(...args) {
 		super(...args);
 		this.state = { 
-			events,
 			eventList: [],
 			appointmentDate: null,
 			visible: false,
 		};
-
+		const { fetchAll } = this.props;
+		fetchAll();
 	}
 
 	openModal() {
@@ -54,7 +57,7 @@ class Selectable extends React.Component {
 	}
 
   handleSelect = ({ start, end }) => {
-  	const { events } = this.state;
+  	const { events } = this.props;
   	if (events.filter(event => moment(event.start).format('YYYY-MM-DD hh:mm a') === moment(start).format('YYYY-MM-DD hh:mm a')).length > 0) {
   		return false;
   	}
@@ -75,25 +78,36 @@ class Selectable extends React.Component {
   }
 
   dateSelected = (date) => {
-  	this.setState({ appointmentDate: moment(date).toDate() });
+		this.setState({ appointmentDate: moment(date).toDate() });
+		const { fetchAll } = this.props;
+		fetchAll(moment(date).format());
   }
   
   customSlotPropGetter = date => {
-  	const { events } = this.state;
+		const { events } = this.props;
+		const { appointmentDate } = this.state;
+		if (isNull(appointmentDate)) {
+			return {};
+		}
+
+		if (isUndefined(events)) events = [];
+
   	const slotTime = moment(date).format('YYYY-MM-DD hh:mm a');
   	if (events.filter(event => moment(event.start).format('YYYY-MM-DD hh:mm a') === slotTime).length > 0)
   	{return {
   		className: 'unavailable',
   	};}
   	else {return { className: 'available', };}
-  };
-
+	};
+	
   render() {
   	const today = new Date();
   	const maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 57);
   	const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 5);
 
-  	const { appointmentDate, eventList } = this.state;
+		const { appointmentDate, eventList } = this.state;
+		const { events } = this.props;
+		if (isUndefined(events)) events = [];
 
   	return (
   		<React.Fragment>
@@ -119,6 +133,7 @@ class Selectable extends React.Component {
   				</div>
   				<Container>
   					<BigCalendar
+							key={events.length}
   						selectable
   						localizer={localizer}
   						step={15}
@@ -186,4 +201,26 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-export default Selectable;
+/**
+ * Map the state to props.
+ */
+const mapStateToProps = state => ({
+	events: state.data.events,
+});
+
+/**
+ * Map the actions to props.
+ */
+const mapDispatchToProps = dispatch => ({
+	fetchAll: bindActionCreators(fetchAll, dispatch),
+	createEvent: bindActionCreators(storeItem, dispatch),
+});
+
+Selectable.propTypes = {
+	events: PropTypes.array,
+	fetchAll: PropTypes.func,
+	goToNextStep: PropTypes.func,
+	createEvent: PropTypes.func,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Selectable);

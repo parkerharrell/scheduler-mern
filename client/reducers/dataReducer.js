@@ -20,6 +20,7 @@ export default function (state, action) {
 		selectedLocation: {},
 		users: [],
 		selectedUser: {},
+		events: [],
 	};
 
 	state = state || initialState;
@@ -56,6 +57,9 @@ export default function (state, action) {
 				
 				return data;
 			});
+		}
+		if (action.entity === 'events') {
+			result = apiData;
 		}
 		newState[action.entity] = result;
 		return newState;
