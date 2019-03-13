@@ -8,6 +8,7 @@ import {
 	CLEAR_ENTITY_LIST,
 	EVENT_CREATE_SUCCESS,
 	RESET_EVENT,
+	APPOINTMENT_UPDATE,
 } from '../constants/actionType';
 const moment = require('moment-timezone');
 
@@ -24,6 +25,7 @@ export default function (state, action) {
 		selectedUser: {},
 		events: [],
 		event_created_success: false,
+		appointmentdata: {},
 	};
 
 	state = state || initialState;
@@ -95,6 +97,9 @@ export default function (state, action) {
 		
 	case RESET_EVENT:
 		newState.event_created_success = false;
+		return newState;
+	case APPOINTMENT_UPDATE:
+		newState.appointmentdata[action.entity] = action.data;
 		return newState;
 
 	default:

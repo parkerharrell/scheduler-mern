@@ -10,6 +10,7 @@ import { isUndefined } from 'lodash';
 import TickIcon from '@material-ui/icons/DoneOutline';
 
 import { fetchAll } from '../../actions/serviceAction';
+import { fetchAllResources } from '../../actions/sittingAction';
 
 const DetailLI = styled.div`
 	cursor: pointer;
@@ -82,9 +83,12 @@ class Services extends Component {
     }
 
     componentDidMount() {
-    	const { fetchAll } = this.props;
-    	fetchAll();
-    }
+			const { fetchAllResources, appointmentdata, fetchAll } = this.props;
+			if (appointmentdata.location)
+	    	fetchAllResources('services', { location: appointmentdata.location });
+			else
+				fetchAll();
+		}
 
     setService = (index) => {
     	const { goToNextStep } = this.props;
@@ -122,18 +126,21 @@ class Services extends Component {
  */
 const mapStateToProps = state => ({
 	services: state.data.services,
+	appointmentdata: state.data.appointmentdata,
 });
 
 /**
  * Map the actions to props.
  */
 const mapDispatchToProps = dispatch => ({
-	fetchAll: bindActionCreators(fetchAll, dispatch),
+	fetchAllResources: bindActionCreators(fetchAllResources, dispatch),
 });
 
 Services.propTypes = {
+	fetchAllResources: PropTypes.func,
 	fetchAll: PropTypes.func,
 	services: PropTypes.array,
+	appointmentdata: PropTypes.object,
 	goToNextStep: PropTypes.func,
 };
 

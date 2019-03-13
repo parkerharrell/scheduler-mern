@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import { isUndefined } from 'lodash';
 import TickIcon from '@material-ui/icons/DoneOutline';
 
-import { fetchAll } from '../../actions/locationAction';
+import { fetchAll, updateAppointmentLocation } from '../../actions/locationAction';
 
 const DetailLI = styled.div`
     cursor: pointer;
@@ -91,8 +91,9 @@ class Locations extends Component {
     }
 
     setLocation = (index) => {
-    	const { goToNextStep } = this.props;
-    	this.setState({ active: index });
+    	const { goToNextStep, updateAppointmentLocation, locations } = this.props;
+		this.setState({ active: index });
+		updateAppointmentLocation(locations[index].id);
     	setTimeout(() => {
     		goToNextStep();
     	}, 600);
@@ -133,12 +134,14 @@ const mapStateToProps = state => ({
  */
 const mapDispatchToProps = dispatch => ({
 	fetchAll: bindActionCreators(fetchAll, dispatch),
+	updateAppointmentLocation: bindActionCreators(updateAppointmentLocation, dispatch),
 });
 
 Locations.propTypes = {
 	locations: PropTypes.array,
 	fetchAll: PropTypes.func,
 	goToNextStep: PropTypes.func,
+	updateAppointmentLocation: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Locations);
