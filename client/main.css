@@ -72,11 +72,12 @@ a:hover {
 }
 
 .rbc-time-content {
-	border-top: 1px solid #eee;
+	border-top: none;
+	padding-top: 15px;
 }
 
 .rbc-timeslot-group {
-	border-bottom: 1px solid #e8e8e8;
+	border-bottom: none;
 }
 
 .rbc-label {
@@ -97,9 +98,43 @@ a:hover {
 }
 
 .rbc-time-slot.unavailable {
-	background-color: #ff14001f;
+	background-color: rgba(12, 0, 0, 0.02);
 }
 
 .rbc-time-slot.available {
-	background-color: #00bcd42e;
+	background-color: transparent;
+}
+
+.rbc-time-content > * + * > * {
+	border-left: 1px solid #eaeaea;
+}
+
+.rbc-day-slot .rbc-time-slot {
+	border-top: 1px solid #ececec;
+}
+
+.rbc-day-slot .rbc-time-slot:nth-child(2) {
+	border-top: 1px solid #fcfcfc;
+}
+
+.rbc-time-gutter .rbc-timeslot-group {
+	position: relative;
+	width: 68px;
+}
+
+.rbc-time-gutter .rbc-timeslot-group .rbc-label {
+	position: absolute;
+	top: -10px;
+	width: 100%;
+}
+
+.rbc-time-gutter .rbc-timeslot-group .rbc-label::before {
+	content: "";
+	display: block;
+	position: absolute;
+	right: 0;
+	top: 50%;
+	height: 1px;
+	width: 8px;
+	background-color: #e5e5e5;
 }

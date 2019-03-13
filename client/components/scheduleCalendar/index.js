@@ -58,7 +58,7 @@ class Selectable extends React.Component {
 
   handleSelect = ({ start, end }) => {
   	const { events } = this.props;
-  	if (events.filter(event => moment(event.start).format('YYYY-MM-DD hh:mm a') === moment(start).format('YYYY-MM-DD hh:mm a')).length > 0) {
+  	if (events.filter(event => moment(event.start.dateTime).format('YYYY-MM-DD hh:mm a') === moment(start).format('YYYY-MM-DD hh:mm a')).length > 0) {
   		return false;
   	}
   	const title = '';
@@ -93,7 +93,7 @@ class Selectable extends React.Component {
 		if (isUndefined(events)) events = [];
 
   	const slotTime = moment(date).format('YYYY-MM-DD hh:mm a');
-  	if (events.filter(event => moment(event.start).format('YYYY-MM-DD hh:mm a') === slotTime).length > 0)
+  	if (events.filter(event => moment(event.start.dateTime).format('YYYY-MM-DD hh:mm a') === slotTime).length > 0)
   	{return {
   		className: 'unavailable',
   	};}
@@ -108,6 +108,7 @@ class Selectable extends React.Component {
 		const { appointmentDate, eventList } = this.state;
 		const { events } = this.props;
 		if (isUndefined(events)) events = [];
+		console.log('-------- events ----', events);
 
   	return (
   		<React.Fragment>
