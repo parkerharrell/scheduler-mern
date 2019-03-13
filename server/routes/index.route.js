@@ -4,6 +4,7 @@ import userRoutes from './user.route';
 import serviceRoutes from './service.route';
 import locationRoutes from './location.route';
 import eventRoutes from './event.route';
+import sittingRoutes from './sitting.route';
 
 const router = express.Router();
 
@@ -15,5 +16,6 @@ router.use('/users', userRoutes);
 router.use('/services', serviceRoutes);
 router.use('/locations', locationRoutes);
 router.use('/events', eventRoutes);
+router.use('/sittings', sittingRoutes);
 
 export default router;
