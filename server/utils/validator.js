@@ -89,6 +89,7 @@ export default {
 			start: Joi.string(),
 			end: Joi.string(),
 			description: Joi.string(),
+			location: Joi.string(),
 		}
 	},
 };

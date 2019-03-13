@@ -3,7 +3,8 @@ import fs from 'fs';
 import readline from 'readline';
 const {google} = require('googleapis');
 import moment from 'moment';
-import { isUndefined } from 'lodash';
+import { isUndefined, pickBy } from 'lodash';
+import timezones from 'google-timezones-json';
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/calendar.events'];
@@ -100,24 +101,49 @@ function listEvents(auth, req, res) {
 }
 
 function createEvent(auth, req, res) {
+	// const event = {
+	// 	'summary': 'Google I/O 2015',
+	// 	'location': '800 Howard St., San Francisco, CA 94103',
+	// 	'description': 'A chance to hear more about Google\'s developer products.',
+	// 	'start': {
+	// 		'dateTime': '2019-03-12T09:00:00-07:00',
+	// 		'timeZone': 'America/Los_Angeles',
+	// 	},
+	// 	'end': {
+	// 		'dateTime': '2019-03-12T09:30:00-07:00',
+	// 		'timeZone': 'America/Los_Angeles',
+	// 	},
+	// 	'recurrence': [
+	// 		'RRULE:FREQ=DAILY;COUNT=2'
+	// 	],
+	// 	'attendees': [
+	// 		{'email': 'lpage@example.com'},
+	// 		{'email': 'sbrin@example.com'},
+	// 	],
+	// 	'reminders': {
+	// 		'useDefault': false,
+	// 		'overrides': [
+	// 			{'method': 'email', 'minutes': 24 * 60},
+	// 			{'method': 'popup', 'minutes': 10},
+	// 		],
+	// 	},
+	// };
+	const { summary, description, location, start, end } = req.body;
+	const timezone = start.slice(-6);
+	let timezoneStr = 'America/Los_Angeles';
+	pickBy(timezones, (value, key) => {
+		if (value.indexOf(timezone) > -1) {
+			timezoneStr = key;
+		}
+	});
 	const event = {
-		'summary': 'Google I/O 2015',
-		'location': '800 Howard St., San Francisco, CA 94103',
-		'description': 'A chance to hear more about Google\'s developer products.',
-		'start': {
-			'dateTime': '2019-03-12T09:00:00-07:00',
-			'timeZone': 'America/Los_Angeles',
-		},
-		'end': {
-			'dateTime': '2019-03-12T09:30:00-07:00',
-			'timeZone': 'America/Los_Angeles',
-		},
+		'summary': summary,
+		'description': description,
+		'location': location,
+		'start': { 'dateTime': start, 'timeZone': timezoneStr },
+		'end': { 'dateTime': end, 'timeZone': timezoneStr },
 		'recurrence': [
 			'RRULE:FREQ=DAILY;COUNT=2'
-		],
-		'attendees': [
-			{'email': 'lpage@example.com'},
-			{'email': 'sbrin@example.com'},
 		],
 		'reminders': {
 			'useDefault': false,
@@ -134,7 +160,6 @@ function createEvent(auth, req, res) {
 		calendarId: 'primary',
 		resource: event,
 	}, (err, resp) => {
-		console.log('create event resp, error', err);
 		if (err) {
 			return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
 				error: err
