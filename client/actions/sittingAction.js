@@ -1,16 +1,16 @@
 import history from '../utils/history';
 
 /**
- * Import all httpLocation as an object.
+ * Import all httpSitting as an object.
  */
-import * as httpLocation from '../services/httpService';
+import * as httpSitting from '../services/httpService';
 
 
 /**
  * CRUD actions for the application.
  * Every time an action that requires the API is called, it first dispatch an "apiRequest" action.
  *
- * location = 'Product', 'Employee', ...
+ * sitting = 'Product', 'Employee', ...
  */
 import {
 	ENTITY_FAILURE,
@@ -20,7 +20,6 @@ import {
 	ENTITY_DELETE,
 	SELECT_ENTITY_ITEM,
 	CLEAR_ENTITY_LIST,
-	APPOINTMENT_UPDATE
 } from '../constants/actionType';
 
 function failure(error) {
@@ -34,7 +33,7 @@ function failure(error) {
 function add(data) {
 	return {
 		type: ENTITY_CREATE,
-		entity: 'locations',
+		entity: 'sittings',
 		data: data
 	};
 }
@@ -43,15 +42,15 @@ function add(data) {
 function update(data) {
 	return {
 		type: ENTITY_UPDATE,
-		entity: 'locations',
+		entity: 'sittings',
 		data: data
 	};
 }
 
-function fetch(data) {
+function fetch(entity, data) {
 	return {
 		type: ENTITY_FETCH,
-		entity: 'locations',
+		entity: entity,
 		data: data
 	};
 }
@@ -60,7 +59,7 @@ function fetch(data) {
 function destroy(id) {
 	return {
 		type: ENTITY_DELETE,
-		entity: 'locations',
+		entity: 'sittings',
 		id: id
 	};
 }
@@ -68,31 +67,24 @@ function destroy(id) {
 function selectItem(data) {
 	return {
 		type: SELECT_ENTITY_ITEM,
-		entity: 'selectedLocation',
+		entity: 'selectedSitting',
 		data: data
 	};
 }
 
 // eslint-disable-next-line no-unused-vars
-function clearList(location) {
+function clearList(sitting) {
 	return {
 		type: CLEAR_ENTITY_LIST,
-		entity: 'locations'
+		entity: 'sittings'
 	};
 }
 
-export function updateAppointmentLocation(data) {
-	return {
-		type: APPOINTMENT_UPDATE,
-		entity: 'location',
-		data: data
-	};
-}
+export function fetchAllResources(entity, data) {
 
-export function fetchAll() {
 	return function (dispatch) {
-		return httpLocation.fetchEntity('locations').then((response) => {
-			dispatch(fetch(response['data'].data));
+		return httpSitting.fetchEntityWithData('sittings', data).then((response) => {
+			dispatch(fetch(entity, response['data'].data));
 		})
 			.catch((error) => {
 				dispatch(failure(error));
@@ -102,7 +94,7 @@ export function fetchAll() {
 
 export function fetchById(id) {
 	return function (dispatch) {
-		return httpLocation.fetchEntityById('locations', id).then((response) => {
+		return httpSitting.fetchEntityById('sittings', id).then((response) => {
 			dispatch(selectItem(response['data'].data));
 		})
 			.catch((error) => {
@@ -113,7 +105,7 @@ export function fetchById(id) {
   
 export function storeItem(data) {
 	return function (dispatch) {
-		return httpLocation.storeEntity('locations', data).then(() => {
+		return httpSitting.storeEntity('sittings', data).then(() => {
 			history.goBack();
 		})
 			.catch((error) => {
@@ -124,7 +116,7 @@ export function storeItem(data) {
 
 export function updateItem(id, data) {
 	return function (dispatch) {
-		return httpLocation.updateEntity('locations', data, id).then(() => {
+		return httpSitting.updateEntity('sittings', data, id).then(() => {
 			history.goBack();
 		})
 			.catch((error) => {
@@ -135,7 +127,7 @@ export function updateItem(id, data) {
 
 export function destroyItem(id) {
 	return function (dispatch) {
-		return httpLocation.destroyEntity('locations', id).then(() => {
+		return httpSitting.destroyEntity('sittings', id).then(() => {
 			dispatch(fetchAll());
 		})
 			.catch((error) => {
