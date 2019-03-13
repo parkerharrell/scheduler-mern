@@ -13,5 +13,6 @@ export const ENTITY_DELETE = 'ENTITY_DELETE';
 export const SELECT_ENTITY_ITEM = 'SELECT_ENTITY_ITEM';
 export const CLEAR_ENTITY_LIST = 'CLEAR_ENTITY_LIST';
 
+export const EVENT_CREATE_SUCCESS = 'EVENT_CREATE_SUCCESS';
 
 // Services Actions 

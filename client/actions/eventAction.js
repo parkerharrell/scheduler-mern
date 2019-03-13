@@ -15,6 +15,7 @@ import * as httpEvent from '../services/httpService';
 import {
 	ENTITY_FAILURE,
 	ENTITY_FETCH,
+	EVENT_CREATE_SUCCESS
 } from '../constants/actionType';
 
 function failure(error) {
@@ -23,6 +24,13 @@ function failure(error) {
 		error: error
 	};
 }
+
+function success() {
+	return {
+		type: EVENT_CREATE_SUCCESS,
+	};
+}
+
 
 function fetch(data) {
 	return {
@@ -46,7 +54,7 @@ export function fetchAll(date) {
 export function storeItem(data) {
 	return function (dispatch) {
 		return httpEvent.storeEntity('events', data).then(() => {
-			history.goBack();
+			dispatch(success());
 		})
 			.catch((error) => {
 				dispatch(failure(error));

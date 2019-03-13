@@ -5,7 +5,8 @@ import {
 	ENTITY_FETCH,
 	SELECT_ENTITY_ITEM,
 	ENTITY_DELETE,
-	CLEAR_ENTITY_LIST
+	CLEAR_ENTITY_LIST,
+	EVENT_CREATE_SUCCESS
 } from '../constants/actionType';
 const moment = require('moment-timezone');
 
@@ -21,6 +22,7 @@ export default function (state, action) {
 		users: [],
 		selectedUser: {},
 		events: [],
+		event_created_success: false,
 	};
 
 	state = state || initialState;
@@ -84,6 +86,10 @@ export default function (state, action) {
 	}
 	case CLEAR_ENTITY_LIST:
 		newState[action.entity] = {};
+		return newState;
+
+	case EVENT_CREATE_SUCCESS:
+		newState.event_created_success = true;
 		return newState;
 
 	default:

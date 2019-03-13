@@ -47,13 +47,18 @@ class Selectable extends React.Component {
 	}
 
 	confirmModal() {
+		const { goToNextStep, createEvent } = this.props;
 		this.setState({
 			visible: false,
 		});
-		setTimeout(() => {
-			const { goToNextStep } = this.props;
-			goToNextStep();
-		}, 500);
+		const { eventList } = this.state;
+		const event = {};
+		event.summary = 'Photo View';
+		event.start = moment(eventList[0].start).format();
+		event.end = moment(eventList[0].end).format();
+		event.location = '4530 E Snider St, Springfield, MO 65803, USA';
+		event.description = 'Photo View Description';
+		createEvent(event);
 	}
 
   handleSelect = ({ start, end }) => {
@@ -106,9 +111,11 @@ class Selectable extends React.Component {
   	const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 5);
 
 		const { appointmentDate, eventList } = this.state;
-		const { events } = this.props;
+		const { events, event_created_success, goToNextStep } = this.props;
+		if (event_created_success) {
+			goToNextStep();
+		}
 		if (isUndefined(events)) events = [];
-		console.log('-------- events ----', events);
 
   	return (
   		<React.Fragment>
@@ -207,6 +214,7 @@ const Container = styled.div`
  */
 const mapStateToProps = state => ({
 	events: state.data.events,
+	event_created_success: state.data.event_created_success,
 });
 
 /**
