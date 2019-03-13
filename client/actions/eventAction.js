@@ -15,7 +15,8 @@ import * as httpEvent from '../services/httpService';
 import {
 	ENTITY_FAILURE,
 	ENTITY_FETCH,
-	EVENT_CREATE_SUCCESS
+	EVENT_CREATE_SUCCESS,
+	RESET_EVENT,
 } from '../constants/actionType';
 
 function failure(error) {
@@ -28,6 +29,12 @@ function failure(error) {
 function success() {
 	return {
 		type: EVENT_CREATE_SUCCESS,
+	};
+}
+
+function reset() {
+	return {
+		type: RESET_EVENT,
 	};
 }
 
@@ -59,5 +66,11 @@ export function storeItem(data) {
 			.catch((error) => {
 				dispatch(failure(error));
 			});
+	};
+}
+
+export function resetEventData() {
+	return function (dispatch) {
+		dispatch(reset());
 	};
 }

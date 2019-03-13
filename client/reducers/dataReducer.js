@@ -6,7 +6,8 @@ import {
 	SELECT_ENTITY_ITEM,
 	ENTITY_DELETE,
 	CLEAR_ENTITY_LIST,
-	EVENT_CREATE_SUCCESS
+	EVENT_CREATE_SUCCESS,
+	RESET_EVENT,
 } from '../constants/actionType';
 const moment = require('moment-timezone');
 
@@ -90,6 +91,10 @@ export default function (state, action) {
 
 	case EVENT_CREATE_SUCCESS:
 		newState.event_created_success = true;
+		return newState;
+		
+	case RESET_EVENT:
+		newState.event_created_success = false;
 		return newState;
 
 	default:
