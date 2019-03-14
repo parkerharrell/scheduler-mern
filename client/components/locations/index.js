@@ -4,27 +4,35 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import styled from 'styled-components';
+import moment from 'moment';
 
 import Grid from '@material-ui/core/Grid';
 import { isUndefined } from 'lodash';
-import TickIcon from '@material-ui/icons/DoneOutline';
+import AddIcon from '@material-ui/icons/AddRounded';
 
 import { fetchAll, updateAppointmentLocation } from '../../actions/locationAction';
 
 const DetailLI = styled.div`
-    cursor: pointer;
-    min-height: 150px;
+	cursor: pointer;
+	min-height: 170px;
+	max-height: 170px;
+	overflow: hidden;
+	display: flex;
+	align-items: flex-start;
+	flex-flow: column;
+	justify-content: flex-start;
 
     .title {
-        font-weight: 800;
-        font-size: 1.3em;
+		font-weight: 800;
+		font-size: 1.4em;
+		margin: 15px 0;
     }
     .availability {
         font-weight: 600;
     }
-    & p: {
-        margin: '0.3em 0';
-        font-size: 12px;
+    & p {
+		margin: 3px 0 3px;
+		font-size: .9em;
     }
     .overlay {
         display: none;
@@ -63,13 +71,13 @@ const Item = ({ data, onclick, active }) => (
 	<DetailLI style={styles.card}>
 		<span className="title">{data.title}</span>
 		<p>
-			<span className="availability">Nearest Availability:</span>&nbsp;&nbsp;{data.startdate}
+			<span className="availability">Nearest Availability:</span>&nbsp;&nbsp;{`${moment(new Date()).add(1,'days').format('MM/DD/YYYY')} 10:00 AM`}
 		</p>
 		<p>
 			<span className="availability">Contact Info:</span>&nbsp;&nbsp;{data.description}
 		</p>
 		<div className={`overlay ${active ? 'active' : ''}`} onClick={onclick}>
-			<TickIcon className="checkbox"  />
+			<AddIcon className="checkbox"  />
 		</div>
 	</DetailLI>
 );

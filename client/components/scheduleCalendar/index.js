@@ -26,7 +26,7 @@ class Selectable extends React.Component {
 		super(...args);
 		this.state = { 
 			eventList: [],
-			appointmentDate: null,
+			appointmentDate: moment(new Date()).add(1, 'days').toDate(),
 			visible: false,
 		};
 		const { fetchAll } = this.props;
@@ -47,7 +47,7 @@ class Selectable extends React.Component {
 	}
 
 	confirmModal() {
-		const { goToNextStep, createEvent } = this.props;
+		const { createEvent, appointmentdata, services, locations } = this.props;
 		this.setState({
 			visible: false,
 		});
@@ -63,7 +63,10 @@ class Selectable extends React.Component {
 
   handleSelect = ({ start, end }) => {
   	const { events } = this.props;
-  	if (events.filter(event => moment(event.start.dateTime).format('YYYY-MM-DD hh:mm a') === moment(start).format('YYYY-MM-DD hh:mm a')).length > 0) {
+		const slotTime = moment(start).format('YYYY-MM-DD hh:mm a');
+		const slotTimeHrs = parseInt(moment(start).format('hh'), 10);
+		const slotTimeAM = moment(start).format('a');
+  	if ((slotTimeHrs < 10  && slotTimeAM === 'am') || (slotTimeHrs === 12 && slotTimeAM === 'am') || (slotTimeHrs !== 12 && slotTimeHrs >= 6  && slotTimeAM === 'pm') || events.filter(event => moment(event.start.dateTime).format('YYYY-MM-DD hh:mm a') === slotTime).length > 0) {
   		return false;
   	}
   	const title = '';
@@ -97,8 +100,10 @@ class Selectable extends React.Component {
 
 		if (isUndefined(events)) events = [];
 
-  	const slotTime = moment(date).format('YYYY-MM-DD hh:mm a');
-  	if (events.filter(event => moment(event.start.dateTime).format('YYYY-MM-DD hh:mm a') === slotTime).length > 0)
+		const slotTime = moment(date).format('YYYY-MM-DD hh:mm a');
+		const slotTimeHrs = parseInt(moment(date).format('hh'), 10);
+		const slotTimeAM = moment(date).format('a');
+  	if ((slotTimeHrs < 10  && slotTimeAM === 'am') || (slotTimeHrs === 12 && slotTimeAM === 'am') || (slotTimeHrs !== 12 && slotTimeHrs >= 6  && slotTimeAM === 'pm') || events.filter(event => moment(event.start.dateTime).format('YYYY-MM-DD hh:mm a') === slotTime).length > 0)
   	{return {
   		className: 'unavailable',
   	};}
@@ -107,8 +112,8 @@ class Selectable extends React.Component {
 	
   render() {
   	const today = new Date();
-  	const maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 57);
-  	const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 5);
+  	const maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 177);
+  	const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
 
 		const { appointmentDate, eventList } = this.state;
 		const { events, event_created_success, goToNextStep } = this.props;
@@ -127,15 +132,6 @@ class Selectable extends React.Component {
   						selected={appointmentDate}
   						minDate={minDate}
   						maxDate={maxDate}
-  						disabledDates={[
-  							new Date(2019, 2, 28),
-  							new Date(2019, 3, 5),
-  							new Date(2019, 3, 4),
-  							new Date(2019, 3, 15),
-  							new Date(2019, 3, 16),
-  							new Date(2019, 3, 17),
-  							new Date(2019, 3, 12)
-  						]}
   						onSelect={this.dateSelected}
   					/>
   				</div>
@@ -230,6 +226,7 @@ Selectable.propTypes = {
 	fetchAll: PropTypes.func,
 	goToNextStep: PropTypes.func,
 	createEvent: PropTypes.func,
+	appointmentdata: PropTypes.object,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Selectable);

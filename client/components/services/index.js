@@ -4,28 +4,36 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import styled from 'styled-components';
+import Truncate from 'react-truncate';
 
 import Grid from '@material-ui/core/Grid';
 import { isUndefined } from 'lodash';
-import TickIcon from '@material-ui/icons/DoneOutline';
+import AddIcon from '@material-ui/icons/AddRounded';
 
 import { fetchAll } from '../../actions/serviceAction';
 import { fetchAllResources } from '../../actions/sittingAction';
 
 const DetailLI = styled.div`
 	cursor: pointer;
-	min-height: 150px;
-	
+	min-height: 170px;
+	max-height: 170px;
+	overflow: hidden;
+	display: flex;
+	align-items: flex-start;
+	flex-flow: column;
+	justify-content: flex-start;
+
 	.title {
 		font-weight: 800;
-		font-size: 1.3em;
+		font-size: 1.4em;
+		margin: 15px 0;
 	}
 	.availability {
 		font-weight: 600;
 	}
-	& p: {
-		margin: '0.3em 0';
-		font-size: 12px;
+	& p {
+		margin: 3px 0 3px;
+		font-size: .9em;
 	}
 	.overlay {
 		display: none;
@@ -33,6 +41,7 @@ const DetailLI = styled.div`
 	&:hover {
 		position: relative;
 		box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 16px 1px !important;
+		border: 1px solid transparent !important;
 		
 		.overlay {
 			position: absolute;
@@ -47,13 +56,13 @@ const DetailLI = styled.div`
 			justify-content: center;
 			
 			.checkbox {
-				font-size: 3em;
-				font-weight: 900;
+					font-size: 3em;
+					font-weight: 900;
 			}
 
 			&.active .checkbox {
-				font-size: 8em;
-				transition: all .4s;
+					font-size: 8em;
+					transition: all .4s;
 			}
 		}
 	}
@@ -63,10 +72,12 @@ const Item = ({ data, onclick, active }) => (
 	<DetailLI style={styles.card}>
 		<span className="title">{data.title}</span>
 		<p>
-			{data.description}
+			<Truncate lines={4} ellipsis={<span>...</span>}>
+				{data.description}
+			</Truncate>
 		</p>
 		<div className={`overlay ${active ? 'active' : ''}`} onClick={onclick}>
-			<TickIcon className="checkbox"  />
+			<AddIcon className="checkbox"  />
 		</div>
 	</DetailLI>
 );
