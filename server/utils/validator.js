@@ -48,6 +48,7 @@ export default {
 			min_from_now: Joi.number().required(),
 			max_from_now: Joi.number().required(),
 			price: Joi.number(),
+			duration: Joi.number().required(),
 			recur_total: Joi.string(),
 			recur_options: Joi.string(),
 		}

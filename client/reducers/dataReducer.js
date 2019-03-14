@@ -15,6 +15,38 @@ const moment = require('moment-timezone');
 /**
  * A reducer takes two arguments, the current state and an action.
  */
+
+function fancyTimeFormat(time)
+{   
+		const weeks = ~~(time / 604800);
+		const days = ~~(time / 86400);
+    const hrs = ~~(time / 3600);
+    const mins = ~~((time % 3600) / 60);
+
+		if (weeks > 0 && time % 604800 === 0) {
+			return {
+				number: weeks,
+				options: 604800,
+			};
+		}
+		if (days > 0 && time % 86400 === 0) {
+			return {
+				number: days,
+				options: 86400,
+			};
+		}
+    if (hrs > 0 && time % 3600 === 0) {
+			return {
+				number: hrs,
+				options: 3600,
+			};
+		}
+		return {
+			number: mins,
+			options: 60,
+		};
+}
+
 export default function (state, action) {
 	let initialState = {
 		services: [],
@@ -47,9 +79,12 @@ export default function (state, action) {
 
 		if(action.entity === 'services') {
 			result = apiData.map(data => {
-				data.startdate = moment(data.min_from_now * 1000).tz(tz).format('YYYY/MM/DD');
-				data.enddate = moment(data.max_from_now * 1000).tz(tz).format('YYYY/MM/DD');
-				
+				const { options, number } = fancyTimeFormat(data.min_from_now);
+				data.minfromnow_number = number;
+				data.minfromnow_options = options;
+				const { options: options1, number: number1 } = fancyTimeFormat(data.max_from_now);
+				data.maxfromnow_number = number1;
+				data.maxfromnow_options = options1;
 				return data;
 			});
 		}
@@ -78,8 +113,12 @@ export default function (state, action) {
 		const data = Object.assign({}, action.data);
 		const tz1 = moment.tz.guess();
 		if(action.entity === 'selectedService') {
-			data.startdate = moment(data.min_from_now * 1000).tz(tz1).format('YYYY-MM-DD');
-			data.enddate = moment(data.max_from_now * 1000).tz(tz1).format('YYYY-MM-DD');
+			const { options, number } = fancyTimeFormat(data.min_from_now);
+			data.minfromnow_number = number;
+			data.minfromnow_options = options;
+			const { options: options1, number: number1 } = fancyTimeFormat(data.max_from_now);
+			data.maxfromnow_number = number1;
+			data.maxfromnow_options = options1;
 		}
 		if (action.entity === 'selectedUser') {
 			data.createdAt = moment(data.created * 1000).tz(tz1).format('YYYY-MM-DD');

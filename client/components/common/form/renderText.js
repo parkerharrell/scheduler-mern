@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 
-const renderText = ({input, label, type, meta: {touched, error, invalid}}) => (
+const renderText = ({input, label, fullWidth, type, meta: {touched, error, invalid}}) => (
 
 	<TextField
 		type={type}
@@ -10,7 +10,7 @@ const renderText = ({input, label, type, meta: {touched, error, invalid}}) => (
 		error={touched && invalid}
 		helperText={touched && error}
 		margin="normal"
-		fullWidth={true}
+		fullWidth={fullWidth || true}
 		{...input}
 	/>
 
@@ -21,6 +21,7 @@ renderText.propTypes = {
 	label: PropTypes.string.isRequired,
 	meta: PropTypes.object,
 	type: PropTypes.string,
+	fullWidth: PropTypes.bool,
 };
 
 export default renderText;
