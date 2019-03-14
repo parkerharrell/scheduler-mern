@@ -15,7 +15,6 @@ export function findAll(req, res) {
 		.fetchAll()
 		.then(sittings => {
 			const sittingIds = sittings.map(sitting => sitting.get('service'));
-			console.log('---- sittings:', sittingIds);
 			return serviceModel.where('id', 'IN', sittingIds)
 			.fetchAll();
 		})
