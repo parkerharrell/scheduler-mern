@@ -105,11 +105,17 @@ router.route('/')
      *     parameters:
      *       - name: date
      *         in: query
-     *         description: "events for date"
-     *         required: true
+     *         description: "events by date"
+     *         required: false
      *         schema:
      *           type: string
      *           format: date-time
+     *       - name: location
+     *         in: query
+     *         description: "events by location"
+     *         required: false
+     *         schema:
+     *           type: string
      *     responses:
      *       200:
      *         description: OK

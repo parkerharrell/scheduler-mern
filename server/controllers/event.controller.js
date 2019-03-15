@@ -68,7 +68,7 @@ function getAccessToken(oAuth2Client, callback) {
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
  */
 function listEvents(auth, req, res) {
-	const { date } = req.query;
+	const { date, location } = req.query;
 	if (isUndefined(date)) {
 		return res.json({
 			error: false,
@@ -85,7 +85,8 @@ function listEvents(auth, req, res) {
 		timeMin: startOfDate,
 		timeMax: endOfDate,
     singleEvents: true,
-    orderBy: 'startTime',
+		orderBy: 'startTime',
+		q: location,
   }, (err, resp) => {
 		if (err) {
 			return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({

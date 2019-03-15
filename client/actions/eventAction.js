@@ -17,6 +17,7 @@ import {
 	ENTITY_FETCH,
 	EVENT_CREATE_SUCCESS,
 	RESET_EVENT,
+	APPOINTMENT_UPDATE
 } from '../constants/actionType';
 
 function failure(error) {
@@ -47,9 +48,18 @@ function fetch(data) {
 	};
 }
 
-export function fetchAll(date) {
+export function updateAppointmentDate(data) {
+	return {
+		type: APPOINTMENT_UPDATE,
+		entity: 'startDate',
+		data: data
+	};
+}
+
+
+export function fetchAll(date, location) {
 	return function (dispatch) {
-		return httpEvent.fetchEntityWithData('events', { date: date }).then((response) => {
+		return httpEvent.fetchEntityWithData('events', { date: date, location: location }).then((response) => {
 			dispatch(fetch(response['data'].data));
 		})
 			.catch((error) => {
