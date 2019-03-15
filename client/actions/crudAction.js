@@ -4,6 +4,7 @@ import history from '../utils/history';
  * Import all commonAction as an object.
  */
 import * as commonAction from './commonAction';
+import * as AuthAction from '../actions/authAction';
 
 /**
  * Import all httpService as an object.
@@ -79,7 +80,7 @@ export function submitForm(entity, data, id) {
 		if (id) {
 			dispatch(updateItem(entity, data, id));
 		} else {
-			dispatch(storeItem(entity, data));
+			dispatch(AuthAction.loginSuccess(data));
 		}
 	};
 }

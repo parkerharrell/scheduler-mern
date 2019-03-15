@@ -129,7 +129,7 @@ function createEvent(auth, req, res) {
 	// 		],
 	// 	},
 	// };
-	const { summary, description, location, start, end } = req.body;
+	const { summary, description, location, start, end, email } = req.body;
 	const timezone = start.slice(-6);
 	let timezoneStr = 'America/Los_Angeles';
 	pickBy(timezones, (value, key) => {
@@ -143,6 +143,9 @@ function createEvent(auth, req, res) {
 		'location': location,
 		'start': { 'dateTime': start, 'timeZone': timezoneStr },
 		'end': { 'dateTime': end, 'timeZone': timezoneStr },
+		'attendees': [
+			{'email': email },
+		],
 		'recurrence': [
 			'RRULE:FREQ=DAILY;COUNT=2'
 		],

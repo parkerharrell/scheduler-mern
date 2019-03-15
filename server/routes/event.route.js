@@ -41,6 +41,10 @@ const router = express.Router();
  *         description: event endDate
  *         format: date-time
  *         example: 2015-05-28T09:00:00-07:00
+ *       email:
+ *         type: string 
+ *         description: Email address
+ *         example: hello@world.com
  *   Error:
  *     type: object
  *     properties:

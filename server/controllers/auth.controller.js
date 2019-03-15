@@ -27,7 +27,8 @@ export function login(req, res) {
 				res.json({
 					success: true,
 					token,
-					username:  user.get('username')
+					username:  user.get('username'),
+					email: user.get('email'),
 				});
 			} else {
 				logger.log('error', 'Authentication failed. Invalid password.');

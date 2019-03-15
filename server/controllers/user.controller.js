@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import HttpStatus from 'http-status-codes';
 import User from '../models/user.model';
+import jwt from 'jsonwebtoken';
 
 /**
  * Find all the users
@@ -66,11 +67,19 @@ export function store(req, res) {
 	User.forge({
 		first_name, last_name, email, password, username, created
 	}, {hasTimestamps: false}).save()
-		.then(user => res.json({
-			success: true,
-			data: user.toJSON()
+		.then(user => {
+			const token = jwt.sign({
+				id: user.get('id'),
+				username: user.get('username')
+			}, process.env.TOKEN_SECRET_KEY);
+
+			return res.json({
+				success: true,
+				token,
+				username:  user.get('username'),
+				email: user.get('email'),
+			});
 		})
-		)
 		.catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
 			error: err
 		})

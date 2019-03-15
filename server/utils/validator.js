@@ -99,6 +99,7 @@ export default {
 			summary: Joi.string(),
 			start: Joi.string(),
 			end: Joi.string(),
+			email: Joi.string().email(),
 			description: Joi.string(),
 			location: Joi.string(),
 		}
