@@ -71,14 +71,24 @@ export default {
 	storeLocation: {
 		body: {
 			title: Joi.string().required(),
-			description: Joi.string().required(),
+			email: Joi.string().email().required(),
+			phone: Joi.string().required(),
+			street: Joi.string().required(),
+			city: Joi.string().required(),
+			state: Joi.string().required(),
+			zipcode: Joi.string().required(),
 		}
 	},
 
 	updateLocation: {
 		body: {
 			title: Joi.string().required(),
-			description: Joi.string().required(),
+			email: Joi.string().email().required(),
+			phone: Joi.string().required(),
+			street: Joi.string().required(),
+			city: Joi.string().required(),
+			state: Joi.string().required(),
+			zipcode: Joi.string().required(),
 		},
 		params: {
 			id: Joi.string().hex().required()
