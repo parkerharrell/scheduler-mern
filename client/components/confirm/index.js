@@ -3,8 +3,11 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 
 import { resetEventData } from '../../actions/eventAction';
+import moment from 'moment';
 
 class ConfirmPage extends Component {
 	componentDidMount() {
@@ -13,12 +16,13 @@ class ConfirmPage extends Component {
 	}
 
 	render() {
+		const { appointmentdata } = this.props;
 		return (
-			<div>
+			<div style={{ padding: '24px 80px' }}>
 				<br/>
-				<h1>Your Appointment Approved</h1>
+				<h2>Your Appointment Approved</h2>
 				<br/>
-				<p>Hi, this is Andrae Michaels Portrait Studio. This email is in regards to your Photo Sitting.</p> 
+				<p>Hi, this is Andrae Michaels Portrait Studio. This email is in regards to your Photo Sitting on {moment(appointmentdata.startDate).format('MM/DD/YYYY')} at {moment(appointmentdata.startDate).format('HH:mm a')}.</p> 
 
 				<p>Before your appointment, here’s a few reminders…</p>
 
@@ -29,11 +33,28 @@ class ConfirmPage extends Component {
 
 				<p>If you have any questions, or need directions to our studio, don’t hesitate to give us a call! Thank you so much, and we look forward to seeing you and your family!</p>
 
-				<p>Thank you so much and we look forward to seeing you and your family.</p>
+				<p>Thank you so much and we look forward to seeing you and your family on {moment(appointmentdata.startDate).format('MM/DD/YYYY')} at {moment(appointmentdata.startDate).format('HH:mm a')}.</p>
+
+				<p>
+					<em>{appointmentdata.location.title }</em><br/>
+					<em>{appointmentdata.location.street}</em><br/>
+					<em>{appointmentdata.location.city}, {appointmentdata.location.state} {appointmentdata.location.zipcode}</em><br/>
+					<em>{appointmentdata.location.phone}</em><br/>
+					<em>{appointmentdata.location.email}</em>
+				</p>
+				<br/><br/>
+				<a href="/" ><Button variant="outlined" size="small" color="primary" >Continue</Button></a>
 			</div>
 		);
 	}
 }
+
+/**
+ * Map the state to props.
+ */
+const mapStateToProps = state => ({
+	appointmentdata: state.data.appointmentdata,
+});
 
 /**
  * Map the actions to props.
@@ -44,6 +65,7 @@ const mapDispatchToProps = dispatch => ({
 
 ConfirmPage.propTypes = {
 	resetEvent: PropTypes.func,
+	appointmentdata: PropTypes.object,
 };
 
-export default connect(null, mapDispatchToProps)(ConfirmPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ConfirmPage);
