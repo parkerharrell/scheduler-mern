@@ -12,7 +12,7 @@ export function login({username, password}) {
 	return function (dispatch) {
 		axios.post(API_URL + 'auth/login', {username, password}).then((response) => {
 
-			dispatch(AuthAction.loginSuccess(response.data.token));
+			dispatch(AuthAction.loginSuccess(response.data));
 
 			setToken(response.data.token);
 
@@ -30,7 +30,7 @@ export function noredirect({username, password}) {
 	return function (dispatch) {
 		axios.post(API_URL + 'auth/login', {username, password}).then((response) => {
 
-			dispatch(AuthAction.loginSuccess(response.data.token));
+			dispatch(AuthAction.loginSuccess(response.data));
 
 			setToken(response.data.token);
 

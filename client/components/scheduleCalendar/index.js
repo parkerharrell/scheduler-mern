@@ -15,7 +15,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { isNull, isUndefined } from 'lodash';
 
-import { fetchAll, storeItem, updateAppointmentDate } from '../../actions/eventAction';
+import { fetchAll, updateAppointmentDate } from '../../actions/eventAction';
 
 const moment = extendMoment(Moment);
 
@@ -80,19 +80,13 @@ class Selectable extends React.Component {
 	}
 
 	confirmModal() {
-		const { createEvent, appointmentdata, updateAppointmentDate } = this.props;
+		const { updateAppointmentDate, goToNextStep } = this.props;
 		this.setState({
 			visible: false,
 		});
 		const { eventList } = this.state;
-		const event = {};
-		event.summary = appointmentdata.service.title;
-		event.start = moment(eventList[0].start).format();
-		event.end = moment(eventList[0].start).add(appointmentdata.service.duration, 'seconds').format();
-		event.location = `${appointmentdata.location.street}, ${appointmentdata.location.city}, ${appointmentdata.location.state} ${appointmentdata.location.zipcode}`;
-		event.description = appointmentdata.service.description;
 		updateAppointmentDate(moment(eventList[0].start).format());
-		createEvent(event);
+		goToNextStep();
 	}
 
 	listAvailableTimeSlots = (eventList) => {
@@ -166,12 +160,6 @@ class Selectable extends React.Component {
 	
   render() {
 		const { appointmentDate, timeSlots, minDate, maxDate, loading } = this.state;
-		const { events, event_created_success, goToNextStep } = this.props;
-
-		
-		if (event_created_success) {
-			goToNextStep();
-		}
 
 		return (
   		<React.Fragment>
@@ -270,7 +258,6 @@ const LoadingOverlay = styled.div`
 const mapStateToProps = state => ({
 	events: state.data.events,
 	appointmentdata: state.data.appointmentdata,
-	event_created_success: state.data.event_created_success,
 });
 
 /**
@@ -278,7 +265,6 @@ const mapStateToProps = state => ({
  */
 const mapDispatchToProps = dispatch => ({
 	fetchAll: bindActionCreators(fetchAll, dispatch),
-	createEvent: bindActionCreators(storeItem, dispatch),
 	updateAppointmentDate: bindActionCreators(updateAppointmentDate, dispatch),
 });
 
