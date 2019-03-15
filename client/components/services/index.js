@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import { isUndefined } from 'lodash';
 import AddIcon from '@material-ui/icons/AddRounded';
 
-import { fetchAll } from '../../actions/serviceAction';
+import { fetchAll, updateAppointmentService } from '../../actions/serviceAction';
 import { fetchAllResources } from '../../actions/sittingAction';
 
 const DetailLI = styled.div`
@@ -96,14 +96,15 @@ class Services extends Component {
     componentDidMount() {
 			const { fetchAllResources, appointmentdata, fetchAll } = this.props;
 			if (appointmentdata.location)
-	    	fetchAllResources('services', { location: appointmentdata.location });
+	    	fetchAllResources('services', { location: appointmentdata.location.id });
 			else
 				fetchAll();
 		}
 
     setService = (index) => {
-    	const { goToNextStep } = this.props;
-    	this.setState({ active: index });
+    	const { goToNextStep, updateAppointmentService, services } = this.props;
+			this.setState({ active: index });
+			updateAppointmentService(services[index]);
     	setTimeout(() => {
     		goToNextStep();
     	}, 600);
@@ -145,6 +146,8 @@ const mapStateToProps = state => ({
  */
 const mapDispatchToProps = dispatch => ({
 	fetchAllResources: bindActionCreators(fetchAllResources, dispatch),
+	fetchAll: bindActionCreators(fetchAll, dispatch),
+	updateAppointmentService: bindActionCreators(updateAppointmentService, dispatch),
 });
 
 Services.propTypes = {
@@ -153,6 +156,7 @@ Services.propTypes = {
 	services: PropTypes.array,
 	appointmentdata: PropTypes.object,
 	goToNextStep: PropTypes.func,
+	updateAppointmentService: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Services);

@@ -19,8 +19,8 @@ import {
 	ENTITY_FETCH,
 	ENTITY_DELETE,
 	SELECT_ENTITY_ITEM,
-	CLEAR_ENTITY_LIST
-
+	CLEAR_ENTITY_LIST,
+	APPOINTMENT_UPDATE,
 } from '../constants/actionType';
 
 function failure(error) {
@@ -78,6 +78,14 @@ function clearList(service) {
 	return {
 		type: CLEAR_ENTITY_LIST,
 		entity: 'services'
+	};
+}
+
+export function updateAppointmentService(data) {
+	return {
+		type: APPOINTMENT_UPDATE,
+		entity: 'service',
+		data: data
 	};
 }
 

@@ -14,8 +14,8 @@ import { fetchAll, updateAppointmentLocation } from '../../actions/locationActio
 
 const DetailLI = styled.div`
 	cursor: pointer;
-	min-height: 170px;
-	max-height: 170px;
+	min-height: 200px;
+	max-height: 200px;
 	overflow: hidden;
 	display: flex;
 	align-items: flex-start;
@@ -70,11 +70,17 @@ const DetailLI = styled.div`
 const Item = ({ data, onclick, active }) => (
 	<DetailLI style={styles.card}>
 		<span className="title">{data.title}</span>
-		<p>
+		{/* <p>
 			<span className="availability">Nearest Availability:</span>&nbsp;&nbsp;{`${moment(new Date()).add(1,'days').format('MM/DD/YYYY')} 10:00 AM`}
+		</p> */}
+		<p>
+			<span className="availability">Location:</span>&nbsp;&nbsp;{data.street}, {data.city}, {data.state} {data.zipcode}
 		</p>
 		<p>
-			<span className="availability">Contact Info:</span>&nbsp;&nbsp;{data.description}
+			<span className="availability">Phone:</span>&nbsp;&nbsp;{data.phone}<br/>
+		</p>
+		<p>
+			<span className="availability">Email:</span>&nbsp;&nbsp;{data.email}
 		</p>
 		<div className={`overlay ${active ? 'active' : ''}`} onClick={onclick}>
 			<AddIcon className="checkbox"  />
@@ -101,7 +107,7 @@ class Locations extends Component {
     setLocation = (index) => {
     	const { goToNextStep, updateAppointmentLocation, locations } = this.props;
 		this.setState({ active: index });
-		updateAppointmentLocation(locations[index].id);
+		updateAppointmentLocation(locations[index]);
     	setTimeout(() => {
     		goToNextStep();
     	}, 600);
