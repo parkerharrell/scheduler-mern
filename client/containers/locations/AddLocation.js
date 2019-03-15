@@ -49,18 +49,55 @@ class AddLocation extends Component {
     				</Grid>
     				<Grid item xs={6}>
     				</Grid>
-    				<Grid item xs={12}>
-    					<Field
-    						name="description"
-    						component={renderTextarea}
-    						label="Description *"
-    						placeholder="[ Street Address ]
-[ City, State, Zipcode ]
-[ Phone Number ]
-[ Contact Email ]"
-    					/>
-    				</Grid>
-    			</Grid>
+    				<Grid item xs={6}>
+							<Field
+								type="text"
+								name="email"
+								component={renderText}
+								label="Contact Email *"
+							/>
+						</Grid>
+						<Grid item xs={6}>
+							<Field
+								type="text"
+								name="phone"
+								component={renderText}
+								label="Contact Phone *"
+							/>
+						</Grid>
+						<Grid item xs={6}>
+							<Field
+								type="text"
+								name="street"
+								component={renderText}
+								label="Street Address *"
+							/>
+						</Grid>
+						<Grid item xs={2}>
+							<Field
+								type="text"
+								name="city"
+								component={renderText}
+								label="City *"
+							/>
+						</Grid>
+						<Grid item xs={1}>
+							<Field
+								type="text"
+								name="state"
+								component={renderText}
+								label="State *"
+							/>
+						</Grid>
+						<Grid item xs={3}>
+							<Field
+								type="text"
+								name="zipcode"
+								component={renderText}
+								label="Zipcode *"
+							/>
+						</Grid>
+					</Grid>
     			<br/><br/>
     			<Grid container justify="center">
     				<Button type="submit" variant="raised" color="primary">Create</Button>
@@ -75,7 +112,12 @@ const validateAddLocation = values => {
 	const errors = {};
 	const requiredFields = [
 		'title',
-		'description',
+		'street',
+		'email',
+		'phone',
+		'city',
+		'state',
+		'zipcode',
 	];
 	requiredFields.forEach(field => {
 		if (!values[field]) {
