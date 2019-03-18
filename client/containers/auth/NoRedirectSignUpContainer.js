@@ -29,11 +29,12 @@ class NoRedirectSignUpContainer extends Component {
 	}
 
 	render() {
-
+		const { hideLoginDetails, onLogin } = this.props;
 		return (
 			<SignUpForm
 				onSubmit={this.submitForm}
-				onLogin={this.props.onLogin}
+				hideLoginDetails={hideLoginDetails}
+				onLogin={onLogin}
 			/>
 		);
 	}
@@ -50,6 +51,7 @@ const mapDispatchToProps = dispatch => ({
 NoRedirectSignUpContainer.propTypes = {
 	actions: PropTypes.object,
 	onLogin: PropTypes.func,
+	hideLoginDetails: PropTypes.bool,
 };
 
 export default connect(null, mapDispatchToProps)(NoRedirectSignUpContainer);

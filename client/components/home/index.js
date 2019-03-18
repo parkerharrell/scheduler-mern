@@ -38,8 +38,8 @@ const styles = theme => ({
 class Home extends React.Component {
   state = {
 		value: 0,
-		showSignUp: false,
-  };
+		showSignUp: true,
+	};
 
   handleChange = (event, value) => {
   	this.setState({ value });
@@ -60,7 +60,7 @@ class Home extends React.Component {
 	render() {
   	const { classes } = this.props;
   	const { value, showSignUp } = this.state;
-  	const { isAuthenticated } = this.props;
+		const { isAuthenticated } = this.props;
 
   	return (
   		<div className={classes.root}>
@@ -100,7 +100,7 @@ class Home extends React.Component {
 							<NoRedirectLoginContainer onSignup={this.onSignUp} />
 						}
 						{ !isAuthenticated && showSignUp &&
-							<NoRedirectSignUpContainer onLogin={this.onLogin} />
+							<NoRedirectSignUpContainer onLogin={this.onLogin} hideLoginDetails />
 						}
 					</TabContainer>
 			  }

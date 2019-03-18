@@ -14,14 +14,16 @@ import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { isNull, isUndefined } from 'lodash';
+import DayPicker from 'react-day-picker';
+import 'react-day-picker/lib/style.css';
 
 import { fetchAll, updateAppointmentDate } from '../../actions/eventAction';
 
 const moment = extendMoment(Moment);
 
 const BookButton = styled(Button)`
-	width: 150px;
-	padding: 10px !important;
+	width: 100px;
+	padding: 3px !important;
 	cursor: pointer !important;
 	color: rgb(102,106,115) !important;
 	border-color: #c0d5e4 !important;
@@ -44,19 +46,29 @@ class Selectable extends React.Component {
 		goToNextStep: PropTypes.func,
 	}
 
-	constructor(...args) {
-		super(...args);
+	constructor(props) {
+		super(props);
+		const { fetchAll, appointmentdata } = props;
+		// Min Date
+		const minfromnow_number = appointmentdata.service.minfromnow_number;
+		const minfromnow_options = availableDateOptions[appointmentdata.service.minfromnow_options];
+		const minDate = moment(new Date()).add(minfromnow_number, minfromnow_options).toDate();
+		// Calculate max date:
+		const maxfromnow_number = appointmentdata.service.maxfromnow_number;
+		const maxfromnow_options = availableDateOptions[appointmentdata.service.maxfromnow_options];
+		const maxDate = moment(new Date()).add(maxfromnow_number, maxfromnow_options).toDate();
+
+		fetchAll(moment(minDate).format(), appointmentdata.location.street);
+
 		this.state = { 
 			eventList: [],
 			appointmentDate: moment(new Date()).add(1, 'days').toDate(),
 			visible: false,
 			timeSlots: [],
-			minDate: null,
-			maxDate: null,
+			minDate: moment(new Date()).add(1, 'days').toDate(),
+			maxDate: maxDate,
 			loading: false,
 		};
-		const { fetchAll, appointmentdata } = this.props;
-		fetchAll(moment(new Date()).add(1, 'days').format(), appointmentdata.location.street);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -93,29 +105,25 @@ class Selectable extends React.Component {
 		const { appointmentdata } = this.props;
 		const { appointmentDate } = this.state;
 		const duration = appointmentdata.service.duration || 900;
-		const day_start = moment(appointmentDate).startOf('day').hours(10);
-		const day_end   = moment(appointmentDate).startOf('day').hours(18);
-		const day = moment.range(day_start, day_end);
-		const time_slots = Array.from(day.by('seconds', {step: duration}));
-		time_slots.pop();
-		const timeSlots = [];
-		time_slots.forEach(slot => {
-			const res = eventList.filter(event => moment(event.start.dateTime).format('YYYY-MM-DD HH:mm a') === slot.format('YYYY-MM-DD HH:mm a'));
-			if (res.length === 0) timeSlots.push(slot);
-		});
+
+		const result = [];
+		for (let i = 0; i < 7; i++) {
+			const date = moment(appointmentDate).add(i, 'days').toDate();
+			const day_start = moment(date).startOf('day').hours(10);
+			const day_end   = moment(date).startOf('day').hours(19);
+			const day = moment.range(day_start, day_end);
+			const time_slots = Array.from(day.by('seconds', {step: duration}));
+			time_slots.pop();
+			const timeSlots = [];
+			time_slots.forEach(slot => {
+				const res = eventList.filter(event => moment(event.start.dateTime).format('YYYY-MM-DD HH:mm a') === slot.format('YYYY-MM-DD HH:mm a'));
+				if (res.length === 0) timeSlots.push(slot);
+			});
+			result.push({ date, data: timeSlots });
+		}
 		
-		// Calculate min date:
-		const minfromnow_number = appointmentdata.service.minfromnow_number;
-		const minfromnow_options = availableDateOptions[appointmentdata.service.minfromnow_options];
-		const minDate = moment(new Date()).add(minfromnow_number, minfromnow_options).toDate();
-		// Calculate max date:
-		const maxfromnow_number = appointmentdata.service.maxfromnow_number;
-		const maxfromnow_options = availableDateOptions[appointmentdata.service.maxfromnow_options];
-		const maxDate = moment(new Date()).add(maxfromnow_number, maxfromnow_options).toDate();
 		this.setState({
-			timeSlots,
-			minDate,
-			maxDate,
+			timeSlots: result,
 			loading: false,
 		});
 	}
@@ -138,25 +146,6 @@ class Selectable extends React.Component {
 		const { fetchAll, appointmentdata } = this.props;
 		fetchAll(moment(date).format(), appointmentdata.location.street);
   }
-  
-  customSlotPropGetter = date => {
-		const { events } = this.props;
-		const { appointmentDate } = this.state;
-		if (isNull(appointmentDate)) {
-			return {};
-		}
-
-		if (isUndefined(events)) events = [];
-
-		const slotTime = moment(date).format('YYYY-MM-DD hh:mm a');
-		const slotTimeHrs = parseInt(moment(date).format('hh'), 10);
-		const slotTimeAM = moment(date).format('a');
-  	if ((slotTimeHrs < 10  && slotTimeAM === 'am') || (slotTimeHrs === 12 && slotTimeAM === 'am') || (slotTimeHrs !== 12 && slotTimeHrs >= 6  && slotTimeAM === 'pm') || events.filter(event => moment(event.start.dateTime).format('YYYY-MM-DD hh:mm a') === slotTime).length > 0)
-  	{return {
-  		className: 'unavailable',
-  	};}
-  	else {return { className: 'available', };}
-	};
 	
   render() {
 		const { appointmentDate, timeSlots, minDate, maxDate, loading } = this.state;
@@ -165,31 +154,55 @@ class Selectable extends React.Component {
   		<React.Fragment>
   			<div style={{ display: 'flex' }}>
   				<div>
-  					<InfiniteCalendar
+  					{/* <InfiniteCalendar
   						width={400}
 							height={550}
-							key={appointmentDate && minDate && maxDate}
+							
   						selected={appointmentDate}
   						minDate={minDate}
   						maxDate={maxDate}
   						onSelect={this.dateSelected}
-  					/>
+						/> */}
+						<DayPicker
+							key={appointmentDate && minDate && maxDate}
+							numberOfMonths={2}
+							onDayClick={this.dateSelected}
+							selectedDays={[
+								appointmentDate,
+							]}			 
+							disabledDays={[
+								{
+									before: minDate, 
+									after: maxDate
+								},
+							]}
+						/>
   				</div>
   				<Container>
-						<Grid container spacing={24}>
-							{timeSlots.map((event, index) => (
-								<Grid item key={index}>
-									<BookButton variant="outlined" color="primary large" onClick={() => this.handleSelect(event.format())}>
-										{event.format('HH:mm a')}
-									</BookButton>
-								</Grid>
-							))}
-							{loading &&
-								<LoadingOverlay>
-									<img src="/img/loading.gif" width="100%"/>
-								</LoadingOverlay>
-							}
+						<Grid container spacing={16}>
+							{timeSlots.map((timeSlot, slotId) => {
+								return (
+									<React.Fragment key={slotId}>
+										<Grid item xs={12}>
+											<h2 style={{ marginBottom: 0 }}>{moment(timeSlot.date).format('dddd, MM/DD/YYYY')}</h2>
+										</Grid>
+										{timeSlot.data.map((event, index) => (
+											<Grid item key={`${slotId}-${index}`}>
+												<BookButton variant="outlined" color="primary large" onClick={() => this.handleSelect(event.format())}>
+													{event.format('HH:mm a')}
+												</BookButton>
+											</Grid>
+										))}
+										<br/><br/>
+										</React.Fragment>
+								)}
+							)}
 						</Grid>
+						{loading &&
+							<LoadingOverlay>
+								<img src="/img/loading.gif" width="100%"/>
+							</LoadingOverlay>
+						}
   				</Container>
   			</div>
   			<Modal visible={this.state.visible} width="400" height="200" effect="fadeInUp" onClickAway={() => this.closeModal()}>
@@ -238,15 +251,15 @@ const Container = styled.div`
 	padding-left: 30px;
 	padding-top: 30px;
   min-height: 400px;
-  max-height: calc(100vh - 200px);
   display: flex;
 	flex-direction: column;
 	position: relative;
+	padding-bottom: 50px;
 `;
 
 const LoadingOverlay = styled.div`
 	position: absolute;
-	top: 30%;
+	top: 30vh;
 	left: calc(50% - 100px);
 	width: 200px;
 	z-index: 1000;

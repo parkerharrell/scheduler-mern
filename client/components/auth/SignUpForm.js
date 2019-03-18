@@ -42,7 +42,7 @@ const styles = {
 
 const SignUpForm = props => {
 
-	const {handleSubmit, onSubmit, classes, onLogin} = props;
+	const {handleSubmit, onSubmit, classes, onLogin, hideLoginDetails} = props;
 
 	return (
 		<div className={classes.root} style={{ top: onLogin !== undefined ? 200 : 100 }}>
@@ -159,35 +159,38 @@ const SignUpForm = props => {
 									label="Notes"
 								/>
 							</Grid>
-                            
-							<Grid item xs={12}>
-								<br/><br/><br/>
-								<h1 style={{fontSize: '1.3em'}}>Login Details</h1>
-							</Grid>
-							<Grid item xs={12}>
-								<Field
-									type="text"
-									name="username"
-									component={renderText}
-									label="Desired Username *"
-								/>
-							</Grid>
-							<Grid item xs={6}>
-								<Field
-									type="password"
-									name="password"
-									component={renderText}
-									label="Password *"
-								/>
-							</Grid>
-							<Grid item xs={6}>
-								<Field
-									type="password"
-									name="confirm_password"
-									component={renderText}
-									label="Confirm Password *"
-								/>
-							</Grid>   
+							{!hideLoginDetails &&
+								<React.Fragment>
+									<Grid item xs={12}>
+										<br/><br/><br/>
+										<h1 style={{fontSize: '1.3em'}}>Login Details</h1>
+									</Grid>
+									<Grid item xs={12}>
+										<Field
+											type="text"
+											name="username"
+											component={renderText}
+											label="Desired Username *"
+										/>
+									</Grid>
+									<Grid item xs={6}>
+										<Field
+											type="password"
+											name="password"
+											component={renderText}
+											label="Password *"
+										/>
+									</Grid>
+									<Grid item xs={6}>
+										<Field
+											type="password"
+											name="confirm_password"
+											component={renderText}
+											label="Confirm Password *"
+										/>
+									</Grid>
+								</React.Fragment>
+							}
 						</Grid>
                         
 						<div className={classes.btnDiv}>
@@ -244,6 +247,7 @@ SignUpForm.propTypes = {
 	classes: PropTypes.object.isRequired,
 	handleSubmit: PropTypes.func,
 	onLogin: PropTypes.func,
+	hideLoginDetails: PropTypes.bool,
 };
 
 export default reduxForm({
