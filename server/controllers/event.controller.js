@@ -78,7 +78,7 @@ function listEvents(auth, req, res) {
 	const timezone = date.slice(-6);
 	const dd = moment(date).format("YYYY-MM-DD");
   const startOfDate = moment(dd).startOf('day').format("YYYY-MM-DDTHH:mm:ss") + timezone;
-	const endOfDate = moment(dd).endOf('day').format("YYYY-MM-DDTHH:mm:ss") + timezone;
+	const endOfDate = moment(dd).add(7, 'days').endOf('day').format("YYYY-MM-DDTHH:mm:ss") + timezone;
   const calendar = google.calendar({version: 'v3', auth});
   calendar.events.list({
     calendarId: 'primary',
