@@ -1,23 +1,65 @@
 import React, {Component} from 'react';
-import moment from 'moment';
-import BigCalendar from 'react-big-calendar';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import { Link } from 'react-router-dom';
+
 import Grid from '@material-ui/core/Grid';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-balham.css';
+import { isUndefined } from 'lodash';
 
-// a localizer for BigCalendar
-BigCalendar.momentLocalizer(moment);
+import { fetchAll } from '../../actions/serviceAction';
 
-// this weird syntax is just a shorthand way of specifying loaders
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-const localizer = BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
+class ActionsCellRenderer extends Component {
+	render() {
+		const { data } = this.props;
+		
+		return (
+			<React.Fragment>
+				<Link to={`/admin/services/${data.id}`}>Edit</Link>&nbsp;&nbsp;
+			</React.Fragment>
+		);
+	}
+}
+
+ActionsCellRenderer.propTypes = {
+	data: PropTypes.object,
+};
+
+const columnDefs = [
+	{
+		headerName: '',
+		field: 'actions',
+		width: 50,
+		cellRendererFramework: ActionsCellRenderer,
+	},
+	{headerName: 'Id', field: 'id',  width: 100},
+	{headerName: 'Title', field: 'title'},
+	{headerName: 'Description', field: 'description'},
+	{headerName: 'Start Date', field: 'startdate'},
+	{headerName: 'Expire Date', field: 'enddate'},
+	{headerName: 'Price', field: 'price'},            
+	{headerName: 'Recur Total', field: 'recur_total'},
+	{headerName: 'Recur Options', field: 'recur_options'},
+];
+
 
 class ServicesContainer extends Component {
 
-	constructor(props) {
-		super(props);
-
+	componentDidMount() {
+		const { fetchAll } = this.props;
+		fetchAll();
 	}
 
 	render() {
+		const { services } = this.props;
+		let rowData = [];
+		if (!isUndefined(services)) {
+			rowData = services;
+		}
+
 		return (
 			<div>
 				<Grid
@@ -26,20 +68,22 @@ class ServicesContainer extends Component {
 					alignItems="center"
 				>
 					<Grid item>
-						<h1>Appointments</h1>
+						<h1>Services</h1>
 					</Grid>
 					<Grid item>
+						<Link to='/admin/services/new'><button>Add Service</button></Link>
 					</Grid>
 				</Grid>
 				<div
 					className="ag-theme-balham"
 				>
-					<BigCalendar
-						localizer={localizer}
-						events={[]}
-						startAccessor="start"
-						endAccessor="end"
-					/>
+					<AgGridReact
+						enableSorting={true}
+						pagination={true}
+						resizable={true}
+						columnDefs={columnDefs}
+						rowData={rowData}>
+					</AgGridReact>
 				</div>
 			</div>
 		);
@@ -47,4 +91,23 @@ class ServicesContainer extends Component {
 
 }
 
-export default ServicesContainer;
+/**
+ * Map the state to props.
+ */
+const mapStateToProps = state => ({
+	services: state.data.services,
+});
+
+/**
+ * Map the actions to props.
+ */
+const mapDispatchToProps = dispatch => ({
+	fetchAll: bindActionCreators(fetchAll, dispatch),
+});
+
+ServicesContainer.propTypes = {
+	services: PropTypes.array,
+	fetchAll: PropTypes.func,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ServicesContainer);

@@ -12,15 +12,23 @@ import LoginForm from '../containers/auth/LoginContainer';
 import SignUpForm from '../containers/auth/SignUpContainer';
 import Dashboard from '../containers/dashboard/DashboardContainer';
 import Services from '../containers/services';
-import Appointments from '../containers/appointments';
-import Settings from '../containers/settings';
 import AddService from '../containers/services/AddService';
 import EditService from '../containers/services/EditService';
 import Locations from '../containers/locations';
 import AddLocation from '../containers/locations/AddLocation';
 import EditLocation from '../containers/locations/EditLocation';
+import Sittings from '../containers/sittings';
+import AddSitting from '../containers/sittings/AddSitting';
+import EditSitting from '../containers/sittings/EditSitting';
 import Customers from '../containers/customers';
 import CustomerDetails from '../containers/customers/CustomerDetails';
+import Administrators from '../containers/administrators';
+import AdministratorDetails from '../containers/administrators/AdministratorDetails';
+import Appointments from '../containers/appointments';
+import AddAppointment from '../containers/appointments/AddAppointment';
+import EditAppointment from '../containers/appointments/EditAppointment';
+import Settings from '../containers/settings';
+
 
 import AuthenticatedRoute from './AuthenticatedRoute';
 import Home from '../containers/Home';
@@ -41,9 +49,16 @@ const Router = () => (
 					<AuthenticatedRoute exact path="/admin/locations" component={Locations}/>
 					<AuthenticatedRoute exact path="/admin/locations/new" component={AddLocation}/>
 					<AuthenticatedRoute exact path="/admin/locations/:id" component={EditLocation}/>
+					<AuthenticatedRoute exact path="/admin/sittings" component={Sittings}/>
+					<AuthenticatedRoute exact path="/admin/sittings/new" component={AddSitting}/>
+					<AuthenticatedRoute exact path="/admin/sittings/:id" component={EditSitting}/>
 					<AuthenticatedRoute exact path="/admin/customers" component={Customers}/>
 					<AuthenticatedRoute exact path="/admin/customers/:id" component={CustomerDetails}/>
+					<AuthenticatedRoute exact path="/admin/administrators" component={Administrators}/>
+					<AuthenticatedRoute exact path="/admin/administrators/:id" component={AdministratorDetails}/>
 					<AuthenticatedRoute exact path="/admin/appointments" component={Appointments}/>
+					<AuthenticatedRoute exact path="/admin/appointments/new" component={AddAppointment}/>
+					<AuthenticatedRoute exact path="/admin/appointments/:id" component={EditAppointment}/>
 					<AuthenticatedRoute exact path="/admin/settings" component={Settings}/>
 				</Switch>
 			</MainLayout>
