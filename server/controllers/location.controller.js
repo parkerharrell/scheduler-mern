@@ -9,7 +9,8 @@ import location from '../models/location.model';
  * @returns {*}
  */
 export function findAll(req, res) {
-	location.forge()
+	location
+		.query('orderBy', 'show_order', 'asc')
 		.fetchAll()
 		.then(location => res.json({
 			error: false,
