@@ -6,6 +6,10 @@ import {bindActionCreators} from 'redux';
 import styled from 'styled-components';
 import Truncate from 'react-truncate';
 
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 import Grid from '@material-ui/core/Grid';
 import { isUndefined } from 'lodash';
 import AddIcon from '@material-ui/icons/AddRounded';
@@ -22,6 +26,7 @@ const DetailLI = styled.div`
 	align-items: flex-start;
 	flex-flow: column;
 	justify-content: flex-start;
+	transition: background .2s ease-out;
 
 	.title {
 		font-weight: 800;
@@ -42,41 +47,20 @@ const DetailLI = styled.div`
 		position: relative;
 		box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 16px 1px !important;
 		border: 1px solid transparent !important;
-		
-		.overlay {
-			position: absolute;
-			top: 0;
-			left: 0;
-			background-color: rgba(0, 0, 0, 0.5);
-			width: 100%;
-			height: 100%;
-			color: #fff;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			
-			.checkbox {
-					font-size: 3em;
-					font-weight: 900;
-			}
-
-			&.active .checkbox {
-					font-size: 8em;
-					transition: all .4s;
-			}
-		}
+		background: rgba(0, 0, 0, 0.05);
+		transition: background .2s ease-out;
 	}
 `;
 
 const Item = ({ data, onclick, active }) => (
-	<DetailLI style={styles.card}>
+	<DetailLI style={styles.card}  onClick={onclick}>
 		<span className="title">{data.title}</span>
 		<p>
 			<Truncate lines={4} ellipsis={<span>...</span>}>
 				{data.description}
 			</Truncate>
 		</p>
-		<div className={`overlay ${active ? 'active' : ''}`} onClick={onclick}>
+		<div className={`overlay ${active ? 'active' : ''}`}>
 			<AddIcon className="checkbox"  />
 		</div>
 	</DetailLI>
@@ -90,7 +74,8 @@ Item.propTypes = {
 
 class Services extends Component {
     state = {
-    	active: undefined,
+			active: undefined,
+			paymenttype: undefined,
     }
 
     componentDidMount() {
@@ -106,13 +91,29 @@ class Services extends Component {
 			this.setState({ active: index });
 			updateAppointmentService(services[index]);
     	setTimeout(() => {
-    		goToNextStep();
+    		goToNextStep(0);
     	}, 600);
-    }
+		}
+		
+		handlePaymentType = event => {
+			this.setState({ paymenttype: event.target.value });
+		};
+
+		showOpenAppointment = (e) => {
+			e.stopPropagation();
+			const { goToNextStep } = this.props;
+			localStorage.setItem('openBooked', true);
+			goToNextStep(1);
+		}
+
+		handlePaymentTypeClick (e) {
+			e.stopPropagation();
+		}
 
     render() {
     	const { services } = this.props;
-    	const { active } =  this.state;
+			const { active, paymenttype } =  this.state;
+			const openBooked = localStorage.getItem('openBooked');
     	let rowData = [];
     	if (!isUndefined(services)) {
     		rowData = services;
@@ -125,7 +126,43 @@ class Services extends Component {
     					<Grid item md={4} key={index} >
     						<Item data={item} active={active === index} onclick={() => this.setService(index)}/>
     					</Grid>
-    				)}
+						)}
+						{rowData.length > 0 && !openBooked &&
+							<Grid item md={4} key={'open-appointment'} >
+								<DetailLI style={styles.card} onClick={this.showOpenAppointment}>
+									<span className="title">Open Appointment</span>
+									<div style={{ fontSize: '0.9em' }}>
+										<Truncate lines={3} ellipsis={<span>...</span>}>
+											{'This appointment allows you to reserve without a specific day and time. We accept cash, credit and debit for any additional purchases. If you have questions or need directions to our studio, please give us a call.'}
+										</Truncate>
+										<RadioGroup
+											aria-label="gender"
+											name="gender2"
+											value={paymenttype}
+											onChange={this.handlePaymentType}
+											onClick={this.handlePaymentTypeClick}
+											style={styles.radiogroup}
+										>
+											<FormControlLabel
+												value="cash"
+												control={<Radio color="primary" />}
+												style={styles.label}
+												label="Cash"
+											/>
+											<FormControlLabel
+												value="credit"
+												control={<Radio color="primary" />}
+												style={styles.label}
+												label="Credit Card"
+											/>
+										</RadioGroup>
+									</div>
+									<div className={`overlay ${active ? 'active' : ''}`} onClick={onclick}>
+										<AddIcon className="checkbox"  />
+									</div>
+								</DetailLI>
+							</Grid>
+						}
     			</Grid>
     		</div>
     	);
@@ -177,5 +214,19 @@ const styles = {
 		fontSize: '1.6em',
 		fontWeight: 'bold',
 		margin: '1em 0 ',
+	},
+	label: {
+		height: 30,
+		margin: 0,
+		fontSize: '0.9em',
+		marginRight: 15,
+	},
+	radiogroup: {
+		flexDirection: 'row',
+		marginLeft: -12,
+    zoom: 0.8,
+		marginTop: 2,
+		zIndex: 1000,
+		position: 'relative',
 	}
 };
