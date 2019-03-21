@@ -14,79 +14,87 @@ import { fetchAll, updateAppointmentLocation } from '../../actions/locationActio
 
 const DetailLI = styled.div`
 	cursor: pointer;
-	min-height: 200px;
-	max-height: 200px;
+	min-height: 170px;
+	max-height: 170px;
 	overflow: hidden;
 	display: flex;
 	align-items: flex-start;
 	flex-flow: column;
 	justify-content: flex-start;
-
-    .title {
+	transition: background .2s ease-out;
+	.logo {
+    margin-right: 20px;
+    width: 200px;
+	}
+	.logo-wrapper {
+		display: flex;
+		align-items: flex-end;
+    width: 100%;
+    margin: 15px 0;
+	}
+	.title {
 		font-weight: 800;
 		font-size: 1.4em;
-		margin: 15px 0;
-    }
-    .availability {
-        font-weight: 600;
-    }
-    & p {
+		color: #639012;
+	}
+
+	.title-with-logo {
+    color: orangered;
+    margin: 0;
+    margin-bottom: 2px;
+    font-size: 1.4em;
+    font-weight: 900;
+	}
+
+	.availability {
+		font-weight: 600;
+	}
+	& p {
 		margin: 3px 0 3px;
 		font-size: .9em;
-    }
-    .overlay {
-        display: none;
-    }
-    &:hover {
-        position: relative;
-        box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 16px 1px !important;
-        border: 1px solid transparent !important;
-        
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            width: 100%;
-            height: 100%;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            
-            .checkbox {
-                font-size: 3em;
-                font-weight: 900;
-            }
-
-            &.active .checkbox {
-                font-size: 8em;
-                transition: all .4s;
-            }
-        }
-    }
+	}
+	.overlay {
+		display: none;
+	}
+	&:hover {
+		position: relative;
+		box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 16px 1px !important;
+		border: 1px solid transparent !important;
+		background: rgba(0, 0, 0, 0.05);
+		transition: background .2s ease-out;
+	}
 `;
 
-const Item = ({ data, onclick, active }) => (
-	<DetailLI style={styles.card}>
-		<span className="title">{data.title}</span>
-		{/* <p>
-			<span className="availability">Nearest Availability:</span>&nbsp;&nbsp;{`${moment(new Date()).add(1,'days').format('MM/DD/YYYY')} 10:00 AM`}
-		</p> */}
-		<p>
-			<span className="availability">Location:</span>&nbsp;&nbsp;{data.street}, {data.city}, {data.state} {data.zipcode}
-		</p>
-		<p>
-			<span className="availability">Phone:</span>&nbsp;&nbsp;{data.phone}<br/>
-		</p>
-		<p>
-			<span className="availability">Email:</span>&nbsp;&nbsp;{data.email}
-		</p>
-		<div className={`overlay ${active ? 'active' : ''}`} onClick={onclick}>
-			<AddIcon className="checkbox"  />
-		</div>
-	</DetailLI>
-);
+const Item = ({ data, onclick, active }) => {
+	let showLogo = false;
+	let title = data.title;
+	if (data.title.indexOf('Andrae Michaels Studio') > -1) {
+		showLogo = true;
+		title = data.title.split('-').pop();
+	}
+	return (
+		<DetailLI style={styles.card} onClick={onclick}>
+			<div className='logo-wrapper'>
+				{ showLogo && 
+					<img src="/img/amstudio.png" className="logo" />
+				}
+				<span className={showLogo ? 'title-with-logo' : 'title' }>{title}</span>
+			</div>
+			<p>
+				<span className="availability">Location:</span>&nbsp;&nbsp;{data.street}, {data.city}, {data.state} {data.zipcode}
+			</p>
+			<p>
+				<span className="availability">Phone:</span>&nbsp;&nbsp;{data.phone}<br/>
+			</p>
+			<p>
+				<span className="availability">Email:</span>&nbsp;&nbsp;{data.email}
+			</p>
+			<div className={`overlay ${active ? 'active' : ''}`}>
+				<AddIcon className="checkbox"  />
+			</div>
+		</DetailLI>
+	);
+}
 
 Item.propTypes = {
 	data: PropTypes.object,
