@@ -84,7 +84,7 @@ class Home extends React.Component {
   			}
   			{value === 1 && 
           <TabContainer>
-          	<Services goToNextStep={() => this.goToNextStep(value)} />
+          	<Services goToNextStep={(step) => this.goToNextStep(value + step)} />
           </TabContainer>
   			}
   			{value === 2 &&

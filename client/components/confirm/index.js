@@ -12,10 +12,17 @@ import moment from 'moment';
 class ConfirmPage extends Component {
 	state = {
 		visible: false,
+		openBooked: undefined,
 	};
 
 	componentDidMount() {
-		this.createSchedule();
+		const openBooked = localStorage.getItem('openBooked');
+		if (!openBooked)
+			this.createSchedule();
+		else {
+			this.setState({ openBooked });
+			console.log('---- Create open Appointment!');
+		}
 	}
 
 	createSchedule = () => {
@@ -32,13 +39,36 @@ class ConfirmPage extends Component {
 
 	render() {
 		const { appointmentdata, event_created_success } = this.props;
+		const { openBooked } = this.state;
 		return (
-			<React.Fragment>
-				{!event_created_success &&
+			<div style={{ padding: '24px 80px' }}>
+				{!openBooked && !event_created_success &&
 					<div>Loading ...</div>
 				}
-				{event_created_success &&
-					<div style={{ padding: '24px 80px' }}>
+				{openBooked &&
+					<React.Fragment>
+						<br/>
+						<h2>Your Open Appointment Approved</h2>
+						<br/>
+						<p>Hi, this is Andrae Michaels Portrait Studio. This email is in regards to your Open Appointment.</p> 
+
+						<p>If you have any questions, or need directions to our studio, don’t hesitate to give us a call! Thank you so much, and we look forward to seeing you and your family!</p>
+
+						<p>Thank you so much and we look forward to seeing you and your family at any time when you need.</p>
+						<br/>
+						<p>
+							<em>{appointmentdata.location.title }</em><br/>
+							<em>{appointmentdata.location.street}</em><br/>
+							<em>{appointmentdata.location.city}, {appointmentdata.location.state} {appointmentdata.location.zipcode}</em><br/>
+							<em>{appointmentdata.location.phone}</em><br/>
+							<em>{appointmentdata.location.email}</em>
+						</p>
+						<br/><br/>
+						<a href="/" ><Button variant="outlined" size="small" color="primary" >Continue</Button></a>
+					</React.Fragment>
+				}
+				{!openBooked && event_created_success &&
+					<React.Fragment>
 						<br/>
 						<h2>Your Appointment Approved</h2>
 						<br/>
@@ -64,9 +94,9 @@ class ConfirmPage extends Component {
 						</p>
 						<br/><br/>
 						<a href="/" ><Button variant="outlined" size="small" color="primary" >Continue</Button></a>
-					</div>
+					</React.Fragment>
 				}
-			</React.Fragment>
+			</div>
 		);
 	}
 }
