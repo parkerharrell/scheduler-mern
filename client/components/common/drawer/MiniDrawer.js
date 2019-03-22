@@ -7,11 +7,13 @@ import { Link } from 'react-router-dom';
 import {List, ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import HomeIcon from '@material-ui/icons/Home';
-import PersonIcon from '@material-ui/icons/Person';
-import SettingsIcon from '@material-ui/icons/Settings';
-import ServicesIcon from '@material-ui/icons/ViewQuilt';
-import LocationOnIcon from '@material-ui/icons/Place';
-import BookIcon from '@material-ui/icons/AssignmentTurnedIn';
+import PersonIcon from '@material-ui/icons/PersonOutlined';
+import SettingsIcon from '@material-ui/icons/SettingsOutlined';
+import SittingsIcon from '@material-ui/icons/DashboardOutlined';
+import ServicesIcon from '@material-ui/icons/ClassOutlined';
+import LocationOnIcon from '@material-ui/icons/PlaceOutlined';
+import ManagerIcon from '@material-ui/icons/AccountBoxOutlined';
+import BookIcon from '@material-ui/icons/AssignmentTurnedInOutlined';
 import styled from 'styled-components';
 
 const CustomListItem = styled(ListItem)`
@@ -77,12 +79,28 @@ const MiniDrawer = (props) => {
 			<Divider />
 
 			<List>
-				<Link to={'/admin'}>
+				<Link to={'/admin/appointments'}>
 					<CustomListItem button>
 						<ListItemIcon>
-							<HomeIcon />
+							<BookIcon />
 						</ListItemIcon>
-						<ListItemText primary="Dashboard"/>
+						<ListItemText primary="Appointments"/>
+					</CustomListItem>
+				</Link>
+				<Link to={'/admin/customers'}>
+					<CustomListItem button>
+						<ListItemIcon>
+							<PersonIcon />
+						</ListItemIcon>
+						<ListItemText primary="Customers"/>
+					</CustomListItem>
+				</Link>
+				<Link to={'/admin/sittings'}>
+					<CustomListItem button>
+						<ListItemIcon>
+							<SittingsIcon />
+						</ListItemIcon>
+						<ListItemText primary="Sittings"/>
 					</CustomListItem>
 				</Link>
 				<Link to={'/admin/services'}>
@@ -101,20 +119,12 @@ const MiniDrawer = (props) => {
 						<ListItemText primary="Locations"/>
 					</CustomListItem>
 				</Link>
-				<Link to={'/admin/appointments'}>
+				<Link to={'/admin/administrators'}>
 					<CustomListItem button>
 						<ListItemIcon>
-							<BookIcon />
+							<ManagerIcon />
 						</ListItemIcon>
-						<ListItemText primary="Appointments"/>
-					</CustomListItem>
-				</Link>
-				<Link to={'/admin/customers'}>
-					<CustomListItem button>
-						<ListItemIcon>
-							<PersonIcon />
-						</ListItemIcon>
-						<ListItemText primary="Customers"/>
+						<ListItemText primary="Administrators"/>
 					</CustomListItem>
 				</Link>
 				<Link to={'/admin/settings'}>
