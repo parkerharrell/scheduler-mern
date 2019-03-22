@@ -1,4 +1,6 @@
 import HttpStatus from 'http-status-codes';
+import * as _ from 'lodash';
+
 import sitting from '../models/sitting.model';
 import serviceModel from '../models/service.model';
 
@@ -10,13 +12,22 @@ import serviceModel from '../models/service.model';
  * @returns {*}
  */
 export function findAll(req, res) {
-	const { location, service } = req.query;
-	sitting.where({'location': location})
+	const query = _.pickBy(req.query, _.identity);
+	console.log('query:', query);
+	sitting.where(query)
 		.fetchAll()
 		.then(sittings => {
-			const sittingIds = sittings.map(sitting => sitting.get('service'));
-			return serviceModel.where('id', 'IN', sittingIds)
-			.fetchAll();
+			if (query.location) {
+				const sittingIds = sittings.map(sitting => sitting.get('service'));
+				return serviceModel.where('id', 'IN', sittingIds)
+				.fetchAll();
+			}
+			if (query.service) {
+				const locationIds = sittings.map(sitting => sitting.get('location'));
+				return locationModel.where('id', 'IN', locationIds)
+				.fetchAll();
+			}
+			return sittings;
 		})
 		.then(result => res.json({
 			error: false,

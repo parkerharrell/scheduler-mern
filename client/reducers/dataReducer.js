@@ -58,6 +58,8 @@ export default function (state, action) {
 		events: [],
 		event_created_success: false,
 		appointmentdata: {},
+		sittings: [],
+		selectedSitting: {},
 	};
 
 	state = state || initialState;
@@ -99,6 +101,10 @@ export default function (state, action) {
 			});
 		}
 		if (action.entity === 'events') {
+			result = apiData;
+		}
+		if (action.entity === 'sittings') {
+			console.log('-----------apidata', apiData);
 			result = apiData;
 		}
 		newState[action.entity] = result;

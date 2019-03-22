@@ -92,6 +92,19 @@ export function fetchAllResources(entity, data) {
 	};
 }
 
+
+export function fetchAll() {
+
+	return function (dispatch) {
+		return httpSitting.fetchEntity('sittings').then((response) => {
+			dispatch(fetch('sittings', response['data'].data));
+		})
+			.catch((error) => {
+				dispatch(failure(error));
+			});
+	};
+}
+
 export function fetchById(id) {
 	return function (dispatch) {
 		return httpSitting.fetchEntityById('sittings', id).then((response) => {
