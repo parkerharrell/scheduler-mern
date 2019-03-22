@@ -104,4 +104,12 @@ export default {
 			location: Joi.string(),
 		}
 	},
+	updateSetting: {
+		body: {
+			meta_value: Joi.string().required(),
+		},
+		params: {
+			class: Joi.string().required(),
+		}
+	},
 };

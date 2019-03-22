@@ -60,6 +60,7 @@ export default function (state, action) {
 		appointmentdata: {},
 		sittings: [],
 		selectedSitting: {},
+		settings: {},
 	};
 
 	state = state || initialState;
@@ -104,7 +105,9 @@ export default function (state, action) {
 			result = apiData;
 		}
 		if (action.entity === 'sittings') {
-			console.log('-----------apidata', apiData);
+			result = apiData;
+		}
+		if (action.entity === 'settings') {
 			result = apiData;
 		}
 		newState[action.entity] = result;
