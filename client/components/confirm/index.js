@@ -33,7 +33,7 @@ class ConfirmPage extends Component {
 		event.end = moment(appointmentdata.startDate).add(appointmentdata.service.duration, 'seconds').format();
 		event.location = `${appointmentdata.location.street}, ${appointmentdata.location.city}, ${appointmentdata.location.state} ${appointmentdata.location.zipcode}`;
 		event.description = appointmentdata.service.description;
-		event.email = useremail;
+		event.email = useremail || 'admin@test.com';
 		createEvent(event);
 	}
 
