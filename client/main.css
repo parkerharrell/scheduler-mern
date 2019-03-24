@@ -21,8 +21,11 @@ html,
 }
 
 a,
-a:hover {
+a:hover, a:visited, a:active {
 	text-decoration: none;
+	color: #607d8b;
+	cursor: pointer;
+	font-weight: 500;
 }
 
 .m-b-15 {
@@ -216,4 +219,8 @@ a:hover {
 
 .DayPicker-wrapper {
 	outline: none;
+}
+
+td {
+	padding: 10px 0 10px 10px;
 }

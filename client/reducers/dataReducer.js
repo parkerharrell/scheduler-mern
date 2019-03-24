@@ -11,6 +11,7 @@ import {
 	APPOINTMENT_UPDATE,
 } from '../constants/actionType';
 const moment = require('moment-timezone');
+import * as _ from 'lodash';
 
 /**
  * A reducer takes two arguments, the current state and an action.
@@ -72,7 +73,18 @@ export default function (state, action) {
 		return newState;
 
 	case ENTITY_UPDATE:
-		newState[action.entity] = Object.assign({}, action.data);
+		console.log('-------update event action:', action);
+		if (action.id) {
+			const entityArr = newState[action.entity].map(item => {
+				if (parseInt(item.id, 10) === parseInt(action.id, 10)) {
+					return action.data;
+				}
+				return item;
+			});
+			newState[action.entity] = _.orderBy(entityArr, ['show_order'],['asc']);
+		} else {
+			newState[action.entity] = action.data.slice();
+		}
 		return newState;
 
 	case ENTITY_FETCH: {

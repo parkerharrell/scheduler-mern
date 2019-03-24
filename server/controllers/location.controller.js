@@ -60,9 +60,16 @@ export function findById(req, res) {
  * @returns {*}
  */
 export function store(req, res) {
-	location.forge({
-		...req.body
-	}, {hasTimestamps: false}).save()
+	location
+		.query('orderBy', 'show_order', 'asc')
+		.fetchAll()
+		.then(locations => {
+			const params = Object.assign({}, req.body);
+			params.show_order = locations.length;
+			return location.forge({
+				...params
+			}, {hasTimestamps: false}).save();
+		})
 		.then(location => res.json({
 			success: true,
 			data: location.toJSON()
