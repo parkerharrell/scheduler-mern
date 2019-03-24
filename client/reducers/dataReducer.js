@@ -73,7 +73,6 @@ export default function (state, action) {
 		return newState;
 
 	case ENTITY_UPDATE:
-		console.log('-------update event action:', action);
 		if (action.id) {
 			const entityArr = newState[action.entity].map(item => {
 				if (parseInt(item.id, 10) === parseInt(action.id, 10)) {

@@ -9,7 +9,8 @@ import Service from '../models/service.model';
  * @returns {*}
  */
 export function findAll(req, res) {
-	Service.forge()
+	Service
+		.query('orderBy', 'show_order', 'asc')
 		.fetchAll()
 		.then(service => res.json({
 			error: false,
@@ -59,9 +60,16 @@ export function findById(req, res) {
  * @returns {*}
  */
 export function store(req, res) {
-	Service.forge({
-		...req.body
-	}, {hasTimestamps: false}).save()
+	Service
+		.query('orderBy', 'show_order', 'asc')
+		.fetchAll()
+		.then(services => {
+			const params = Object.assign({}, req.body);
+			params.show_order = services.length;
+			return Service.forge({
+				...req.body
+			}, {hasTimestamps: false}).save()
+		})
 		.then(service => res.json({
 			success: true,
 			data: service.toJSON()

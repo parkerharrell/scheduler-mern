@@ -15,7 +15,7 @@ import { updateItem, fetchById, destroyItem } from '../../actions/serviceAction'
 import renderText from '../../components/common/form/renderText';
 import renderTextarea from '../../components/common/form/renderTextarea';
 import renderSelect from '../../components/common/form/renderSelect';
-
+import history from '../../utils/history';
 
 const durationData = [
 	{
@@ -74,8 +74,9 @@ class EditService extends Component {
 			delete result.minfromnow_options;
 			delete result.maxfromnow_number;
 			delete result.maxfromnow_options;
-    	updateService(serviceId, result);
-    }
+			updateService(serviceId, result);
+			history.goBack();
+		}
 
     onDelete = () => {
     	const { deleteService } = this.props;
@@ -205,15 +206,9 @@ class EditService extends Component {
     				</Grid>
     			</Grid>
     			<br/><br/>
-    			<Grid container justify="center">
-    				<Grid item xs={3}></Grid>
-    				<Grid item xs={3} style={{ textAlign: 'center' }}>
-    					<Button type="submit" variant="raised" color="primary">Update</Button>
-    				</Grid>
-    				<Grid item xs={3} style={{ textAlign: 'center' }}>
+    			<Grid container justify="flex-end">
+    					<Button type="submit" variant="raised" color="primary">Update</Button>&nbsp;&nbsp;
     					<Link to="/admin/services"><Button variant="raised" color="primary">Cancel</Button></Link>
-    				</Grid>
-    				<Grid item xs={3}></Grid>
     			</Grid>
     		</form>
     	);

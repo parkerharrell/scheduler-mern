@@ -69,7 +69,8 @@ class EditLocation extends Component {
     	const { updateLocation } = this.props;
     	const { locationId } = this.state;
     	const result = cloneDeep(formProps);
-    	updateLocation(locationId, result);
+			updateLocation(locationId, result);
+			this.props.history.goBack();
     }
 
     onDelete = () => {

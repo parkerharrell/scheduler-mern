@@ -66,7 +66,6 @@ class LocationsContainer extends Component {
 
 	componentWillReceiveProps(nextProps) {
 		const { locations } = nextProps;
-		console.log(' ---------- locations:', locations);
 		if (!isUndefined(locations)) {
 			this.setState({ rowData: locations });
 		}
