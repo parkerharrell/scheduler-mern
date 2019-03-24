@@ -40,10 +40,11 @@ function add(data) {
 }
 
 // eslint-disable-next-line no-unused-vars
-function update(data) {
+function update(id, data) {
 	return {
 		type: ENTITY_UPDATE,
 		entity: 'locations',
+		id: id,
 		data: data
 	};
 }
@@ -124,8 +125,8 @@ export function storeItem(data) {
 
 export function updateItem(id, data) {
 	return function (dispatch) {
-		return httpLocation.updateEntity('locations', data, id).then(() => {
-			history.goBack();
+		return httpLocation.updateEntity('locations', data, id).then((res) => {
+			dispatch(update(id, res['data'].data));
 		})
 			.catch((error) => {
 				dispatch(failure(error));
