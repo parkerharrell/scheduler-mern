@@ -17,7 +17,7 @@ class AddLocation extends Component {
 
     onSubmit = (formProps) => {
     	const { createLocation } = this.props;
-    	const result = cloneDeep(formProps);
+			const result = cloneDeep(formProps);
     	createLocation(result);
     }
 
@@ -26,7 +26,7 @@ class AddLocation extends Component {
     	
     	return (
     		<form method="post" onSubmit={handleSubmit(this.onSubmit)} >
-    			<Link to='/admin/locations'><span>locations</span></Link> / <span>new location</span>
+    			<Link to='/admin/locations'><span>locations</span></Link> / <span>new</span>
     			<br/><br/>
     			<Grid
     				container
