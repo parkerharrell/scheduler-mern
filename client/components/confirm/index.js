@@ -72,7 +72,7 @@ class ConfirmPage extends Component {
 						<br/>
 						<h2>Your Appointment Approved</h2>
 						<br/>
-						<p>Hi, this is Andrae Michaels Portrait Studio. This email is in regards to your Photo Sitting on {moment(appointmentdata.startDate).format('MM/DD/YYYY')} at {moment(appointmentdata.startDate).format('HH:mm a')}.</p> 
+						<p>Hi, this is Andrae Michaels Portrait Studio. This email is in regards to your Photo Sitting on {moment(appointmentdata.startDate).format('MM/DD/YYYY')} at {moment(appointmentdata.startDate).format('hh:mm a')}.</p> 
 
 						<p>Before your appointment, here’s a few reminders…</p>
 
@@ -83,7 +83,7 @@ class ConfirmPage extends Component {
 
 						<p>If you have any questions, or need directions to our studio, don’t hesitate to give us a call! Thank you so much, and we look forward to seeing you and your family!</p>
 
-						<p>Thank you so much and we look forward to seeing you and your family on {moment(appointmentdata.startDate).format('MM/DD/YYYY')} at {moment(appointmentdata.startDate).format('HH:mm a')}.</p>
+						<p>Thank you so much and we look forward to seeing you and your family on {moment(appointmentdata.startDate).format('MM/DD/YYYY')} at {moment(appointmentdata.startDate).format('hh:mm a')}.</p>
 
 						<p>
 							<em>{appointmentdata.location.title }</em><br/>

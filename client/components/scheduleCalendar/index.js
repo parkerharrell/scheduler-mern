@@ -116,7 +116,7 @@ class Selectable extends React.Component {
 			time_slots.pop();
 			const timeSlots = [];
 			time_slots.forEach(slot => {
-				const res = eventList.filter(event => moment(event.start.dateTime).format('YYYY-MM-DD HH:mm a') === slot.format('YYYY-MM-DD HH:mm a'));
+				const res = eventList.filter(event => moment(event.start.dateTime).format('YYYY-MM-DD hh:mm a') === slot.format('YYYY-MM-DD hh:mm a'));
 				if (res.length === 0) timeSlots.push(slot);
 			});
 			result.push({ date, data: timeSlots });
@@ -189,7 +189,7 @@ class Selectable extends React.Component {
 										{timeSlot.data.map((event, index) => (
 											<Grid item key={`${slotId}-${index}`}>
 												<BookButton variant="outlined" color="primary large" onClick={() => this.handleSelect(event.format())}>
-													{event.format('HH:mm a')}
+													{event.format('hh:mm a')}
 												</BookButton>
 											</Grid>
 										))}
