@@ -7,6 +7,8 @@ import { storeItem } from '../../actions/eventAction';
 import Button from '@material-ui/core/Button';
 
 import { resetEventData } from '../../actions/eventAction';
+import { storeOpenAppointment } from '../../actions/openAppointmentAction';
+
 import moment from 'moment';
 
 class ConfirmPage extends Component {
@@ -16,13 +18,16 @@ class ConfirmPage extends Component {
 	};
 
 	componentDidMount() {
-		const { appointmentdata } = this.props;
-		const openBooked = localStorage.getItem(`openBooked_+ ${appointmentdata.location.id}`);
+		const { appointmentdata, createOpenAppointment, user } = this.props;
+		const openBooked = localStorage.getItem(`openBooked_${appointmentdata.location.id}`);
 		if (!openBooked)
 			this.createSchedule();
 		else {
 			this.setState({ openBooked });
-			console.log('---- Create open Appointment!');
+			const data = Object.assign({}, appointmentdata.openBook);
+			data.user = user || 1;
+			data.payment = user.paymenttype || 'cash';
+			createOpenAppointment(data);
 		}
 	}
 
@@ -108,6 +113,7 @@ class ConfirmPage extends Component {
 const mapStateToProps = state => ({
 	appointmentdata: state.data.appointmentdata,
 	useremail: state.auth.useremail,
+	user: state.auth.user,
 	event_created_success: state.data.event_created_success,
 });
 
@@ -117,12 +123,14 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 	createEvent: bindActionCreators(storeItem, dispatch),
 	resetEvent: bindActionCreators(resetEventData, dispatch),
+	createOpenAppointment: bindActionCreators(storeOpenAppointment, dispatch),
 });
 
 ConfirmPage.propTypes = {
 	createEvent: PropTypes.func,
 	resetEvent: PropTypes.func,
 	appointmentdata: PropTypes.object,
+	createOpenAppointment: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConfirmPage);

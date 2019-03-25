@@ -6,15 +6,11 @@ import {bindActionCreators} from 'redux';
 import styled from 'styled-components';
 import Truncate from 'react-truncate';
 
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-
 import Grid from '@material-ui/core/Grid';
 import { isUndefined } from 'lodash';
 import AddIcon from '@material-ui/icons/AddRounded';
 
-import { fetchAll, updateAppointmentService } from '../../actions/serviceAction';
+import { fetchAll, updateAppointmentService, updateAppointmentOpen } from '../../actions/serviceAction';
 import { fetchAllResources } from '../../actions/sittingAction';
 
 const DetailLI = styled.div`
@@ -95,20 +91,13 @@ class Services extends Component {
     	}, 600);
 		}
 		
-		handlePaymentType = event => {
-			this.setState({ paymenttype: event.target.value });
-		};
-
 		showOpenAppointment = (e) => {
 			e.stopPropagation();
-			const { appointmentdata } = this.props;
+			const { appointmentdata, updateAppointmentOpen } = this.props;
 			const { goToNextStep } = this.props;
-			localStorage.setItem(`openBooked_+ ${appointmentdata.location.id}`, true);
+			updateAppointmentOpen(appointmentdata);
+			localStorage.setItem(`openBooked_${appointmentdata.location.id}`, true);
 			goToNextStep(1);
-		}
-
-		handlePaymentTypeClick (e) {
-			e.stopPropagation();
 		}
 
     render() {
@@ -133,30 +122,9 @@ class Services extends Component {
 								<DetailLI style={styles.card} onClick={this.showOpenAppointment}>
 									<span className="title">Open Appointment</span>
 									<div style={{ fontSize: '0.9em' }}>
-										<Truncate lines={3} ellipsis={<span>...</span>}>
+										<Truncate lines={4} ellipsis={<span>...</span>}>
 											{'This appointment allows you to reserve without a specific day and time. We accept cash, credit and debit for any additional purchases. If you have questions or need directions to our studio, please give us a call.'}
 										</Truncate>
-										<RadioGroup
-											aria-label="gender"
-											name="gender2"
-											value={paymenttype}
-											onChange={this.handlePaymentType}
-											onClick={this.handlePaymentTypeClick}
-											style={styles.radiogroup}
-										>
-											<FormControlLabel
-												value="cash"
-												control={<Radio color="primary" />}
-												style={styles.label}
-												label="Cash"
-											/>
-											<FormControlLabel
-												value="credit"
-												control={<Radio color="primary" />}
-												style={styles.label}
-												label="Credit Card"
-											/>
-										</RadioGroup>
 									</div>
 									<div className={`overlay ${active ? 'active' : ''}`} onClick={onclick}>
 										<AddIcon className="checkbox"  />
@@ -186,6 +154,7 @@ const mapDispatchToProps = dispatch => ({
 	fetchAllResources: bindActionCreators(fetchAllResources, dispatch),
 	fetchAll: bindActionCreators(fetchAll, dispatch),
 	updateAppointmentService: bindActionCreators(updateAppointmentService, dispatch),
+	updateAppointmentOpen: bindActionCreators(updateAppointmentOpen, dispatch),
 });
 
 Services.propTypes = {
@@ -195,6 +164,7 @@ Services.propTypes = {
 	appointmentdata: PropTypes.object,
 	goToNextStep: PropTypes.func,
 	updateAppointmentService: PropTypes.func,
+	updateAppointmentOpen: PropTypes.funcs,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Services);

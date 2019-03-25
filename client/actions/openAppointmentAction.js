@@ -1,7 +1,7 @@
 import history from '../utils/history';
 
 /**
- * Import all httpService as an object.
+ * Import all httpOpenAppointment as an object.
  */
 import * as httpService from '../services/httpService';
 
@@ -10,7 +10,7 @@ import * as httpService from '../services/httpService';
  * CRUD actions for the application.
  * Every time an action that requires the API is called, it first dispatch an "apiRequest" action.
  *
- * service = 'Product', 'Employee', ...
+ * openAppointment = 'Product', 'Employee', ...
  */
 import {
 	ENTITY_FAILURE,
@@ -20,7 +20,6 @@ import {
 	ENTITY_DELETE,
 	SELECT_ENTITY_ITEM,
 	CLEAR_ENTITY_LIST,
-	APPOINTMENT_UPDATE,
 } from '../constants/actionType';
 
 function failure(error) {
@@ -34,7 +33,7 @@ function failure(error) {
 function add(data) {
 	return {
 		type: ENTITY_CREATE,
-		entity: 'services',
+		entity: 'openAppointments',
 		data: data
 	};
 }
@@ -43,7 +42,7 @@ function add(data) {
 function update(id, data) {
 	return {
 		type: ENTITY_UPDATE,
-		entity: 'services',
+		entity: 'openAppointments',
 		id: id,
 		data: data
 	};
@@ -52,7 +51,7 @@ function update(id, data) {
 function fetch(data) {
 	return {
 		type: ENTITY_FETCH,
-		entity: 'services',
+		entity: 'openAppointments',
 		data: data
 	};
 }
@@ -61,47 +60,30 @@ function fetch(data) {
 function destroy(id) {
 	return {
 		type: ENTITY_DELETE,
-		entity: 'services',
+		entity: 'openAppointments',
 		id: id
 	};
 }
 
-function selectItem(data) {
+function selectOpenAppointment(data) {
 	return {
 		type: SELECT_ENTITY_ITEM,
-		entity: 'selectedService',
+		entity: 'selectedOpenAppointment',
 		data: data
 	};
 }
 
 // eslint-disable-next-line no-unused-vars
-function clearList(service) {
+function clearList(openAppointment) {
 	return {
 		type: CLEAR_ENTITY_LIST,
-		entity: 'services'
+		entity: 'openAppointments'
 	};
 }
-
-export function updateAppointmentService(data) {
-	return {
-		type: APPOINTMENT_UPDATE,
-		entity: 'service',
-		data: data
-	};
-}
-
-export function updateAppointmentOpen(data) {
-	return {
-		type: APPOINTMENT_UPDATE,
-		entity: 'openBook',
-		data: data
-	};
-}
-
 
 export function fetchAll() {
 	return function (dispatch) {
-		return httpService.fetchEntity('services').then((response) => {
+		return httpService.fetchEntity('openAppointments').then((response) => {
 			dispatch(fetch(response['data'].data));
 		})
 			.catch((error) => {
@@ -112,8 +94,8 @@ export function fetchAll() {
 
 export function fetchById(id) {
 	return function (dispatch) {
-		return httpService.fetchEntityById('services', id).then((response) => {
-			dispatch(selectItem(response['data'].data));
+		return httpService.fetchEntityById('openAppointments', id).then((response) => {
+			dispatch(selectOpenAppointment(response['data'].data));
 		})
 			.catch((error) => {
 				dispatch(failure(error));
@@ -121,10 +103,10 @@ export function fetchById(id) {
 	};
 }
   
-export function storeItem(data) {
+export function storeOpenAppointment(data) {
 	return function (dispatch) {
-		return httpService.storeEntity('services', data).then(() => {
-			history.goBack();
+		return httpService.storeEntity('openAppointments', data).then(() => {
+			dispatch(success());
 		})
 			.catch((error) => {
 				dispatch(failure(error));
@@ -132,9 +114,9 @@ export function storeItem(data) {
 	};
 }
 
-export function updateItem(id, data) {
+export function updateOpenAppointment(id, data) {
 	return function (dispatch) {
-		return httpService.updateEntity('services', data, id).then((res) => {
+		return httpService.updateEntity('openAppointments', data, id).then((res) => {
 			dispatch(update(id, res['data'].data));
 		})
 			.catch((error) => {
@@ -143,9 +125,9 @@ export function updateItem(id, data) {
 	};
 }
 
-export function destroyItem(id) {
+export function destroyOpenAppointment(id) {
 	return function (dispatch) {
-		return httpService.destroyEntity('services', id).then(() => {
+		return httpService.destroyEntity('openAppointments', id).then(() => {
 			dispatch(fetchAll());
 		})
 			.catch((error) => {

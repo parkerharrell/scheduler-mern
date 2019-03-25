@@ -72,10 +72,10 @@ class Home extends React.Component {
   				variant="scrollable"
   				scrollButtons="auto"
   			>
-  				<Tab label="Locations" disabled={value !== 0} />
-  				<Tab label="Services" disabled={value !== 1} />
-  				<Tab label="Date & Time" disabled={value !== 2}  />
-  				<Tab label="Review" disabled={value !== 3}   />
+  				<Tab label="Locations"  />
+  				<Tab label="Services" />
+  				<Tab label="Date & Time" />
+  				<Tab label="Review" />
   			</Tabs>
   			{value === 0 &&
           <TabContainer>

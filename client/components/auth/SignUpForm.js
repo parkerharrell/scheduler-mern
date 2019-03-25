@@ -1,5 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 import {Link} from 'react-router-dom';
 import {Field, reduxForm} from 'redux-form';
 import {withStyles} from '@material-ui/core/styles';
@@ -11,6 +18,7 @@ import Grid from '@material-ui/core/Grid';
 import renderText from '../common/form/renderText';
 import renderCheckbox from '../common/form/renderCheckbox';
 import renderTextarea from '../common/form/renderTextarea';
+import { updateAppointmentOpen } from '../../actions/serviceAction';
 
 const styles = {
 	root: {
@@ -37,179 +45,240 @@ const styles = {
 	},
 	btn: {
 		marginTop: 21,
+	},
+	radiogroup: {
+		flexDirection: 'row',
+		marginLeft: -12,
+    zoom: 0.8,
+		marginTop: 2,
+		zIndex: 1000,
+		position: 'relative',
+	},
+	label: {
+		height: 30,
+		margin: 0,
+		fontSize: '0.9em',
+		marginRight: 15,
+	},
+};
+
+class SignUpForm extends Component {
+	state = {
+		paymenttype: 'cash',
 	}
-};
 
-const SignUpForm = props => {
+	handlePaymentType = event => {
+		this.setState({ paymenttype: event.target.value });
+		const { updateAppointmentOpen, appointmentdata } = this.props;
+		const data = Object.assign({}, appointmentdata.openBook);
+		data.paymenttype = event.target.value;
+		updateAppointmentOpen(data);
+	};
 
-	const {handleSubmit, onSubmit, classes, onLogin, hideLoginDetails} = props;
+	handlePaymentTypeClick (e) {
+		e.stopPropagation();
+	}
 
-	return (
-		<div className={classes.root} style={{ top: onLogin !== undefined ? 200 : 100 }}>
-			<Card className={classes.card}>
-				<CardHeader
-					className={classes.cardHeader}
-					title="Register"
-				/>
-				<CardContent>
-					<form method="post" onSubmit={handleSubmit(onSubmit)}>
-                        
-						<Grid container spacing={24}>
-							<Grid item xs={12}>
-								<Field
-									type="text"
-									name="email"
-									component={renderText}
-									label="Email *"
-								/>
+	render() {
+		const {handleSubmit, onSubmit, classes, onLogin, hideLoginDetails, appointmentdata} = this.props;
+		const { paymenttype } = this.state;
+	
+		return (
+			<div className={classes.root} style={{ top: onLogin !== undefined ? 200 : 100 }}>
+				<Card className={classes.card}>
+					<CardHeader
+						className={classes.cardHeader}
+						title="Register"
+					/>
+					<CardContent>
+						<form method="post" onSubmit={handleSubmit(onSubmit)}>
+													
+							<Grid container spacing={24}>
+								<Grid item xs={12}>
+									<Field
+										type="text"
+										name="email"
+										component={renderText}
+										label="Email *"
+									/>
+								</Grid>
+								<Grid item xs={6}>
+									<Field
+										type="text"
+										name="first_name"
+										component={renderText}
+										label="First Name *"
+									/>
+								</Grid>
+								<Grid item xs={6}>
+									<Field
+										type="text"
+										name="last_name"
+										component={renderText}
+										label="Last Name *"
+									/>
+								</Grid>
+								<Grid item xs={6}>
+									<Field
+										type="text"
+										name="contact_phone"
+										component={renderText}
+										label="Contact Phone *"
+									/>
+								</Grid>
+								<Grid item xs={6}>
+									<Field
+										type="text"
+										name="alternate_phone"
+										component={renderText}
+										label="Alternate Phone"
+									/>
+								</Grid>
+								<Grid item xs={6}>
+									<Field
+										type="text"
+										name="street_address"
+										component={renderText}
+										label="Street Address"
+									/>
+								</Grid>
+								<Grid item xs={6}>
+									<Field
+										type="text"
+										name="address_2"
+										component={renderText}
+										label="Address 2 (Apt/Suite)"
+									/>
+								</Grid>
+								<Grid item xs={4}>
+									<Field
+										type="text"
+										name="city"
+										component={renderText}
+										label="City"
+									/>
+								</Grid>
+								<Grid item xs={4}>
+									<Field
+										type="text"
+										name="state"
+										component={renderText}
+										label="State"
+									/>
+								</Grid>
+								<Grid item xs={4}>
+									<Field
+										type="text"
+										name="zipcode"
+										component={renderText}
+										label="Zipcode *"
+									/>
+								</Grid>
+								<Grid item xs={12}>
+									<Field
+										type="checkbox"
+										name="ex_customer"
+										component={renderCheckbox}
+										label="Existing Customer"
+									/>
+								</Grid>
+								<Grid item xs={12}>
+									<Field
+										type="text"
+										name="preseller_initials"
+										component={renderText}
+										label="Preseller Initials *"
+									/>
+									<i>{`If this doesn't apply, just enter in "N/A"`}</i>
+								</Grid>
+								<Grid item xs={12}>
+									<Field
+										name="notes"
+										component={renderTextarea}
+										label="Notes"
+									/>
+								</Grid>
+								{!hideLoginDetails &&
+									<React.Fragment>
+										<Grid item xs={12}>
+											<br/><br/><br/>
+											<h1 style={{fontSize: '1.3em'}}>Login Details</h1>
+										</Grid>
+										<Grid item xs={12}>
+											<Field
+												type="text"
+												name="username"
+												component={renderText}
+												label="Desired Username *"
+											/>
+										</Grid>
+										<Grid item xs={6}>
+											<Field
+												type="password"
+												name="password"
+												component={renderText}
+												label="Password *"
+											/>
+										</Grid>
+										<Grid item xs={6}>
+											<Field
+												type="password"
+												name="confirm_password"
+												component={renderText}
+												label="Confirm Password *"
+											/>
+										</Grid>
+									</React.Fragment>
+								}
+								{appointmentdata.openBook &&
+									<>
+										<br/><br/>
+										<h2>Open Appointment Payment</h2>
+										<br/>
+										<RadioGroup
+											name="paymenttype"
+											value={paymenttype}
+											onChange={this.handlePaymentType}
+											onClick={this.handlePaymentTypeClick}
+											style={styles.radiogroup}
+										>
+											<FormControlLabel
+												value="cash"
+												control={<Radio color="primary" />}
+												style={styles.label}
+												label="Cash"
+											/>
+											<FormControlLabel
+												value="credit"
+												control={<Radio color="primary" />}
+												style={styles.label}
+												label="Credit Card"
+											/>
+										</RadioGroup>	
+										<br/><br/>
+									</>
+								}
 							</Grid>
-							<Grid item xs={6}>
-								<Field
-									type="text"
-									name="first_name"
-									component={renderText}
-									label="First Name *"
-								/>
-							</Grid>
-							<Grid item xs={6}>
-								<Field
-									type="text"
-									name="last_name"
-									component={renderText}
-									label="Last Name *"
-								/>
-							</Grid>
-							<Grid item xs={6}>
-								<Field
-									type="text"
-									name="contact_phone"
-									component={renderText}
-									label="Contact Phone *"
-								/>
-							</Grid>
-							<Grid item xs={6}>
-								<Field
-									type="text"
-									name="alternate_phone"
-									component={renderText}
-									label="Alternate Phone"
-								/>
-							</Grid>
-							<Grid item xs={6}>
-								<Field
-									type="text"
-									name="street_address"
-									component={renderText}
-									label="Street Address"
-								/>
-							</Grid>
-							<Grid item xs={6}>
-								<Field
-									type="text"
-									name="address_2"
-									component={renderText}
-									label="Address 2 (Apt/Suite)"
-								/>
-							</Grid>
-							<Grid item xs={4}>
-								<Field
-									type="text"
-									name="city"
-									component={renderText}
-									label="City"
-								/>
-							</Grid>
-							<Grid item xs={4}>
-								<Field
-									type="text"
-									name="state"
-									component={renderText}
-									label="State"
-								/>
-							</Grid>
-							<Grid item xs={4}>
-								<Field
-									type="text"
-									name="zipcode"
-									component={renderText}
-									label="Zipcode *"
-								/>
-							</Grid>
-							<Grid item xs={12}>
-								<Field
-									type="checkbox"
-									name="ex_customer"
-									component={renderCheckbox}
-									label="Existing Customer"
-								/>
-							</Grid>
-							<Grid item xs={12}>
-								<Field
-									type="text"
-									name="preseller_initials"
-									component={renderText}
-									label="Preseller Initials *"
-								/>
-								<i>{`If this doesn't apply, just enter in "N/A"`}</i>
-							</Grid>
-							<Grid item xs={12}>
-								<Field
-									name="notes"
-									component={renderTextarea}
-									label="Notes"
-								/>
-							</Grid>
-							{!hideLoginDetails &&
-								<React.Fragment>
-									<Grid item xs={12}>
-										<br/><br/><br/>
-										<h1 style={{fontSize: '1.3em'}}>Login Details</h1>
-									</Grid>
-									<Grid item xs={12}>
-										<Field
-											type="text"
-											name="username"
-											component={renderText}
-											label="Desired Username *"
-										/>
-									</Grid>
-									<Grid item xs={6}>
-										<Field
-											type="password"
-											name="password"
-											component={renderText}
-											label="Password *"
-										/>
-									</Grid>
-									<Grid item xs={6}>
-										<Field
-											type="password"
-											name="confirm_password"
-											component={renderText}
-											label="Confirm Password *"
-										/>
-									</Grid>
-								</React.Fragment>
-							}
-						</Grid>
-                        
-						<div className={classes.btnDiv}>
-							<Button className={classes.btn} type="submit" variant="raised" color="primary">Create New
-                                Account</Button>
-							{onLogin !== undefined &&
-								<p>Already have an account? <a  href="#" onClick={onLogin}>Login</a>.</p>
-							}
-							{onLogin === undefined &&
-								<p>Already have an account? <Link to={'/login'}>Login</Link>.</p>
-							}
-						</div>
-					</form>
-				</CardContent>
+													
+							<div className={classes.btnDiv}>
+								<Button className={classes.btn} type="submit" variant="raised" color="primary">Create New
+																	Account</Button>
+								{onLogin !== undefined &&
+									<p>Already have an account? <a  href="#" onClick={onLogin}>Login</a>.</p>
+								}
+								{onLogin === undefined &&
+									<p>Already have an account? <Link to={'/login'}>Login</Link>.</p>
+								}
+							</div>
+						</form>
+					</CardContent>
 
-			</Card>
-		</div>
-	);
-};
+				</Card>
+			</div>
+		);
+	};
+
+}
 
 const validateSignUp = values => {
 	const errors = {};
@@ -248,9 +317,25 @@ SignUpForm.propTypes = {
 	handleSubmit: PropTypes.func,
 	onLogin: PropTypes.func,
 	hideLoginDetails: PropTypes.bool,
+	updateAppointmentOpen: PropTypes.func,
 };
 
-export default reduxForm({
+/**
+ * Map the state to props.
+ */
+const mapStateToProps = state => ({
+	appointmentdata: state.data.appointmentdata,
+});
+
+/**
+ * Map the actions to props.
+ */
+const mapDispatchToProps = dispatch => ({
+	updateAppointmentOpen: bindActionCreators(updateAppointmentOpen, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+	reduxForm({
 	form: 'SignUpForm', // a unique identifier for this form
 	validate: validateSignUp // ←Callback function for client-side validation
-})(withStyles(styles)(SignUpForm));
+})(withStyles(styles)(SignUpForm)));

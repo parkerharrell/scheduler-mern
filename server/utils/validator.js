@@ -19,7 +19,8 @@ export default {
 			zipcode: Joi.string().required(),
 			ex_customer: Joi.boolean(),
 			preseller_initials: Joi.string(),
-			notes: Joi.string()
+			notes: Joi.string(),
+			paymenttype: Joi.string(),
 		}
 	},
 
@@ -28,7 +29,8 @@ export default {
 			first_name: Joi.string().required(),
 			last_name: Joi.string().required(),
 			email: Joi.string().email().required(),
-			password: Joi.string().min(6).required()
+			password: Joi.string().min(6).required(),
+			paymenttype: Joi.string(),
 		},
 		params: {
 			userId: Joi.string().hex().required()
