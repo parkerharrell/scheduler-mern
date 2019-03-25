@@ -16,7 +16,8 @@ class ConfirmPage extends Component {
 	};
 
 	componentDidMount() {
-		const openBooked = localStorage.getItem('openBooked');
+		const { appointmentdata } = this.props;
+		const openBooked = localStorage.getItem(`openBooked_+ ${appointmentdata.location.id}`);
 		if (!openBooked)
 			this.createSchedule();
 		else {

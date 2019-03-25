@@ -101,8 +101,9 @@ class Services extends Component {
 
 		showOpenAppointment = (e) => {
 			e.stopPropagation();
+			const { appointmentdata } = this.props;
 			const { goToNextStep } = this.props;
-			localStorage.setItem('openBooked', true);
+			localStorage.setItem(`openBooked_+ ${appointmentdata.location.id}`, true);
 			goToNextStep(1);
 		}
 
@@ -111,9 +112,9 @@ class Services extends Component {
 		}
 
     render() {
-    	const { services } = this.props;
+			const { services, appointmentdata } = this.props;
 			const { active, paymenttype } =  this.state;
-			const openBooked = localStorage.getItem('openBooked');
+			const openBooked = localStorage.getItem(`openBooked_+ ${appointmentdata.location.id}`);
     	let rowData = [];
     	if (!isUndefined(services)) {
     		rowData = services;
