@@ -5,9 +5,9 @@ export default {
 		body: {
 			first_name: Joi.string().required(),
 			last_name: Joi.string().required(),
-			username: Joi.string().required(),
+			username: Joi.string(),
 			email: Joi.string().email().required(),
-			password: Joi.string().min(6).required(),
+			password: Joi.string(),
 			created: Joi.number().required(),
 			confirm_password: Joi.string(),
 			contact_phone: Joi.string(),
@@ -112,6 +112,14 @@ export default {
 		},
 		params: {
 			class: Joi.string().required(),
+		}
+	},
+	storeOpenAppointment: {
+		body: {
+			location: Joi.number(),
+			service: Joi.number(),
+			customer: Joi.number(),
+			payment: Joi.string(),
 		}
 	},
 };
