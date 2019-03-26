@@ -6,11 +6,9 @@ import {bindActionCreators} from 'redux';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import styled from 'styled-components';
-import Modal from 'react-awesome-modal';
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
-import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -64,7 +62,6 @@ class Selectable extends React.Component {
 		fetchAll(moment(minDate).format(), appointmentdata.location.street);
 
 		this.state = { 
-			eventList: [],
 			appointmentDate: moment(new Date()).add(1, 'days').toDate(),
 			visible: false,
 			timeSlots: [],
@@ -110,16 +107,8 @@ class Selectable extends React.Component {
 	}
 
   handleSelect = (start) => {
-  	this.setState({
-  		eventList: [
-  			{
-  				start,
-  			}
-  		],
-		});
 		const { updateAppointmentDate, goToNextStep } = this.props;
-		const { eventList } = this.state;
-		updateAppointmentDate(moment(eventList[0].start).format());
+		updateAppointmentDate(moment(start).format());
 		goToNextStep();
   }
 
