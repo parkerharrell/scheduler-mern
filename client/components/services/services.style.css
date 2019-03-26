@@ -1,0 +1,92 @@
+.locations__container {
+  max-width: 1400px;
+}
+
+.services__card {
+  border: 1px solid #eee;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3;
+  padding: 20px;
+  cursor: pointer;
+  min-height: 170px;
+  max-height: 170px;
+  min-width: 320px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  flex-flow: column;
+  justify-content: flex-start;
+  transition: background .2s ease-out;
+}
+
+.services__card  .logo {
+  margin-right: 20px;
+  width: 200px;
+  margin-left: -10px;
+}
+.services__card .logo-wrapper {
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  margin: 15px 0;
+}
+.services__card .title {
+  font-weight: 800;
+  font-size: 1.4em;
+  color: #639012;
+}
+
+.services__card  .title-with-logo {
+  color: orangered;
+  margin: 0;
+  margin-bottom: 2px;
+  font-size: 1.4em;
+  font-weight: 900;
+}
+
+.services__card .availability {
+  font-weight: 600;
+}
+
+.services__card  p {
+  margin: 3px 0 3px;
+  font-size: .9em;
+}
+
+.services__card .overlay {
+  display: none;
+}
+
+.services__card:hover {
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 16px 1px !important;
+  border: 1px solid transparent !important;
+  background: rgba(0, 0, 0, 0.05);
+  transition: background .2s ease-out;
+}
+
+
+@media (max-width: 480px) {
+  .locations__container {
+    margin: -12px;
+  }
+
+  .services__card {
+    min-height: auto;
+    max-height: max-content;
+    min-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .services__card .logo {
+    margin-right: 20px;
+    width: 190px;
+    margin-left: -10px;
+  }
+
+  .services__card .title {
+    font-size: 1.3em;
+    margin-bottom: 0.3em;
+  }
+
+}

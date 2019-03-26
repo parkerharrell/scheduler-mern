@@ -3,67 +3,14 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import styled from 'styled-components';
-import moment from 'moment';
 
 import Grid from '@material-ui/core/Grid';
 import { isUndefined } from 'lodash';
 import AddIcon from '@material-ui/icons/AddRounded';
 
 import { fetchAll, updateAppointmentLocation } from '../../actions/locationAction';
+import './locations.css';
 
-const DetailLI = styled.div`
-	cursor: pointer;
-	min-height: 170px;
-	max-height: 170px;
-	overflow: hidden;
-	display: flex;
-	align-items: flex-start;
-	flex-flow: column;
-	justify-content: flex-start;
-	transition: background .2s ease-out;
-	.logo {
-    margin-right: 20px;
-    width: 200px;
-	}
-	.logo-wrapper {
-		display: flex;
-		align-items: flex-end;
-    width: 100%;
-    margin: 15px 0;
-	}
-	.title {
-		font-weight: 800;
-		font-size: 1.4em;
-		color: #639012;
-	}
-
-	.title-with-logo {
-    color: orangered;
-    margin: 0;
-    margin-bottom: 2px;
-    font-size: 1.4em;
-    font-weight: 900;
-	}
-
-	.availability {
-		font-weight: 600;
-	}
-	& p {
-		margin: 3px 0 3px;
-		font-size: .9em;
-	}
-	.overlay {
-		display: none;
-	}
-	&:hover {
-		position: relative;
-		box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 16px 1px !important;
-		border: 1px solid transparent !important;
-		background: rgba(0, 0, 0, 0.05);
-		transition: background .2s ease-out;
-	}
-`;
 
 const Item = ({ data, onclick, active }) => {
 	let showLogo = false;
@@ -73,7 +20,7 @@ const Item = ({ data, onclick, active }) => {
 		title = data.title.split('-').pop();
 	}
 	return (
-		<DetailLI style={styles.card} onClick={onclick}>
+		<div className="locations__card" onClick={onclick}>
 			<div className='logo-wrapper'>
 				{ showLogo && 
 					<img src="/img/amstudio.png" className="logo" />
@@ -92,7 +39,7 @@ const Item = ({ data, onclick, active }) => {
 			<div className={`overlay ${active ? 'active' : ''}`}>
 				<AddIcon className="checkbox"  />
 			</div>
-		</DetailLI>
+		</div>
 	);
 }
 
@@ -130,10 +77,10 @@ class Locations extends Component {
     	}
 
     	return (
-    		<div style={styles.container}>
+    		<div className="locations__container">
     			<Grid container spacing={24}>
     				{rowData.map((item, index) =>
-    					<Grid item md={4} key={index} >
+    					<Grid item lg={4} md={6} xs={12} sm={6} key={index} >
     						<Item data={item} active={active === index} onclick={() => this.setLocation(index)}/>
     					</Grid>
     				)}
@@ -167,22 +114,3 @@ Locations.propTypes = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Locations);
-
-const styles = {
-	container: {
-		paddingTop: 30,
-		paddingLeft: 50,
-		paddingRight: 50,
-	},
-	card: {
-		border: '1px solid #eee',
-		boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
-		transition: 0.3,
-		padding: 20,
-	},
-	cardtitle: {
-		fontSize: '1.6em',
-		fontWeight: 'bold',
-		margin: '1em 0 ',
-	}
-};
