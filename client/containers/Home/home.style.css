@@ -1,0 +1,9 @@
+.home__container {
+  padding-top: 100px;
+}
+
+@media (max-width: 600px) {
+  .home__container {
+    padding-top: 70px;
+  }
+}

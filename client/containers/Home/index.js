@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 // Import custom components
 import Home from '../../components/home';
 import HomeHeader from '../../components/common/homeHeader';
-
+import './home.style.css';
 
 class HomeContainer extends Component {
 
@@ -16,7 +16,7 @@ class HomeContainer extends Component {
 		return (
 			<React.Fragment>
 				<HomeHeader />
-				<div style={{ paddingTop: 100 }}>
+				<div className="home__container">
 					<Home />
 				</div>
 			</React.Fragment>
