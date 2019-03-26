@@ -34,7 +34,7 @@ class HomeHeader extends Component {
 }
 
 HomeHeader.propTypes = {
-	classes: PropTypes.object.isRequired,
+	classes: PropTypes.object,
 	actions: PropTypes.object,
 	navDrawerOpen: PropTypes.bool,
 	handleToggleDrawer: PropTypes.func,

@@ -53,6 +53,17 @@ export function storeItem(entity, data) {
 	};
 }
 
+export function createUser(entity, data) {
+	return function (dispatch) {
+		return httpService.storeEntity(entity, data).then(() => {
+			dispatch(AuthAction.loginSuccess(data));
+		})
+			.catch((error) => {
+				dispatch(commonAction.failure(error));
+			});
+	};
+}
+
 export function updateItem(entity, data, id) {
 	return function (dispatch) {
 		return httpService.updateEntity(entity, data, id).then(() => {
@@ -63,6 +74,7 @@ export function updateItem(entity, data, id) {
 			});
 	};
 }
+
 
 export function destroyItem(entity, id, data) {
 	return function (dispatch) {
@@ -80,7 +92,7 @@ export function submitForm(entity, data, id) {
 		if (id) {
 			dispatch(updateItem(entity, data, id));
 		} else {
-			dispatch(AuthAction.loginSuccess(data));
+			dispatch(createUser(entity, data));
 		}
 	};
 }

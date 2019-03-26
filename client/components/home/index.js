@@ -31,8 +31,18 @@ const styles = theme => ({
 	root: {
 		flexGrow: 1,
 		width: '100%',
+		maxWidth: 1400,
+		margin: 'auto',
 		backgroundColor: theme.palette.background.paper,
 	},
+	tab: {
+		[theme.breakpoints.down('xs')]: {
+			fontSize: 11,
+		},
+	},
+	activetab: {
+		fontWeight: 'bold',
+	}
 });
 
 class Home extends React.Component {
@@ -70,12 +80,13 @@ class Home extends React.Component {
   				indicatorColor="primary"
   				textColor="primary"
   				variant="scrollable"
-  				scrollButtons="auto"
+					scrollButtons="auto"
+					style={{ paddingLeft: 10 }}
   			>
-  				<Tab label="Locations"  />
-  				<Tab label="Services" />
-  				<Tab label="Date & Time" />
-  				<Tab label="Review" />
+  				<Tab classes={{ selected: classes.activetab, root: classes.tab }} label="Locations"  />
+  				<Tab classes={{ selected: classes.activetab, root: classes.tab }} label="Services" disabled={value < 2} />
+  				<Tab classes={{ selected: classes.activetab, root: classes.tab }} label="Date & Time"  disabled={value < 3}/>
+  				<Tab classes={{ selected: classes.activetab, root: classes.tab }} label="Review"  disabled={value < 4}/>
   			</Tabs>
   			{value === 0 &&
           <TabContainer>

@@ -57,7 +57,7 @@ const styles = {
 	label: {
 		height: 30,
 		margin: 0,
-		fontSize: '0.9em',
+		fontSize: '1.2em',
 		marginRight: 15,
 	},
 };
@@ -232,30 +232,33 @@ class SignUpForm extends Component {
 								}
 								{appointmentdata.openBook &&
 									<>
-										<br/><br/>
-										<h2>Open Appointment Payment</h2>
-										<br/>
-										<RadioGroup
-											name="paymenttype"
-											value={paymenttype}
-											onChange={this.handlePaymentType}
-											onClick={this.handlePaymentTypeClick}
-											style={styles.radiogroup}
-										>
-											<FormControlLabel
-												value="cash"
-												control={<Radio color="primary" />}
-												style={styles.label}
-												label="Cash"
-											/>
-											<FormControlLabel
-												value="credit"
-												control={<Radio color="primary" />}
-												style={styles.label}
-												label="Credit Card"
-											/>
-										</RadioGroup>	
-										<br/><br/>
+										<Grid item xs={12}>
+											<h2>Open Appointment Payment</h2>
+										</Grid>
+										<Grid item xs={12}>
+											<RadioGroup
+												name="paymenttype"
+												value={paymenttype}
+												onChange={this.handlePaymentType}
+												onClick={this.handlePaymentTypeClick}
+												style={styles.radiogroup}
+											>
+												<FormControlLabel
+													value="cash"
+													control={<Radio color="primary" />}
+													style={styles.label}
+													label="Cash"
+												/>
+												<FormControlLabel
+													value="credit"
+													control={<Radio color="primary" />}
+													style={styles.label}
+													label="Credit Card"
+												/>
+											</RadioGroup>	
+										</Grid>
+										<Grid item xs={12}>
+										</Grid>
 									</>
 								}
 							</Grid>
