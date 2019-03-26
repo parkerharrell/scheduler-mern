@@ -81,7 +81,7 @@ class Home extends React.Component {
   				textColor="primary"
   				variant="scrollable"
 					scrollButtons="auto"
-					style={{ paddingLeft: 10 }}
+					style={{ paddingLeft: 'calc(50% - 180px + 10px)' }}
   			>
   				<Tab classes={{ selected: classes.activetab, root: classes.tab }} label="Locations"  />
   				<Tab classes={{ selected: classes.activetab, root: classes.tab }} label="Services" disabled={value < 2} />

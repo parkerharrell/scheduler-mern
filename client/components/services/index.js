@@ -79,12 +79,12 @@ class Services extends Component {
     		<div className="services__container">
     			<Grid container spacing={24}>
     				{rowData.map((item, index) =>
-    					<Grid item md={4} key={index} >
+    					<Grid item md={4} key={index} className="services__griditem" >
     						<Item data={item} active={active === index} onclick={() => this.setService(index)}/>
     					</Grid>
 						)}
 						{rowData.length > 0 && !openBooked &&
-							<Grid item md={4} key={'open-appointment'} >
+							<Grid item md={4} key={'open-appointment'} className="services__griditem">
 								<div className="services__card"  onClick={this.showOpenAppointment}>
 									<span className="title">Open Appointment</span>
 									<div style={{ fontSize: '0.9em' }}>

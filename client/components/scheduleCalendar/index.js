@@ -6,18 +6,21 @@ import {bindActionCreators} from 'redux';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import styled from 'styled-components';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import InfiniteCalendar from 'react-infinite-calendar';
-import 'react-infinite-calendar/styles.css';
 import Modal from 'react-awesome-modal';
-import CloseIcon from '@material-ui/icons/Close';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import { isNull, isUndefined } from 'lodash';
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
+import CloseIcon from '@material-ui/icons/Close';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMoreRounded';
+import ExpandLessIcon from '@material-ui/icons/ExpandLessRounded';
+
+import { isNull, isUndefined } from 'lodash';
+
 import { fetchAll, updateAppointmentDate } from '../../actions/eventAction';
+import './schedule.style.css';
 
 const moment = extendMoment(Moment);
 
@@ -68,6 +71,7 @@ class Selectable extends React.Component {
 			minDate: moment(new Date()).add(1, 'days').toDate(),
 			maxDate: maxDate,
 			loading: false,
+			expanded: false,
 		};
 	}
 
@@ -76,29 +80,6 @@ class Selectable extends React.Component {
 		if (!isUndefined(events)) {
 			this.listAvailableTimeSlots(events);
 		}
-	}
-
-	openModal() {
-		this.setState({
-			visible : true
-		});
-	}
-
-	closeModal() {
-		this.setState({
-			visible : false,
-			eventList: [],
-		});
-	}
-
-	confirmModal() {
-		const { updateAppointmentDate, goToNextStep } = this.props;
-		this.setState({
-			visible: false,
-		});
-		const { eventList } = this.state;
-		updateAppointmentDate(moment(eventList[0].start).format());
-		goToNextStep();
 	}
 
 	listAvailableTimeSlots = (eventList) => {
@@ -135,34 +116,45 @@ class Selectable extends React.Component {
   				start,
   			}
   		],
-  	});
-  	setTimeout(() => {
-  		this.setState({ visible: true });
-  	}, 500);
+		});
+		const { updateAppointmentDate, goToNextStep } = this.props;
+		const { eventList } = this.state;
+		updateAppointmentDate(moment(eventList[0].start).format());
+		goToNextStep();
   }
 
   dateSelected = (date) => {
-		this.setState({ appointmentDate: moment(date).toDate(), loading: true });
+		this.setState({ appointmentDate: moment(date).toDate(), loading: true, expanded: false });
 		const { fetchAll, appointmentdata } = this.props;
 		fetchAll(moment(date).format(), appointmentdata.location.street);
-  }
+	}
+	
+	expandedHandler = () => {
+		const { expanded } = this.state;
+		this.setState({ expanded: !expanded });
+	}
 	
   render() {
-		const { appointmentDate, timeSlots, minDate, maxDate, loading } = this.state;
+		const { appointmentDate, timeSlots, minDate, maxDate, loading, expanded} = this.state;
 
 		return (
   		<React.Fragment>
-  			<div style={{ display: 'flex' }}>
-  				<div>
-  					{/* <InfiniteCalendar
-  						width={400}
-							height={550}
-							
-  						selected={appointmentDate}
-  						minDate={minDate}
-  						maxDate={maxDate}
-  						onSelect={this.dateSelected}
-						/> */}
+  			<div className="schedule__container">
+  				<div className={ !expanded ? 'schedule__daypicker__wrapper' : 'schedule__daypicker__wrapper open' }>
+						{expanded &&
+							<div className="expandedicon">
+								<IconButton style={{ padding: 3 }}>
+									<ExpandMoreIcon style={{ fontSize: 36 }} onClick={this.expandedHandler}/>
+								</IconButton>
+							</div>
+						}
+						{!expanded &&
+							<div className="expandedicon">
+								<IconButton style={{ padding: 3 }}>
+									<ExpandLessIcon style={{ fontSize: 36 }} onClick={this.expandedHandler}/>
+								</IconButton>
+							</div>
+						}
 						<DayPicker
 							key={appointmentDate && minDate && maxDate}
 							numberOfMonths={2}
@@ -178,8 +170,8 @@ class Selectable extends React.Component {
 							]}
 						/>
   				</div>
-  				<Container>
-						<Grid container spacing={16}>
+  				<div className="schedule__books__container">
+						<Grid container spacing={16} className="schedule__books__grid">
 							{timeSlots.map((timeSlot, slotId) => {
 								return (
 									<React.Fragment key={slotId}>
@@ -203,9 +195,9 @@ class Selectable extends React.Component {
 								<img src="/img/loading.gif" width="100%"/>
 							</LoadingOverlay>
 						}
-  				</Container>
+  				</div>
   			</div>
-  			<Modal visible={this.state.visible} width="400" height="200" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+  			{/* <Modal visible={this.state.visible} width="400" height="200" effect="fadeInUp" onClickAway={() => this.closeModal()}>
   				<div style={{ padding: 20 }}>
   					<Grid container alignItems="flex-end">
   						<Grid item xs={12} style={{ textAlign: 'right' }}>
@@ -227,7 +219,7 @@ class Selectable extends React.Component {
   						</Grid>
   					</Grid>
   				</div>
-  			</Modal>
+  			</Modal> */}
   		</React.Fragment>
   	);
   }
@@ -245,17 +237,6 @@ function Event({ event }) {
 Event.propTypes = {
 	event: PropTypes.object,
 };
-
-const Container = styled.div`
-  flex: 1 1;
-	padding-left: 30px;
-	padding-top: 30px;
-  min-height: 400px;
-  display: flex;
-	flex-direction: column;
-	position: relative;
-	padding-bottom: 50px;
-`;
 
 const LoadingOverlay = styled.div`
 	position: absolute;

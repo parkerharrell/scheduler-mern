@@ -71,6 +71,10 @@
     margin: -12px;
   }
 
+  .services__griditem {
+    width: 100%;
+  }
+
   .services__card {
     min-height: auto;
     max-height: max-content;
