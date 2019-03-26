@@ -1,4 +1,4 @@
-.locations__container {
+.services__container {
   max-width: 1400px;
 }
 
@@ -67,7 +67,7 @@
 
 
 @media (max-width: 480px) {
-  .locations__container {
+  .services__container {
     margin: -12px;
   }
 

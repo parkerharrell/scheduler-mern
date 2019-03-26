@@ -24,13 +24,13 @@
     overflow: hidden;
   } 
   .schedule__daypicker__wrapper {
-    width: calc(100vw - 15px);
+    box-shadow: lightgrey 0px 0px 5px 0px;
+    background: #f5f7f7;
     position: fixed;
     bottom: 0;
     left: 0;
     z-index: 10;
-    box-shadow: lightgrey 0px -2px 9px 1px;
-    background: #ffffff;
+    width: 100vw;
     padding: 5px 10px 10px;
     box-sizing: border-box;
     transition: height .3s linear;
@@ -43,7 +43,7 @@
   }
   .DayPicker {
     max-width: 250px;
-    margin: auto;
+    margin: auto !important;
     display: block;
   }
   .schedule__books__container {

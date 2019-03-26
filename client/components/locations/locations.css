@@ -71,6 +71,7 @@
     margin: -12px;
   }
 
+
   .locations__card {
     min-height: auto;
     max-height: max-content;
@@ -80,7 +81,7 @@
   }
   .locations__card .logo {
     margin-right: 20px;
-    width: 190px;
+    width: 140px;
     margin-left: -10px;
   }
 
