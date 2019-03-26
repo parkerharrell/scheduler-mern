@@ -1,0 +1,14 @@
+.confirm__container {
+  padding: 24px 80px;
+}
+
+@media (max-width: 600px) {
+  .confirm__container {
+    padding: 0;
+    margin: -12px;
+  }
+
+  h2 {
+    margin: 0;
+  }
+}

@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button';
 import renderText from '../common/form/renderText';
 import CustomizedSnackbar from '../common/snakebar/CustomizedSnackbar';
 
-const styles = {
+const styles = theme => ({
 	root: {
 		minWidth: 320,
 		maxWidth: 400,
@@ -23,7 +23,11 @@ const styles = {
 	},
 	card: {
 		padding: 20,
-		overflow: 'auto'
+		overflow: 'auto',
+		boxShadow: 'none',
+		[theme.breakpoints.down('sm')]: {
+			padding: 5,
+		},
 	},
 	cardHeader: {
 		textAlign: 'center'
@@ -34,7 +38,7 @@ const styles = {
 	btn: {
 		marginTop: 21,
 	}
-};
+});
 
 const LoginForm = props => {
 

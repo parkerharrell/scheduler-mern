@@ -46,7 +46,7 @@ class ConfirmPage extends Component {
 		const { appointmentdata, event_created_success } = this.props;
 		const { openBooked } = this.state;
 		return (
-			<div style={{ padding: '24px 80px' }}>
+			<div className="confirm__container">
 				{!openBooked && !event_created_success &&
 					<div>Loading ...</div>
 				}

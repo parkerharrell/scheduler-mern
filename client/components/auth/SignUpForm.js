@@ -20,7 +20,7 @@ import renderCheckbox from '../common/form/renderCheckbox';
 import renderTextarea from '../common/form/renderTextarea';
 import { updateAppointmentOpen } from '../../actions/serviceAction';
 
-const styles = {
+const styles = theme => ({
 	root: {
 		minWidth: 320,
 		maxWidth: 800,
@@ -31,14 +31,24 @@ const styles = {
 		right: 0,
 		margin: 'auto',
 		marginBottom: 100,
+		[theme.breakpoints.down('sm')]: {
+			top: '100px !important',
+		},
 	},
 	card: {
 		padding: 20,
-		overflow: 'auto'
+		overflow: 'auto',
+		boxShadow: 'none',
+		[theme.breakpoints.down('sm')]: {
+			padding: 5,
+		},
 	},
 	cardHeader: {
 		textAlign: 'center',
 		fontWeight: 'bold',
+		[theme.breakpoints.down('sm')]: {
+			paddingBottom: 0,
+		},
 	},
 	btnDiv: {
 		textAlign: 'center'
@@ -60,7 +70,7 @@ const styles = {
 		fontSize: '1.2em',
 		marginRight: 15,
 	},
-};
+});
 
 class SignUpForm extends Component {
 	state = {
@@ -92,9 +102,8 @@ class SignUpForm extends Component {
 					/>
 					<CardContent>
 						<form method="post" onSubmit={handleSubmit(onSubmit)}>
-													
 							<Grid container spacing={24}>
-								<Grid item xs={12}>
+								<Grid item md={12} xs={12}>
 									<Field
 										type="text"
 										name="email"
@@ -102,7 +111,7 @@ class SignUpForm extends Component {
 										label="Email *"
 									/>
 								</Grid>
-								<Grid item xs={6}>
+								<Grid item md={6} xs={12}>
 									<Field
 										type="text"
 										name="first_name"
@@ -110,7 +119,7 @@ class SignUpForm extends Component {
 										label="First Name *"
 									/>
 								</Grid>
-								<Grid item xs={6}>
+								<Grid item md={6} xs={12}>
 									<Field
 										type="text"
 										name="last_name"
@@ -118,7 +127,7 @@ class SignUpForm extends Component {
 										label="Last Name *"
 									/>
 								</Grid>
-								<Grid item xs={6}>
+								<Grid item md={6} xs={12}>
 									<Field
 										type="text"
 										name="contact_phone"
@@ -126,7 +135,7 @@ class SignUpForm extends Component {
 										label="Contact Phone *"
 									/>
 								</Grid>
-								<Grid item xs={6}>
+								<Grid item md={6} xs={12}>
 									<Field
 										type="text"
 										name="alternate_phone"
@@ -134,7 +143,7 @@ class SignUpForm extends Component {
 										label="Alternate Phone"
 									/>
 								</Grid>
-								<Grid item xs={6}>
+								<Grid item md={6} xs={12}>
 									<Field
 										type="text"
 										name="street_address"
@@ -142,7 +151,7 @@ class SignUpForm extends Component {
 										label="Street Address"
 									/>
 								</Grid>
-								<Grid item xs={6}>
+								<Grid item md={6} xs={12}>
 									<Field
 										type="text"
 										name="address_2"
@@ -150,7 +159,7 @@ class SignUpForm extends Component {
 										label="Address 2 (Apt/Suite)"
 									/>
 								</Grid>
-								<Grid item xs={4}>
+								<Grid item md={4} xs={12}>
 									<Field
 										type="text"
 										name="city"
@@ -158,7 +167,7 @@ class SignUpForm extends Component {
 										label="City"
 									/>
 								</Grid>
-								<Grid item xs={4}>
+								<Grid item md={4} xs={12}>
 									<Field
 										type="text"
 										name="state"
@@ -166,7 +175,7 @@ class SignUpForm extends Component {
 										label="State"
 									/>
 								</Grid>
-								<Grid item xs={4}>
+								<Grid item md={4} xs={12}>
 									<Field
 										type="text"
 										name="zipcode"
@@ -174,7 +183,7 @@ class SignUpForm extends Component {
 										label="Zipcode *"
 									/>
 								</Grid>
-								<Grid item xs={12}>
+								<Grid item md={12} xs={12}>
 									<Field
 										type="checkbox"
 										name="ex_customer"
@@ -182,7 +191,7 @@ class SignUpForm extends Component {
 										label="Existing Customer"
 									/>
 								</Grid>
-								<Grid item xs={12}>
+								<Grid item md={12} xs={12}>
 									<Field
 										type="text"
 										name="preseller_initials"
@@ -191,7 +200,7 @@ class SignUpForm extends Component {
 									/>
 									<i>{`If this doesn't apply, just enter in "N/A"`}</i>
 								</Grid>
-								<Grid item xs={12}>
+								<Grid item md={12} xs={12}>
 									<Field
 										name="notes"
 										component={renderTextarea}
@@ -200,11 +209,11 @@ class SignUpForm extends Component {
 								</Grid>
 								{!hideLoginDetails &&
 									<React.Fragment>
-										<Grid item xs={12}>
+										<Grid item md={12} xs={12}>
 											<br/><br/><br/>
 											<h1 style={{fontSize: '1.3em'}}>Login Details</h1>
 										</Grid>
-										<Grid item xs={12}>
+										<Grid item md={12} xs={12}>
 											<Field
 												type="text"
 												name="username"
@@ -212,7 +221,7 @@ class SignUpForm extends Component {
 												label="Desired Username *"
 											/>
 										</Grid>
-										<Grid item xs={6}>
+										<Grid item md={6} xs={12}>
 											<Field
 												type="password"
 												name="password"
@@ -220,7 +229,7 @@ class SignUpForm extends Component {
 												label="Password *"
 											/>
 										</Grid>
-										<Grid item xs={6}>
+										<Grid item md={6} xs={12}>
 											<Field
 												type="password"
 												name="confirm_password"
@@ -230,37 +239,31 @@ class SignUpForm extends Component {
 										</Grid>
 									</React.Fragment>
 								}
-								{appointmentdata.openBook &&
-									<>
-										<Grid item xs={12}>
-											<h2>Open Appointment Payment</h2>
-										</Grid>
-										<Grid item xs={12}>
-											<RadioGroup
-												name="paymenttype"
-												value={paymenttype}
-												onChange={this.handlePaymentType}
-												onClick={this.handlePaymentTypeClick}
-												style={styles.radiogroup}
-											>
-												<FormControlLabel
-													value="cash"
-													control={<Radio color="primary" />}
-													style={styles.label}
-													label="Cash"
-												/>
-												<FormControlLabel
-													value="credit"
-													control={<Radio color="primary" />}
-													style={styles.label}
-													label="Credit Card"
-												/>
-											</RadioGroup>	
-										</Grid>
-										<Grid item xs={12}>
-										</Grid>
-									</>
-								}
+								<Grid item md={12} xs={12}>
+									<h2>Open Appointment Payment</h2>
+									<RadioGroup
+										name="paymenttype"
+										value={paymenttype}
+										onChange={this.handlePaymentType}
+										onClick={this.handlePaymentTypeClick}
+										style={styles.radiogroup}
+									>
+										<FormControlLabel
+											value="cash"
+											control={<Radio color="primary" />}
+											style={styles.label}
+											label="Cash"
+										/>
+										<FormControlLabel
+											value="credit"
+											control={<Radio color="primary" />}
+											style={styles.label}
+											label="Credit Card"
+										/>
+									</RadioGroup>	
+								</Grid>
+								<Grid item md={12} xs={12}>
+								</Grid>
 							</Grid>
 													
 							<div className={classes.btnDiv}>
