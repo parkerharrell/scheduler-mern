@@ -115,6 +115,9 @@ export default function (state, action) {
 		if (action.entity === 'events') {
 			result = apiData;
 		}
+		if (action.entity === 'openAppointments') {
+			result = apiData;
+		}
 		if (action.entity === 'sittings') {
 			result = apiData;
 		}

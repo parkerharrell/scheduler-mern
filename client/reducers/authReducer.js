@@ -21,6 +21,7 @@ export default function (state, action) {
 			token: action.data.token,
 			useremail: action.data.email,
 			username: action.data.username,
+			user: action.data,
 		});
 
 	case LOG_IN_FAILURE:
