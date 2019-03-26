@@ -35,6 +35,12 @@ const styles = theme => ({
 		margin: 'auto',
 		backgroundColor: theme.palette.background.paper,
 	},
+	tabcontainer: {
+		padding: 0,
+		[theme.breakpoints.down('xs')]: {
+			paddingLeft: 'calc(50% - 180px + 10px)',
+		}
+	},
 	tab: {
 		[theme.breakpoints.down('xs')]: {
 			fontSize: 11,
@@ -81,7 +87,7 @@ class Home extends React.Component {
   				textColor="primary"
   				variant="scrollable"
 					scrollButtons="auto"
-					style={{ paddingLeft: 'calc(50% - 180px + 10px)' }}
+					className={classes.tabcontainer}
   			>
   				<Tab classes={{ selected: classes.activetab, root: classes.tab }} label="Locations"  />
   				<Tab classes={{ selected: classes.activetab, root: classes.tab }} label="Services" disabled={value < 2} />

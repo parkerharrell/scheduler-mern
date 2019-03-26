@@ -34,6 +34,7 @@
   font-weight: 800;
   font-size: 1.4em;
   color: #639012;
+  margin: 0.5em 0 1em;
 }
 
 .services__card  .title-with-logo {
@@ -90,6 +91,7 @@
 
   .services__card .title {
     font-size: 1.3em;
+    margin: 0;
     margin-bottom: 0.3em;
   }
 
