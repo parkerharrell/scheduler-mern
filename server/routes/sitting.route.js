@@ -37,7 +37,11 @@ const router = express.Router();
  *         example: 2
  *       location:
  *         type: integer
- *         description: Locatioin Id
+ *         description: Location Id
+ *         example: 1
+ *       status:
+ *         type: integer
+ *         description: Sitting Status
  *         example: 1
  *   Error:
  *     type: object

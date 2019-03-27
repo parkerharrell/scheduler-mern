@@ -15,6 +15,7 @@ export function findAll(req, res) {
 	const query = _.pickBy(req.query, _.identity);
 	console.log('query:', query);
 	sitting.where(query)
+		.query('orderBy', 'show_order', 'asc')
 		.fetchAll()
 		.then(sittings => {
 			if (query.location) {
@@ -77,9 +78,16 @@ export function findById(req, res) {
  * @returns {*}
  */
 export function store(req, res) {
-	sitting.forge({
-		...req.body
-	}, {hasTimestamps: false}).save()
+	sitting
+		.query('orderBy', 'show_order', 'asc')
+		.fetchAll()
+		.then(sittings => {
+			const params = Object.assign({}, req.body);
+			params.show_order = sittings.length;
+			return Service.forge({
+				...req.body
+			}, {hasTimestamps: false}).save()
+		})
 		.then(sitting => res.json({
 			success: true,
 			data: sitting.toJSON()

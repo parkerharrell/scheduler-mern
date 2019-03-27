@@ -137,4 +137,27 @@ export default {
 			payment: Joi.string(),
 		}
 	},
+
+	storeSitting: {
+		body: {
+			title: Joi.string().required(),
+			location: Joi.number().required(),
+			service: Joi.number().required(),
+			status: Joi.number().required(),
+			show_order: Joi.number().required(),
+		}
+	},
+
+	updateSitting: {
+		body: {
+			title: Joi.string().required(),
+			location: Joi.number().required(),
+			service: Joi.number().required(),
+			status: Joi.number().required(),
+			show_order: Joi.number().required(),
+		},
+		params: {
+			id: Joi.string().hex().required()
+		}
+	},
 };
