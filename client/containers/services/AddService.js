@@ -15,41 +15,7 @@ import renderText from '../../components/common/form/renderText';
 import renderTextarea from '../../components/common/form/renderTextarea';
 import renderSelect from '../../components/common/form/renderSelect';
 
-
-const durationData = [
-	{
-		value: 900,
-		label: '15 mins'
-	}, {
-		value: 1800,
-		label: '30 mins'
-	}, {
-		value: 2700,
-		label: '45 mins'
-	}, {
-		value: 3600,
-		label: '60 mins'
-	}, , {
-		value: 5400,
-		label: '90 mins'
-	}
-];
-
-const availableOptions = [
-	{
-		value: 60,
-		label: 'mins'
-	}, {
-		value: 3600,
-		label: 'hrs'
-	}, {
-		value: 86400,
-		label: 'days'
-	}, {
-		value: 604800,
-		label: 'weeks'
-	},
-];
+import { leadHrsOptions, leadMinsOptions, availableOptions, durationData } from './service.fieldoptions';
 
 class AddService extends Component {
 
@@ -58,10 +24,20 @@ class AddService extends Component {
     	const result = cloneDeep(formProps);
     	result.min_from_now = formProps['minfromnow_number'] * formProps['minfromnow_options'];
 			result.max_from_now = formProps['maxfromnow_number'] * formProps['maxfromnow_options'];
+			result.min_cancel = formProps['min_cancel_number'] * formProps['min_cancel_options'];
+			result.lead_in = formProps['lead_in_hrs'] * 3600 + formProps['lead_in_mins'] * 60;
+			result.lead_out = formProps['lead_out_hrs'] * 3600 + formProps['lead_out_mins'] * 60;
+			
 			delete result.minfromnow_number;
 			delete result.minfromnow_options;
 			delete result.maxfromnow_number;
 			delete result.maxfromnow_options;
+			delete result.min_cancel_number;
+			delete result.min_cancel_options;
+			delete result.lead_in_hrs;
+			delete result.lead_in_mins;
+			delete result.lead_out_hrs;
+			delete result.lead_out_mins;
     	createService(result);
     }
 
@@ -73,110 +49,155 @@ class AddService extends Component {
     			<Link to='/admin/services'><span>services</span></Link> / <span>new service</span>
     			<br/><br/>
     			<Grid
-    				container
-    				alignItems="center"
-    				spacing={24}
-    			>
-    				<Grid item xs={6}>
-    					<h1>Add Service</h1>
-    				</Grid>
-    				<Grid item xs={6}>
-    				</Grid>
-    				<br/>
-    				<Grid item xs={6}>
-    					<Field
-    						type="text"
-    						name="title"
-    						component={renderText}
-    						label="title *"
-    					/>
-    				</Grid>
-    				<Grid item xs={6}>
-    				</Grid>
-    				<Grid item xs={12}>
-    					<Field
-    						name="description"
-    						component={renderTextarea}
-    						label="Description *"
-    					/>
-    				</Grid>
-    				<Grid item xs={2}>
-    					<Field
-    						name="minfromnow_number"
-    						label="Min Available *"
+						container
+						alignItems="center"
+						spacing={24}
+					>
+						<br/>
+						<Grid item xs={6}>
+							<Field
+								type="text"
+								name="title"
+								component={renderText}
+								label="title *"
+							/>
+						</Grid>
+						<Grid item xs={6}>
+						</Grid>
+						<Grid item xs={8}>
+							<Field
+								name="description"
+								component={renderTextarea}
+								label="Description *"
+							/>
+						</Grid>
+						<Grid item xs={4}></Grid>
+						<Grid item xs={2}>
+							<Field
+								name="minfromnow_number"
+								label="Min Available *"
 								type="number"
 								fullWidth={false}
-    						component={renderText}
-    					/>
+								component={renderText}
+							/>
 						</Grid>:
 						<Grid item xs={2}>
 							<Field
-    						name="minfromnow_options"
+								name="minfromnow_options"
 								label="Available Options *"
 								type="select"
 								fullWidth={false}
 								data={availableOptions}
-    						component={renderSelect}
-    					/>
-    				</Grid>
+								component={renderSelect}
+							/>
+						</Grid>
 						<Grid item xs={1}></Grid>
 						<Grid item xs={2}>
-    					<Field
-    						name="maxfromnow_number"
+							<Field
+								name="maxfromnow_number"
 								label="Max Available *"
-    						component={renderText}
+								component={renderText}
 								type="number"
 								fullWidth={false}
-    					/>
+							/>
 						</Grid>:
 						<Grid item xs={2}>
 							<Field
-    						name="maxfromnow_options"
+								name="maxfromnow_options"
 								label="Available Options *"
 								data={availableOptions}
 								component={renderSelect}
 								fullWidth={false}
-    						type="date"
-    					/>
-    				</Grid>
+								type="date"
+							/>
+						</Grid>
 						<Grid item xs={2}></Grid>
-    				<Grid item xs={3}>
-    					<Field
-    						type="text"
-    						name="price"
-    						component={renderText}
-    						label="Price *"
-    					/>
-    				</Grid>
+						{/* Lead In */}
+						<Grid item xs={2}>
+							<Field
+								name="lead_in_hrs"
+								label="Lead in Hrs"
+								type="select"
+								fullWidth={false}
+								data={leadHrsOptions}
+								component={renderSelect}
+							/>
+						</Grid>:
+						<Grid item xs={2}>
+							<Field
+								name="lead_in_mins"
+								label="Lead in Mins"
+								type="select"
+								fullWidth={false}
+								data={leadMinsOptions}
+								component={renderSelect}
+							/>
+						</Grid>
+						<Grid item xs={1}></Grid>
+						<Grid item xs={2}>
+							<Field
+								name="lead_out_hrs"
+								label="Lead out Hrs"
+								data={leadHrsOptions}
+								component={renderSelect}
+								fullWidth={false}
+								type="select"
+							/>
+						</Grid>:
+						<Grid item xs={2}>
+							<Field
+								name="lead_out_mins"
+								label="Lead out Mins"
+								data={leadMinsOptions}
+								component={renderSelect}
+								fullWidth={false}
+								type="select"
+							/>
+						</Grid>
+						<Grid item xs={1}></Grid>
+						{/* Min Cancellation */}
+						<Grid item xs={2}>
+							<Field
+								name="min_cancel_number"
+								label="Cancel Deadline *"
+								type="number"
+								fullWidth={false}
+								component={renderText}
+							/>
+						</Grid>:
+						<Grid item xs={2}>
+							<Field
+								name="min_cancel_options"
+								label="Options *"
+								type="select"
+								fullWidth={false}
+								data={availableOptions}
+								component={renderSelect}
+							/>
+						</Grid>
+						<Grid item xs={1}></Grid>
+						{/* Duration */}
 						<Grid item xs={3}>
 							<Field
 								name="duration"
 								label="Duration *"
 								data={durationData}
 								component={renderSelect}
-								type="date"
+								type="select"
 							/>
-    				</Grid>
-						<Grid item xs={6}></Grid>
-    				<Grid item xs={3}>
-    					<Field
-    						type="text"
-    						name="recur_total"
-    						component={renderText}
-    						label="Recurring Total"
-    					/>
-    				</Grid>
-    				<Grid item xs={3}>
-    					<Field
-    						type="text"
-    						name="recur_options"
-    						component={renderText}
-    						label="Recurring Options"
-    					/>
-    				</Grid>
-    				<Grid item xs={6}>
-    				</Grid>
-    			</Grid>
+						</Grid>
+						<Grid item xs={3}></Grid>
+						{/* Price */}
+						<Grid item xs={3}>
+							<Field
+								type="text"
+								name="price"
+								component={renderText}
+								label="Price *"
+							/>
+						</Grid>
+						<Grid item xs={8}></Grid>
+					</Grid>
     			<br/><br/>
     			<Grid container justify="center">
     				<Button type="submit" variant="raised" color="primary">Create</Button>
@@ -196,6 +217,8 @@ const validateAddService = values => {
 		'minfromnow_options',
 		'maxfromnow_number',
 		'maxfromnow_options',
+		'min_cancel_number',
+		'min_cancel_options',
 		'duration',
 	];
 	requiredFields.forEach(field => {
