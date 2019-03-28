@@ -12,15 +12,43 @@ import {Field, reduxForm} from 'redux-form';
 import { storeItem } from '../../actions/sittingAction';
 import renderText from '../../components/common/form/renderText';
 import renderTextarea from '../../components/common/form/renderTextarea';
+import renderSelect from '../../components/common/form/renderSelect';
+
+import { fetchAll as fetchLocationsAction } from '../../actions/locationAction';
+import { fetchAll as fetchServicesAction } from '../../actions/serviceAction';
+
+const styles = {
+	container: {
+		maxWidth: 800,
+	}
+}
 
 class AddSitting extends Component {
-	state = {
-		serviceList: [],
-		locationList: [],
+	constructor(props) {
+		super(props);
+		this.state = {
+			serviceList: [],
+			locationList: [],
+		};
+		const { fetchServices, fetchLocations } = this.props;
+		fetchServices();
+		fetchLocations();
 	}
 
 	componentWillReceiveProps(nextProps) {
 		const { services, locations } = nextProps;
+		const serviceArr = services.map(service => ({
+			value: service.id,
+			label: service.title,
+		}));
+		const locationArr = locations.map(location => ({
+			value: location.id,
+			label: location.title,
+		}));
+		this.setState({
+			serviceList: serviceArr,
+			locationList: locationArr,
+		});
 	}
 
 	onSubmit = (formProps) => {
@@ -31,66 +59,66 @@ class AddSitting extends Component {
 
 	render() {
 		const { handleSubmit } = this.props;
-		// const { serviceList, locationList } = this.state;
+		const { serviceList, locationList } = this.state;
 		
 		return (
-			<form method="post" onSubmit={handleSubmit(this.onSubmit)} >
-				<Link to='/admin/sittings'><span>sittings</span></Link> / <span>new</span>
-				<br/><br/>
-				<Grid
-					container
-					alignItems="center"
-					spacing={24}
-				>
-					<Grid item xs={6}>
-						<h1>Add Sitting</h1>
+			<div style={styles.container}>
+				<form method="post" onSubmit={handleSubmit(this.onSubmit)} >
+					<Link to='/admin/sittings'><span>sittings</span></Link> / <span>new</span>
+					<br/><br/>
+					<Grid
+						container
+						alignItems="center"
+						spacing={24}
+					>
+						<Grid item xs={12}>
+						</Grid>
+						<Grid item xs={6}>
+							<Field
+								type="text"
+								name="title"
+								component={renderText}
+								label="title *"
+							/>
+						</Grid>
+						<Grid item xs={6}>
+						</Grid>
+						<Grid item xs={12}>
+							<Field
+								name="description"
+								component={renderTextarea}
+								label="Description *"
+							/>
+						</Grid>
+						<Grid item xs={6}>
+							<Field
+								name="service"
+								label="Service"
+								data={serviceList}
+								key={serviceList}
+								component={renderSelect}
+								fullWidth={false}
+								type="select"
+							/>
+						</Grid>
+						<Grid item xs={6}>
+							<Field
+								name="location"
+								label="Location"
+								key={locationList}
+								data={locationList}
+								component={renderSelect}
+								fullWidth={false}
+								type="select"
+							/>
+						</Grid>
 					</Grid>
-					<Grid item xs={6}>
+					<br/><br/>
+					<Grid container justify="center">
+						<Button type="submit" variant="raised" color="primary">Create</Button>
 					</Grid>
-					<br/>
-					<Grid item xs={6}>
-						<Field
-							type="text"
-							name="title"
-							component={renderText}
-							label="title *"
-						/>
-					</Grid>
-					<Grid item xs={6}>
-					</Grid>
-					<Grid item xs={12}>
-						<Field
-							name="description"
-							component={renderTextarea}
-							label="Description *"
-						/>
-					</Grid>
-					{/* <Grid item xs={2}>
-						<Field
-							name="service"
-							label="Service"
-							data={serviceList}
-							component={renderSelect}
-							fullWidth={false}
-							type="select"
-						/>
-					</Grid>
-					<Grid item xs={2}>
-						<Field
-							name="location"
-							label="Location"
-							data={locationList}
-							component={renderSelect}
-							fullWidth={false}
-							type="select"
-						/>
-					</Grid> */}
-				</Grid>
-				<br/><br/>
-				<Grid container justify="center">
-					<Button type="submit" variant="raised" color="primary">Create</Button>
-				</Grid>
-			</form>
+				</form>
+			</div>
 		);
 	}
 }
@@ -111,19 +139,32 @@ const validateAddSitting = values => {
 	return errors;
 };
 
+
+/**
+ * Map the state to props.
+ */
+const mapStateToProps = state => ({
+	locations: state.data.locations,
+	services: state.data.services,
+});
+
 /**
  * Map the actions to props.
  */
 const mapDispatchToProps = dispatch => ({
 	createSitting: bindActionCreators(storeItem, dispatch),
+	fetchServices: bindActionCreators(fetchServicesAction, dispatch),
+	fetchLocations: bindActionCreators(fetchLocationsAction, dispatch),
 });
 
 AddSitting.propTypes = {
 	handleSubmit: PropTypes.func,
 	createSitting: PropTypes.func,
+	fetchServices: PropTypes.func,
+	fetchLocations: PropTypes.func,
 };
 
-export default connect(null, mapDispatchToProps)(reduxForm({
+export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
 	form: 'AddSittingForm',
 	validate: validateAddSitting
 })(AddSitting));
