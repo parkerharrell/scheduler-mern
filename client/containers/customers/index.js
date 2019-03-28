@@ -5,61 +5,124 @@ import {bindActionCreators} from 'redux';
 import { Link } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
-import { AgGridReact } from 'ag-grid-react';
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-balham.css';
+import Modal from 'react-awesome-modal';
+import CloseIcon from '@material-ui/icons/Close';
 import { isUndefined } from 'lodash';
+import Button from '@material-ui/core/Button';
+import { Checkbox, Pagination } from 'antd';
 
-import { fetchAll } from '../../actions/userAction';
+import { fetchAll, destroyItem, updateItem } from '../../actions/userAction';
+import './customers.style.css';
 
-class ActionsCellRenderer extends Component {
-	static propTypes = {
-		data: PropTypes.object,
-	};
-
-	render() {
-		// put in render logic
-		const { data } = this.props;
-		
-		return (
-			<React.Fragment>
-				<Link to={`/admin/customers/${data.id}`}>Show</Link>&nbsp;&nbsp;
-			</React.Fragment>
-		);
+const styles = {
+	table: {
+		tableLayout: 'fixed',
+    width: '100%',
+		textAlign: 'left',
+		borderCollapse: 'collapse',
+	},
+	th: {
+		color: '#a9a9a9',
+		borderBottom: '1px solid #17acb3',
+		paddingTop: 8,
+		paddingBottom: 8,
+		paddingLeft: 10,
+	},
+	oddTr: {
+		background: '#fafdff',
+	},
+	arrowUp: {
+		cursor: 'pointer',
+    color: 'green',
+		fontSize: 22,
+	},
+	arrowDown: {
+		cursor: 'pointer',
+		color: 'orangered',
+		fontSize: 22,
+	},
+	statusBtnActive: {
+		backgroundColor: '#07b56f',
+		fontSize: '0.7em',
+	},
+	statusBtn: {
+		fontSize: '0.7em',
+	},
+	statusBtnNotConfirmed: {
+		fontSize: '0.7em',
+    background: '#f5cc05',
+    pointerEvents: 'none',
 	}
 }
 
-const columnDefs = [
-	{
-		headerName: '',
-		field: 'actions',
-		width: 50,
-		cellRendererFramework: ActionsCellRenderer,
-        
-	},
-	{headerName: 'Id', field: 'id',  width: 100, minWidth: 80, maxWidth: 200 },
-	{headerName: 'Username', field: 'username', minWidth: 200},
-	{headerName: 'Email', field: 'email', minWidth: 300},
-	{headerName: 'First Name', field: 'first_name', minWidth: 200},
-	{headerName: 'Last Name', field: 'last_name', minWidth: 200},
-	{headerName: 'Created', field: 'createdAt', minWidth: 200},
-];
-
+const PAGE_SIZE = 2;
 
 class UsersContainer extends Component {
-
-	componentDidMount() {
+	constructor(props) {
+		super(props);
+		this.state = {
+			visible: false,
+			deleteUserId: null,
+			rowData: [],
+			pageNumber: 1,
+			totalUsersNumber: 0,
+			pageSize: PAGE_SIZE,
+		};
 		const { fetchAll } = this.props;
-		fetchAll();
+		fetchAll({ page: 1, size: PAGE_SIZE });
 	}
 
-	render() {
-		const { users } = this.props;
-		let rowData = [];
+	componentWillReceiveProps(nextProps) {
+		const { users, totalUsersNumber } = nextProps;
 		if (!isUndefined(users)) {
-			rowData = users;
+			this.setState({ rowData: users, totalUsersNumber });
 		}
+	}
 
+	changeStatus = (id, status) => {
+		const { updateUser } = this.props;
+		updateUser(id, {status: 1 - status});
+	}
+
+	// Modal APIs
+	openModal = (id) => {
+		this.setState({
+			visible : true,
+			deleteUserId: id,
+		});
+	}
+
+	closeModal = () => {
+		this.setState({
+			visible : false,
+			deleteUserId: null,
+		});
+	}
+
+	confirmModal() {
+		const { deleteUserId } = this.state;
+		const { deleteUser } = this.props;
+		deleteUser(deleteUserId);
+		this.setState({
+			visible: false,
+			deleteUserId: null,
+		});
+	}
+
+	// Checkbox Change Handler
+	checkboxChange = (index, id) => {
+		
+	}
+
+	onPagiationChanged = (pageNumber) => {
+		this.setState({
+			pageNumber,
+		});
+	}
+
+
+	render() {
+		const { visible, rowData, pageNumber, totalUsersNumber } = this.state;
 		return (
 			<div>
 				<Grid
@@ -68,22 +131,93 @@ class UsersContainer extends Component {
 					alignItems="center"
 				>
 					<Grid item>
-						<h1>Customers</h1>
+						<h1>Customer</h1>
+					</Grid>
+					<Grid item>
+						<Link to='/admin/users/new'><Button variant="contained" color="primary">Create New</Button></Link>
 					</Grid>
 				</Grid>
-				<div
-					className="ag-theme-balham"
-				>
-					<AgGridReact
-						enableSorting={true}
-						pagination={true}
-						defaultColDef={{ resizable: true }}
-						columnDefs={columnDefs}
-						rowData={rowData}
-						paginationPageSize={20}
-					>
-					</AgGridReact>
+				<br/>
+				<div className="customers__pagination">
+					<Pagination
+						total={totalUsersNumber}
+						showTotal={(total, range) => `[${range[0]}-${range[1]} of ${total}]`}
+						pageSize={PAGE_SIZE}
+						onChange={this.onPagiationChanged}
+						defaultCurrent={pageNumber}
+					/>
 				</div>
+				<br/>
+				<table key={rowData} style={styles.table}>
+					<thead>
+						<tr>
+							<th style={{...styles.th, width: 30 }}><Checkbox onChange={() => this.checkboxChange()}></Checkbox></th>
+							<th style={{...styles.th, width: 400 }}>Full Name</th>
+							<th style={styles.th}>Email</th>
+							<th style={styles.th}>Contact Phone</th>
+							<th style={styles.th}>Address</th>
+							<th style={styles.th} width="120">Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						{rowData.map((data, index) => (
+							<tr key={index} style={index % 2 === 0 ? styles.oddTr : {}}>
+								<td>
+									<Checkbox onChange={() => this.checkboxChange(index, data.id)}></Checkbox>
+								</td>
+								<td>
+									<div>{`${data.first_name} ${data.last_name}`}</div>
+									<div><Link to={`/admin/users/${data.id}`}>Details</Link>&nbsp;|&nbsp;
+									<Link to={`/admin/appointments?user=${data.id}`}>Appointments</Link>&nbsp;|&nbsp;
+									<a onClick={() => this.openModal(data.id)}>Remove</a></div>
+								</td>
+								<td>
+									{data.email}
+								</td>
+								<td>
+									{data.phone}
+								</td>
+								<td>
+									{`${data.street_address}, ${data.city}, ${data.state} ${data.zipcode}`}
+								</td>
+								<td>
+									{data.email_confirmed == 0 &&
+										<Button variant="contained" size="small" color="warning" style={styles.statusBtnNotConfirmed}>Not Confirmed</Button>
+									}
+									{data.status === 1 && data.email_confirmed == 1 &&
+										<Button variant="contained" size="small" color="primary" style={styles.statusBtnActive} onClick={() => this.changeStatus(data.id, data.status)}>Activate</Button>
+									}
+									{data.status !== 1 && data.email_confirmed == 1 &&
+										<Button variant="contained" size="small" color="secondary" style={styles.statusBtn} onClick={() => this.changeStatus(data.id, data.status)}>Suspend</Button>
+									}
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+				<Modal visible={visible} width="480" height="200" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+  				<div style={{ padding: 20 }}>
+  					<Grid container alignItems="flex-end">
+  						<Grid item xs={12} style={{ textAlign: 'right' }}>
+  							<CloseIcon onClick={() => this.closeModal()} />
+  						</Grid>
+  						<br/>
+  						<Grid item xs={12} style={{ fontSize: '1.4em', fontWeight: 500, padding: '20px 0' }}>
+                  Do you really want to delete the user? 
+  						</Grid>
+  						<br/>
+  						<Grid item xs={12} style={{ textAlign: 'right', paddingTop: 20 }}>
+  							<Button variant="contained" color="primary" onClick={() => this.confirmModal()} >
+                    Yes
+  							</Button>
+                  &nbsp;&nbsp;&nbsp;
+  							<Button variant="contained" color="secondary" onClick={() => this.closeModal()} >
+                     No
+  							</Button>
+  						</Grid>
+  					</Grid>
+  				</div>
+  			</Modal>
 			</div>
 		);
 	}
@@ -95,6 +229,7 @@ class UsersContainer extends Component {
  */
 const mapStateToProps = state => ({
 	users: state.data.users,
+	totalUsersNumber: state.data.totalUsersNumber,
 });
 
 /**
@@ -102,11 +237,15 @@ const mapStateToProps = state => ({
  */
 const mapDispatchToProps = dispatch => ({
 	fetchAll: bindActionCreators(fetchAll, dispatch),
+	deleteUser: bindActionCreators(destroyItem, dispatch),
+	updateUser: bindActionCreators(updateItem, dispatch),
 });
 
 UsersContainer.propTypes = {
-	fetchAll: PropTypes.func,
 	users: PropTypes.array,
+	fetchAll: PropTypes.func,
+	deleteUser: PropTypes.func,
+	updateUser: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);

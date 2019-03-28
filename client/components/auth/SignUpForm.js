@@ -130,7 +130,7 @@ class SignUpForm extends Component {
 								<Grid item md={6} xs={12}>
 									<Field
 										type="text"
-										name="contact_phone"
+										name="phone"
 										component={renderText}
 										label="Contact Phone *"
 									/>
@@ -198,7 +198,7 @@ class SignUpForm extends Component {
 										component={renderText}
 										label="Preseller Initials *"
 									/>
-									<i>{`If this doesn't apply, just enter in "N/A"`}</i>
+									<em>{`If this doesn't apply, just enter in "N/A"`}</em>
 								</Grid>
 								<Grid item md={12} xs={12}>
 									<Field
@@ -293,7 +293,7 @@ const validateSignUp = values => {
 		'first_name',
 		'last_name',
 		'email',
-		'contact_phone',
+		'phone',
 		'zipcode',
 		'preseller_initials',
 		'password',

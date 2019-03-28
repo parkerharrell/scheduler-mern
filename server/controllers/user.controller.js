@@ -3,6 +3,8 @@ import HttpStatus from 'http-status-codes';
 import User from '../models/user.model';
 import jwt from 'jsonwebtoken';
 
+import * as _ from 'lodash';
+
 /**
  * Find all the users
  *
@@ -61,14 +63,14 @@ export function findById(req, res) {
  * @returns {*}
  */
 export function store(req, res) {
-	const {first_name, last_name, email, username, created } = req.body;
-	let password;
-	if (req.body.password) {
-		password = bcrypt.hashSync(req.body.password, 10);
-	}
+	// let cryptedPassword;
+	// if (req.body.password) {
+	// 	cryptedPassword = bcrypt.hashSync(req.body.password, 10);
+	// }
+	const params = _.assign({}, req.body);
 
 	User.forge({
-		first_name, last_name, email, password, username, created
+		...params,
 	}, {hasTimestamps: false}).save()
 		.then(user => {
 			const token = jwt.sign({

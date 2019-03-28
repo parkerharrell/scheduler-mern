@@ -1,0 +1,14 @@
+.customers__pagination .ant-pagination-item,
+.customers__pagination .ant-pagination-prev,
+.customers__pagination .ant-pagination-next {
+  width: 20px;
+  min-width: 20px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 11px;
+}
+
+.customers__pagination .ant-pagination-total-text {
+  width: 100px;
+  text-align: right;
+}

@@ -40,11 +40,12 @@ function add(data) {
 }
 
 // eslint-disable-next-line no-unused-vars
-function update(data) {
+function update(id, data) {
 	return {
 		type: ENTITY_UPDATE,
 		entity: 'users',
-		data: data
+		data: data,
+		id: id,
 	};
 }
 
@@ -81,9 +82,9 @@ function clearList(user) {
 	};
 }
 
-export function fetchAll() {
+export function fetchAll(data) {
 	return function (dispatch) {
-		return httpUser.fetchEntity('users').then((response) => {
+		return httpSitting.fetchEntityWithData('users', data).then((response) => {
 			dispatch(fetch(response['data'].data));
 		})
 			.catch((error) => {
@@ -117,7 +118,7 @@ export function storeItem(data) {
 export function updateItem(id, data) {
 	return function (dispatch) {
 		return httpUser.updateEntity('users', data, id).then(() => {
-			history.goBack();
+			dispatch(update(id, res['data'].data));
 		})
 			.catch((error) => {
 				dispatch(failure(error));
