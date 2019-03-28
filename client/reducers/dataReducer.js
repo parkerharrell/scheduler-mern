@@ -141,7 +141,14 @@ export default function (state, action) {
 			data.minfromnow_options = options;
 			const { options: options1, number: number1 } = fancyTimeFormat(data.max_from_now);
 			data.maxfromnow_number = number1;
-			data.maxfromnow_options = options1;
+			data.min_cancel_options = options1;
+			const { options: options2, number: number2 } = fancyTimeFormat(data.min_cancel);
+			data.min_cancel_number = number2;
+			data.min_cancel_options = options2;
+			data.lead_in_hrs = ~~(data.lead_in / 3600);
+			data.lead_in_mins = (data.lead_in % 3600) / 60;
+			data.lead_out_hrs = ~~(data.lead_out / 3600);
+			data.lead_out_mins = (data.lead_out % 3600) / 60;
 		}
 		if (action.entity === 'selectedUser') {
 			data.createdAt = moment(data.created * 1000).tz(tz1).format('YYYY-MM-DD');

@@ -53,6 +53,13 @@ export default {
 			duration: Joi.number().required(),
 			recur_total: Joi.string(),
 			recur_options: Joi.string(),
+			lead_in: Joi.number(),
+			lead_out: Joi.number(),
+			min_cancel: Joi.number(),
+			return_url: Joi.string(),
+			nonuser_permission: Joi.string(),
+			user_permission: Joi.string(),
+			payment: Joi.string(),
 		}
 	},
 
@@ -65,6 +72,14 @@ export default {
 			price: Joi.number(),
 			recur_total: Joi.string(),
 			recur_options: Joi.string(),
+			duration: Joi.number(),
+			lead_in: Joi.number(),
+			lead_out: Joi.number(),
+			min_cancel: Joi.number(),
+			return_url: Joi.string(),
+			nonuser_permission: Joi.string(),
+			user_permission: Joi.string(),
+			payment: Joi.string(),
 		},
 		params: {
 			id: Joi.string().hex().required()
@@ -120,6 +135,29 @@ export default {
 			service: Joi.number(),
 			customer: Joi.number(),
 			payment: Joi.string(),
+		}
+	},
+
+	storeSitting: {
+		body: {
+			title: Joi.string().required(),
+			location: Joi.number().required(),
+			service: Joi.number().required(),
+			status: Joi.number().required(),
+			show_order: Joi.number().required(),
+		}
+	},
+
+	updateSitting: {
+		body: {
+			title: Joi.string().required(),
+			location: Joi.number().required(),
+			service: Joi.number().required(),
+			status: Joi.number().required(),
+			show_order: Joi.number().required(),
+		},
+		params: {
+			id: Joi.string().hex().required()
 		}
 	},
 };
