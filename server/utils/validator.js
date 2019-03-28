@@ -143,8 +143,6 @@ export default {
 			title: Joi.string().required(),
 			location: Joi.number().required(),
 			service: Joi.number().required(),
-			status: Joi.number().required(),
-			show_order: Joi.number().required(),
 		}
 	},
 
