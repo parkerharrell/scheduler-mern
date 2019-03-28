@@ -5,3 +5,6 @@
 
 package-lock.json
 npm-debug.log
+
+/public/client.bundle.js
+/public/client.bundle.js.map
