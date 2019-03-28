@@ -48,6 +48,14 @@ function update(id, data) {
 	};
 }
 
+function fetchByEntity(entity, data) {
+	return {
+		type: ENTITY_FETCH,
+		entity: entity,
+		data: data
+	};
+}
+
 function fetch(data) {
 	return {
 		type: ENTITY_FETCH,
@@ -85,7 +93,7 @@ export function fetchAllResources(entity, data) {
 
 	return function (dispatch) {
 		return httpSitting.fetchEntityWithData('sittings', data).then((response) => {
-			dispatch(fetch(entity, response['data'].data));
+			dispatch(fetchByEntity(entity, response['data'].data));
 		})
 			.catch((error) => {
 				dispatch(failure(error));

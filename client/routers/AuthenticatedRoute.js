@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'process';
+import PropTypes from 'prop-types';
 import {Route, Redirect} from 'react-router-dom';
 
 import {getToken} from '../utils/storageUtil';

@@ -67,8 +67,7 @@ class Services extends Component {
 
     render() {
 			const { services, appointmentdata } = this.props;
-			const { active, paymenttype } =  this.state;
-			const openBooked = localStorage.getItem(`openBooked_+ ${appointmentdata.location.id}`);
+			const { active } =  this.state;
     	let rowData = [];
     	if (!isUndefined(services)) {
     		rowData = services;
@@ -82,7 +81,7 @@ class Services extends Component {
     						<Item data={item} active={active === index} onclick={() => this.setService(index)}/>
     					</Grid>
 						)}
-						{rowData.length > 0 && !openBooked &&
+						{rowData.length > 0 &&
 							<Grid item md={4} key={'open-appointment'} className="services__griditem">
 								<div className="services__card"  onClick={this.showOpenAppointment}>
 									<span className="title">Open Appointment</span>
@@ -129,7 +128,7 @@ Services.propTypes = {
 	appointmentdata: PropTypes.object,
 	goToNextStep: PropTypes.func,
 	updateAppointmentService: PropTypes.func,
-	updateAppointmentOpen: PropTypes.funcs,
+	updateAppointmentOpen: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Services);
