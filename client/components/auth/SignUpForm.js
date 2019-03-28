@@ -132,7 +132,7 @@ class SignUpForm extends Component {
 										type="text"
 										name="phone"
 										component={renderText}
-										label="Contact Phone *"
+										label="Contact Phone"
 									/>
 								</Grid>
 								<Grid item md={6} xs={12}>
@@ -293,21 +293,17 @@ const validateSignUp = values => {
 		'first_name',
 		'last_name',
 		'email',
-		'phone',
 		'zipcode',
 		'preseller_initials',
-		'password',
-		'confirm_password',
-		'username',
 	];
 	requiredFields.forEach(field => {
 		if (!values[field]) {
 			errors[field] = '(The ' + field + ' field is required.)';
 		}
-		if (values['password'] !== values['confirm_password']) {
-			errors['password'] = '';
-			errors['confirm_password'] = '(Password fields does not match.)';
-		}
+		// if (values['password'] !== values['confirm_password']) {
+		// 	errors['password'] = '';
+		// 	errors['confirm_password'] = '(Password fields does not match.)';
+		// }
 	});
 
 	if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
