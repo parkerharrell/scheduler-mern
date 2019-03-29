@@ -7,11 +7,11 @@ import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Modal from 'react-awesome-modal';
 import CloseIcon from '@material-ui/icons/Close';
-import { isUndefined } from 'lodash';
 import Button from '@material-ui/core/Button';
-import { Checkbox, Pagination, Select } from 'antd';
+import { Checkbox, Pagination, Select, Icon } from 'antd';
 
 import { fetchAll, destroyItem, updateItem } from '../../actions/userAction';
+import { fetchById } from '../../actions/fileAction';
 import './customers.style.css';
 
 const styles = {
@@ -56,7 +56,7 @@ const styles = {
 	}
 }
 
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 20;
 const Option = Select.Option;
 
 class UsersContainer extends Component {
@@ -134,6 +134,11 @@ class UsersContainer extends Component {
 		fetchAll({ page: pageNumber, limit: PAGE_SIZE, sort: value });
 	}
 
+	downloadExcel = () => {
+		const { downloadFile } = this.props;
+		downloadFile('customers');
+	}
+
 
 	render() {
 		const { visible, rowData, pageNumber, totalUsersNumber, sortByOption } = this.state;
@@ -170,6 +175,8 @@ class UsersContainer extends Component {
 						<Option value="first_name">First Name</Option>
 						<Option value="last_name">Last Name</Option>
 					</Select>
+					<Icon type="file-excel" style={{ fontSize: 20, marginLeft: 10, marginRight: 6 }} title={'Download Cutomers\' List'} onClick={this.downloadExcel} />
+					<Icon type="printer" style={{ fontSize: 20, marginLeft: 6, marginRight: 10 }} title={'Print Cutomers\' List'} onClick={() => {}} />
 				</div>
 				<br/>
 				<table key={rowData} style={styles.table}>
@@ -263,6 +270,7 @@ const mapDispatchToProps = dispatch => ({
 	fetchAll: bindActionCreators(fetchAll, dispatch),
 	deleteUser: bindActionCreators(destroyItem, dispatch),
 	updateUser: bindActionCreators(updateItem, dispatch),
+	downloadFile: bindActionCreators(fetchById, dispatch),
 });
 
 UsersContainer.propTypes = {
@@ -270,6 +278,7 @@ UsersContainer.propTypes = {
 	fetchAll: PropTypes.func,
 	deleteUser: PropTypes.func,
 	updateUser: PropTypes.func,
+	downloadFile: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
