@@ -6,6 +6,8 @@ import locationRoutes from './location.route';
 import eventRoutes from './event.route';
 import sittingRoutes from './sitting.route';
 import openAppointmentsRoutes from './openappointment.route';
+import fileRoutes from './file.route';
+
 const router = express.Router();
 
 // mount auth routes at /auth
@@ -18,5 +20,6 @@ router.use('/locations', locationRoutes);
 router.use('/events', eventRoutes);
 router.use('/sittings', sittingRoutes);
 router.use('/openappointments', openAppointmentsRoutes);
+router.use('/files', fileRoutes);
 
 export default router;
