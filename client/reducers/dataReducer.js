@@ -62,6 +62,7 @@ export default function (state, action) {
 		sittings: [],
 		selectedSitting: {},
 		settings: {},
+		total: {},
 	};
 
 	state = state || initialState;
@@ -87,6 +88,7 @@ export default function (state, action) {
 		return newState;
 
 	case ENTITY_FETCH: {
+		console.log('--------------', action);
 		const apiData = action.data.slice();
 		let result = [];
 		const tz = moment.tz.guess();
@@ -108,9 +110,9 @@ export default function (state, action) {
 		if (action.entity === 'users') {
 			result = apiData.map(data => {
 				data.createdAt = moment(data.created * 1000).tz(tz).format('YYYY/MM/DD');
-				
 				return data;
 			});
+			newState['total'] = action.total;
 		}
 		if (action.entity === 'events') {
 			result = apiData;

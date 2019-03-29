@@ -1,4 +1,5 @@
 import bookshelf from '../config/bookshelf';
+bookshelf.plugin(require('bookshelf-simplepaginate'));
 
 /**
  * User model.

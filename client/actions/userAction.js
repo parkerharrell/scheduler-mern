@@ -1,9 +1,9 @@
 import history from '../utils/history';
 
 /**
- * Import all httpUser as an object.
+ * Import all httpService as an object.
  */
-import * as httpUser from '../services/httpService';
+import * as httpService from '../services/httpService';
 
 
 /**
@@ -49,11 +49,12 @@ function update(id, data) {
 	};
 }
 
-function fetch(data) {
+function fetch(data, total) {
 	return {
 		type: ENTITY_FETCH,
 		entity: 'users',
-		data: data
+		data: data,
+		total: total,
 	};
 }
 
@@ -84,8 +85,8 @@ function clearList(user) {
 
 export function fetchAll(data) {
 	return function (dispatch) {
-		return httpSitting.fetchEntityWithData('users', data).then((response) => {
-			dispatch(fetch(response['data'].data));
+		return httpService.fetchEntityWithData('users', data).then((response) => {
+			dispatch(fetch(response['data']['data'].data, response['data']['data'].total));
 		})
 			.catch((error) => {
 				dispatch(failure(error));
@@ -95,7 +96,7 @@ export function fetchAll(data) {
 
 export function fetchById(id) {
 	return function (dispatch) {
-		return httpUser.fetchEntityById('users', id).then((response) => {
+		return httpService.fetchEntityById('users', id).then((response) => {
 			dispatch(selectItem(response['data'].data));
 		})
 			.catch((error) => {
@@ -106,7 +107,7 @@ export function fetchById(id) {
   
 export function storeItem(data) {
 	return function (dispatch) {
-		return httpUser.storeEntity('users', data).then(() => {
+		return httpService.storeEntity('users', data).then(() => {
 			history.goBack();
 		})
 			.catch((error) => {
@@ -117,7 +118,7 @@ export function storeItem(data) {
 
 export function updateItem(id, data) {
 	return function (dispatch) {
-		return httpUser.updateEntity('users', data, id).then(() => {
+		return httpService.updateEntity('users', data, id).then(() => {
 			dispatch(update(id, res['data'].data));
 		})
 			.catch((error) => {
@@ -128,7 +129,7 @@ export function updateItem(id, data) {
 
 export function destroyItem(id) {
 	return function (dispatch) {
-		return httpUser.destroyEntity('users', id).then(() => {
+		return httpService.destroyEntity('users', id).then(() => {
 			dispatch(fetchAll());
 		})
 			.catch((error) => {

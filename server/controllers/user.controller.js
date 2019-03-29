@@ -13,13 +13,23 @@ import * as _ from 'lodash';
  * @returns {*}
  */
 export function findAll(req, res) {
-	User.forge()
-		.fetchAll()
-		.then(user => res.json({
-			error: false,
-			data: user.toJSON()
+	const { page, limit, sort } = req.query;
+	const sortBy = sort ? sort : 'email';
+	let users = [];
+	User
+		.query('orderBy', sortBy, 'asc')
+		.simplePaginate({ page, limit })
+		.then(user => {
+			users = user;
 		})
-		)
+		.then(() => User.count('id'))
+		.then(total => res.json({
+				error: false,
+				data: {
+					...users,
+					total: total,
+				}
+			}))
 		.catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
 			error: err
 		})

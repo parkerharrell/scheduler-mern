@@ -12,3 +12,29 @@
   width: 100px;
   text-align: right;
 }
+
+.customers__pagination .ant-pagination {
+  width: 400px;
+  display: inline-block;
+}
+
+.customers__pagination .ant-select {
+  width: 150px;
+  font-size: 12px;
+  height: 24px;
+  margin: 0 10px;
+}
+
+.customers__pagination .ant-select-selection--single {
+  height: 24px;
+}
+
+.customers__pagination .ant-select-selection__rendered {
+  line-height: 24px;
+}
+
+.customers__pagination {
+  display: flex;
+  align-items: center;
+}
+

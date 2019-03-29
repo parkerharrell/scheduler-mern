@@ -131,7 +131,25 @@ router.route('/')
      *       - application/json
      *     produces:
      *       - application/json
-     *     parameters: []
+     *     parameters:
+     *       - name: page
+     *         in: query
+     *         description: Page Number
+     *         required: false
+     *         schema:
+     *           $ref: "#/definitions/User"
+     *       - name: limit
+     *         in: query
+     *         description: Number of users
+     *         required: false
+     *         schema:
+     *           $ref: "#/definitions/User"
+     *       - name: sort
+     *         in: query
+     *         description: key for sortby
+     *         required: false
+     *         schema:
+     *           $ref: "#/definitions/User"
      *     responses:
      *       200:
      *         description: OK

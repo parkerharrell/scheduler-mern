@@ -9,7 +9,7 @@ import Modal from 'react-awesome-modal';
 import CloseIcon from '@material-ui/icons/Close';
 import { isUndefined } from 'lodash';
 import Button from '@material-ui/core/Button';
-import { Checkbox, Pagination } from 'antd';
+import { Checkbox, Pagination, Select } from 'antd';
 
 import { fetchAll, destroyItem, updateItem } from '../../actions/userAction';
 import './customers.style.css';
@@ -51,11 +51,13 @@ const styles = {
 	statusBtnNotConfirmed: {
 		fontSize: '0.7em',
     background: '#f5cc05',
-    pointerEvents: 'none',
+		pointerEvents: 'none',
+		color: '#222',
 	}
 }
 
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 3;
+const Option = Select.Option;
 
 class UsersContainer extends Component {
 	constructor(props) {
@@ -67,16 +69,16 @@ class UsersContainer extends Component {
 			pageNumber: 1,
 			totalUsersNumber: 0,
 			pageSize: PAGE_SIZE,
+			sortByOption: 'email',
 		};
 		const { fetchAll } = this.props;
-		fetchAll({ page: 1, size: PAGE_SIZE });
+		fetchAll({ page: 1, limit: PAGE_SIZE });
 	}
 
 	componentWillReceiveProps(nextProps) {
-		const { users, totalUsersNumber } = nextProps;
-		if (!isUndefined(users)) {
-			this.setState({ rowData: users, totalUsersNumber });
-		}
+		const { users, total } = nextProps;
+		const totalUsersNumber = total ? total : 0;
+		this.setState({ rowData: users, totalUsersNumber });
 	}
 
 	changeStatus = (id, status) => {
@@ -118,11 +120,23 @@ class UsersContainer extends Component {
 		this.setState({
 			pageNumber,
 		});
+		const { fetchAll } = this.props;
+		const { sortByOption } = this.state;
+		fetchAll({ page: pageNumber, limit: PAGE_SIZE, sort: sortByOption });
+	}
+
+	sortByOptionChange = (value) => {
+		this.setState({
+			sortByOption: value,
+		});
+		const { pageNumber } = this.state;
+		const { fetchAll } = this.props;
+		fetchAll({ page: pageNumber, limit: PAGE_SIZE, sort: value });
 	}
 
 
 	render() {
-		const { visible, rowData, pageNumber, totalUsersNumber } = this.state;
+		const { visible, rowData, pageNumber, totalUsersNumber, sortByOption } = this.state;
 		return (
 			<div>
 				<Grid
@@ -146,13 +160,23 @@ class UsersContainer extends Component {
 						onChange={this.onPagiationChanged}
 						defaultCurrent={pageNumber}
 					/>
+					<Select
+						style={{ width: 200 }}
+						placeholder="Sort By"
+						onChange={this.sortByOptionChange}
+						defaultValue={sortByOption}
+					>
+						<Option value="email">Email</Option>
+						<Option value="first_name">First Name</Option>
+						<Option value="last_name">Last Name</Option>
+					</Select>
 				</div>
 				<br/>
 				<table key={rowData} style={styles.table}>
 					<thead>
 						<tr>
 							<th style={{...styles.th, width: 30 }}><Checkbox onChange={() => this.checkboxChange()}></Checkbox></th>
-							<th style={{...styles.th, width: 400 }}>Full Name</th>
+							<th style={{...styles.th, width: 300 }}>Full Name</th>
 							<th style={styles.th}>Email</th>
 							<th style={styles.th}>Contact Phone</th>
 							<th style={styles.th}>Address</th>
@@ -166,7 +190,7 @@ class UsersContainer extends Component {
 									<Checkbox onChange={() => this.checkboxChange(index, data.id)}></Checkbox>
 								</td>
 								<td>
-									<div>{`${data.first_name} ${data.last_name}`}</div>
+									<div style={{ textTransform: 'captialize' }}>{`${data.first_name} ${data.last_name}`}</div>
 									<div><Link to={`/admin/users/${data.id}`}>Details</Link>&nbsp;|&nbsp;
 									<Link to={`/admin/appointments?user=${data.id}`}>Appointments</Link>&nbsp;|&nbsp;
 									<a onClick={() => this.openModal(data.id)}>Remove</a></div>
@@ -182,7 +206,7 @@ class UsersContainer extends Component {
 								</td>
 								<td>
 									{data.email_confirmed == 0 &&
-										<Button variant="contained" size="small" color="warning" style={styles.statusBtnNotConfirmed}>Not Confirmed</Button>
+										<Button variant="contained" size="small" style={styles.statusBtnNotConfirmed}>Not Confirmed</Button>
 									}
 									{data.status === 1 && data.email_confirmed == 1 &&
 										<Button variant="contained" size="small" color="primary" style={styles.statusBtnActive} onClick={() => this.changeStatus(data.id, data.status)}>Activate</Button>
@@ -229,7 +253,7 @@ class UsersContainer extends Component {
  */
 const mapStateToProps = state => ({
 	users: state.data.users,
-	totalUsersNumber: state.data.totalUsersNumber,
+	total: state.data.total,
 });
 
 /**
