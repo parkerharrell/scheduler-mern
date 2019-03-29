@@ -20,7 +20,7 @@ import renderCheckbox from '../common/form/renderCheckbox';
 import renderTextarea from '../common/form/renderTextarea';
 import renderSelect from '../common/form/renderSelect';
 import { updateAppointmentOpen } from '../../actions/serviceAction';
-import USAStateList from './us-states.list';
+import USAStateList from '../../utils/us-states.list';
 
 const styles = theme => ({
 	root: {

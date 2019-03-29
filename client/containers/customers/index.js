@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Modal from 'react-awesome-modal';
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
-import { Checkbox, Pagination, Select, Icon, Button as AntdBtn } from 'antd';
+import { Checkbox, Pagination, Select, Icon, Button as AntdBtn, Input } from 'antd';
 
 import { fetchAll, destroyItem, updateItem } from '../../actions/userAction';
 import { fetchById } from '../../actions/fileAction';
@@ -70,9 +70,14 @@ class UsersContainer extends Component {
 			totalUsersNumber: 0,
 			pageSize: PAGE_SIZE,
 			sortByOption: 'email',
-			selectedBulkAction: '_disabled_',
 			isCheckAllClicked: false,
 			selectedItems: [],
+			filters: {
+				status: null,
+				email: null,
+				first_name: null,
+				last_name: null,
+			}
 		};
 		const { fetchAll } = this.props;
 		fetchAll({ page: 1, limit: PAGE_SIZE });
@@ -129,6 +134,8 @@ class UsersContainer extends Component {
 	onPagiationChanged = (pageNumber) => {
 		this.setState({
 			pageNumber,
+			selectedItems: [],
+			isCheckAllClicked: false,
 		});
 		const { fetchAll } = this.props;
 		const { sortByOption } = this.state;
@@ -138,10 +145,12 @@ class UsersContainer extends Component {
 	sortByOptionChange = (value) => {
 		this.setState({
 			sortByOption: value,
+			pageNumber: 1,
+			selectedItems: [],
+			isCheckAllClicked: false,
 		});
-		const { pageNumber } = this.state;
 		const { fetchAll } = this.props;
-		fetchAll({ page: pageNumber, limit: PAGE_SIZE, sort: value });
+		fetchAll({ page: 1, limit: PAGE_SIZE, sort: value });
 	}
 
 	downloadExcel = () => {
@@ -167,6 +176,7 @@ class UsersContainer extends Component {
 					selectedItems.forEach(item => {
 						deleteUser(item);
 					});
+					this.setState({ selectedItems: [], isCheckAllClicked: false });
 				}
 				break;
 			case 'activate':
@@ -175,6 +185,7 @@ class UsersContainer extends Component {
 					selectedItems.forEach(item => {
 						updateUser(item, { status: 1 });
 					});
+					this.setState({ selectedItems: [], isCheckAllClicked: false });
 				}
 				break;
 			case 'suspend':
@@ -183,6 +194,7 @@ class UsersContainer extends Component {
 					selectedItems.forEach(item => {
 						updateUser(item, { status: 0 });
 					});
+					this.setState({ selectedItems: [], isCheckAllClicked: false });
 				}
 				break;
 			default:
@@ -203,10 +215,37 @@ class UsersContainer extends Component {
 			selectedItems: !isCheckAllClicked ? totalIdsCurrentPage : [],
 		});
 	}
+
+	statusOptionChange = (value) => {
+		const { filters } = this.state;
+		const data = Object.clone({}, filters);
+		data['status'] = value;
+		this.setState({ filters: data });
+	}
+
+	runFilter = () => {
+		const { filters, sortByOption } = this.state;
+		const { fetchAll } = this.props;
+		this.setState({ 
+			pageNumber: 1,
+			selectedItems: [],
+			isCheckAllClicked: false,
+		});
+		fetchAll({ page: 1, limit: PAGE_SIZE, sort: sortByOption, filters });
+
+	}
+
+	changeFilterValue = (prop, value) => {
+		const { filters } = this.state;
+		const data = Object.clone({}, filters);
+		data[prop] = value;
+		this.setState({ filters: data });
+	}
 	
 
 	render() {
-		const { visible, rowData, pageNumber, totalUsersNumber, sortByOption, isCheckAllClicked } = this.state;
+		const { visible, rowData, pageNumber, totalUsersNumber, sortByOption, isCheckAllClicked, statusOption,
+			filters } = this.state;
 		return (
 			<div>
 				<Grid
@@ -227,6 +266,7 @@ class UsersContainer extends Component {
 					<Select
 						placeholder="Bulk Actions"
 						onChange={this.bulkActionsChanged}
+						style={{ marginLeft: 0 }}
 					>
 						<Option value="delete">Delete</Option>
 						<Option value="activate">Activate</Option>
@@ -252,7 +292,21 @@ class UsersContainer extends Component {
 						<Option value="last_name">Last Name</Option>
 					</Select>
 					<Icon type="file-excel" style={{ fontSize: 20, marginLeft: 10, marginRight: 6 }} title={'Download Cutomers\' List'} onClick={this.downloadExcel} />
-					<Icon type="printer" style={{ fontSize: 20, marginLeft: 6, marginRight: 10 }} title={'Print Cutomers\' List'} onClick={() => {}} />
+				</div>
+				<div className="customers__pagination">
+					<h3>Advanced Filter:</h3>
+					<Input placeholder="Email" value={filters.email} onChange={value => this.changeFilterValue('email', value)} />
+					<Input placeholder="First Name" value={filters.first_name} onChange={value => this.changeFilterValue('first_name', value)} />
+					<Input placeholder="Last Name" value={filters.last_name} onChange={value => this.changeFilterValue('last_name', value)}/>
+					<Select
+						onChange={this.statusOptionChange}
+						placeholder="Status"
+					>
+						<Option value="activate">Activate</Option>
+						<Option value="suspend">Suspend</Option>
+						<Option value="email_not_confirmed">Email Not Confirmed</Option>
+					</Select>
+					<AntdBtn onClick={this.runFilter}>Apply Filter</AntdBtn>
 				</div>
 				<br/>
 				<table key={rowData} style={styles.table}>
