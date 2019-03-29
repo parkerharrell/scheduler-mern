@@ -18,7 +18,9 @@ import Grid from '@material-ui/core/Grid';
 import renderText from '../common/form/renderText';
 import renderCheckbox from '../common/form/renderCheckbox';
 import renderTextarea from '../common/form/renderTextarea';
+import renderSelect from '../common/form/renderSelect';
 import { updateAppointmentOpen } from '../../actions/serviceAction';
+import USAStateList from './us-states.list';
 
 const styles = theme => ({
 	root: {
@@ -169,9 +171,11 @@ class SignUpForm extends Component {
 								</Grid>
 								<Grid item md={4} xs={12}>
 									<Field
-										type="text"
 										name="state"
-										component={renderText}
+										component={renderSelect}
+										data={USAStateList}
+										fullWidth={false}
+										type="select"
 										label="State"
 									/>
 								</Grid>
