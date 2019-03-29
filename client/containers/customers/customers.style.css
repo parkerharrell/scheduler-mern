@@ -38,3 +38,7 @@
   align-items: center;
 }
 
+.customers__pagination .ant-btn {
+  font-size: 12px;
+  height: 22px;
+}

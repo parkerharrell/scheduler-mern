@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Modal from 'react-awesome-modal';
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
-import { Checkbox, Pagination, Select, Icon } from 'antd';
+import { Checkbox, Pagination, Select, Icon, Button as AntdBtn } from 'antd';
 
 import { fetchAll, destroyItem, updateItem } from '../../actions/userAction';
 import { fetchById } from '../../actions/fileAction';
@@ -70,6 +70,9 @@ class UsersContainer extends Component {
 			totalUsersNumber: 0,
 			pageSize: PAGE_SIZE,
 			sortByOption: 'email',
+			selectedBulkAction: '_disabled_',
+			isCheckAllClicked: false,
+			selectedItems: [],
 		};
 		const { fetchAll } = this.props;
 		fetchAll({ page: 1, limit: PAGE_SIZE });
@@ -112,8 +115,15 @@ class UsersContainer extends Component {
 	}
 
 	// Checkbox Change Handler
-	checkboxChange = (index, id) => {
-		
+	checkboxChange = (id) => {
+		const { selectedItems: itemList } = this.state;
+		const index = itemList.indexOf(id);
+		if (index > -1) {
+			itemList.splice(index, 1);
+		} else {
+			itemList.push(id);
+		}
+		this.setState({ selectedItems: itemList });
 	}
 
 	onPagiationChanged = (pageNumber) => {
@@ -139,9 +149,64 @@ class UsersContainer extends Component {
 		downloadFile('customers');
 	}
 
+	bulkActionsChanged = (action) => {
+		this.setState({ selectedBulkAction: action });
+	
+	}
+
+	runBulkActions = () => {
+		const { selectedBulkAction, selectedItems } = this.state;
+		if (selectedItems.length === 0) {
+			window.alert('No Item is selected!');
+			return false;
+		}
+		switch (selectedBulkAction) {
+			case 'delete':
+				{
+					const { deleteUser } = this.props;
+					selectedItems.forEach(item => {
+						deleteUser(item);
+					});
+				}
+				break;
+			case 'activate':
+				{
+					const { updateUser } = this.props;
+					selectedItems.forEach(item => {
+						updateUser(item, { status: 1 });
+					});
+				}
+				break;
+			case 'suspend':
+				{
+					const { updateUser } = this.props;
+					selectedItems.forEach(item => {
+						updateUser(item, { status: 0 });
+					});
+				}
+				break;
+			default:
+		}
+	}
+
+
+	showCheckMark = (id) => {
+		const { selectedItems } = this.state;
+		return selectedItems.indexOf(id) > -1;
+	}
+
+	checkAllItems = () => {
+		const { isCheckAllClicked, rowData } = this.state;
+		const totalIdsCurrentPage = rowData.map(data => data.id);
+		this.setState({
+			isCheckAllClicked: !isCheckAllClicked,
+			selectedItems: !isCheckAllClicked ? totalIdsCurrentPage : [],
+		});
+	}
+	
 
 	render() {
-		const { visible, rowData, pageNumber, totalUsersNumber, sortByOption } = this.state;
+		const { visible, rowData, pageNumber, totalUsersNumber, sortByOption, isCheckAllClicked } = this.state;
 		return (
 			<div>
 				<Grid
@@ -158,6 +223,17 @@ class UsersContainer extends Component {
 				</Grid>
 				<br/>
 				<div className="customers__pagination">
+					{/* Bulk Actions */}
+					<Select
+						placeholder="Bulk Actions"
+						onChange={this.bulkActionsChanged}
+					>
+						<Option value="delete">Delete</Option>
+						<Option value="activate">Activate</Option>
+						<Option value="suspend">Suspend</Option>
+					</Select>
+					<AntdBtn onClick={this.runBulkActions}>Go</AntdBtn>
+					&nbsp;
 					<Pagination
 						total={totalUsersNumber}
 						showTotal={(total, range) => `[${range[0]}-${range[1]} of ${total}]`}
@@ -165,9 +241,9 @@ class UsersContainer extends Component {
 						onChange={this.onPagiationChanged}
 						defaultCurrent={pageNumber}
 					/>
+					<b>SortBy:&nbsp;</b>
 					<Select
-						style={{ width: 200 }}
-						placeholder="Sort By"
+						style={{ width: 120 }}
 						onChange={this.sortByOptionChange}
 						defaultValue={sortByOption}
 					>
@@ -182,7 +258,7 @@ class UsersContainer extends Component {
 				<table key={rowData} style={styles.table}>
 					<thead>
 						<tr>
-							<th style={{...styles.th, width: 30 }}><Checkbox onChange={() => this.checkboxChange()}></Checkbox></th>
+							<th style={{...styles.th, width: 30 }}><Checkbox checked={isCheckAllClicked} onChange={() => this.checkAllItems()}></Checkbox></th>
 							<th style={{...styles.th, width: 300 }}>Full Name</th>
 							<th style={styles.th}>Email</th>
 							<th style={styles.th}>Contact Phone</th>
@@ -194,7 +270,7 @@ class UsersContainer extends Component {
 						{rowData.map((data, index) => (
 							<tr key={index} style={index % 2 === 0 ? styles.oddTr : {}}>
 								<td>
-									<Checkbox onChange={() => this.checkboxChange(index, data.id)}></Checkbox>
+									<Checkbox checked={this.showCheckMark(data.id)} onChange={() => this.checkboxChange(data.id)}></Checkbox>
 								</td>
 								<td>
 									<div style={{ textTransform: 'captialize' }}>{`${data.first_name} ${data.last_name}`}</div>

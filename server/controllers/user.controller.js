@@ -143,20 +143,13 @@ export function update(req, res) {
 export function destroy(req, res) {
 	User.forge({id: req.params.id})
 		.fetch({require: true})
-		.then(user => user.destroy()
-			.then(() => res.json({
-				error: false,
-				data: {message: 'User deleted successfully.'}
-			})
-			)
-			.catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-				error: true,
-				data: {message: err.message}
-			})
-			)
-		)
+		.then(user => user.destroy())
+		.then(() => res.json({
+			error: false,
+			data: {message: 'User deleted successfully.'}
+		}))
 		.catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-			error: err
-		})
-		);
+			error: true,
+			data: {message: err.message}
+		}))
 }
