@@ -4,7 +4,7 @@
 .schedule__books__container {
   flex: 1 1;
 	padding-left: 30px;
-	padding-top: 30px;
+	padding-top: 10px;
   min-height: 400px;
   display: flex;
 	flex-direction: column;
@@ -45,6 +45,9 @@
     max-width: 250px;
     margin: auto !important;
     display: block;
+  }
+  .DayPicker-Day--outside {
+    display: none;
   }
   .schedule__books__container {
     padding: 30px 10px;

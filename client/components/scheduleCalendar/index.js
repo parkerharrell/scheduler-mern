@@ -165,7 +165,7 @@ class Selectable extends React.Component {
 								return (
 									<React.Fragment key={slotId}>
 										<Grid item xs={12}>
-											<h2 style={{ marginBottom: 0 }}>{moment(timeSlot.date).format('dddd, MM/DD/YYYY')}</h2>
+											<h2 style={{ marginBottom: 0, marginTop: 10 }}>{moment(timeSlot.date).format('dddd, MM/DD/YYYY')}</h2>
 										</Grid>
 										{timeSlot.data.map((event, index) => (
 											<Grid item key={`${slotId}-${index}`}>
