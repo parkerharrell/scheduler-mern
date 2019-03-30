@@ -254,7 +254,7 @@ class UsersContainer extends Component {
 					alignItems="center"
 				>
 					<Grid item>
-						<h1>Customer</h1>
+						<h1>Customers</h1>
 					</Grid>
 					<Grid item>
 						<Link to='/admin/users/new'><Button variant="contained" color="primary">Create New</Button></Link>

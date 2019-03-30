@@ -52,7 +52,7 @@ const Dashboard = () => {
 };
 
 Dashboard.propTypes = {
-	classes: PropTypes.object.isRequired,
+	classes: PropTypes.object,
 };
 
 export default Dashboard;
