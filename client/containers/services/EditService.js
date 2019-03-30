@@ -89,7 +89,7 @@ class EditService extends Component {
 				>
 					<Grid item xs={6}></Grid>
 					<Grid item xs={6} style={{ textAlign: 'right' }}>
-						<Button variant="raised" color="secondary" onClick={this.onDelete}>Delete</Button>
+						<Button variant="contained" color="secondary" onClick={this.onDelete}>Delete</Button>
 					</Grid>
 				</Grid>
 				<Tabs defaultActiveKey="1" onChange={this.handleChange}>
@@ -334,8 +334,8 @@ class EditService extends Component {
 				</Tabs>
 				<br/><br/>
 				<Grid container justify="flex-end">
-						<Button type="submit" variant="raised" color="primary">Update</Button>&nbsp;&nbsp;
-						<Link to="/admin/services"><Button variant="raised" color="primary">Cancel</Button></Link>
+						<Button type="submit" variant="contained" color="primary">Update</Button>&nbsp;&nbsp;
+						<Link to="/admin/services"><Button variant="contained" color="primary">Cancel</Button></Link>
 				</Grid>
 			</form>
 		);

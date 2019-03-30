@@ -200,7 +200,7 @@ class AddService extends Component {
 					</Grid>
     			<br/><br/>
     			<Grid container justify="center">
-    				<Button type="submit" variant="raised" color="primary">Create</Button>
+    				<Button type="submit" variant="contained" color="primary">Create</Button>
     			</Grid>
     		</form>
     	);
