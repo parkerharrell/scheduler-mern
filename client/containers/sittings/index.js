@@ -173,11 +173,11 @@ class SittingsContainer extends Component {
 									}
 								</td>
 								<td align="right">
-									<IconButton style={{ padding: 5 }}>
-										<ArrowUpIcon onClick={() => this.changeOrder(data.id, 'up')}  style={styles.arrowUp} />
+									<IconButton style={{ padding: 5 }} onClick={() => this.changeOrder(data.id, 'up')}  >
+										<ArrowUpIcon style={styles.arrowUp} />
 									</IconButton>
-									<IconButton style={{ padding: 5 }}>
-										<ArrowDownIcon onClick={() => this.changeOrder(data.id, 'down')} style={styles.arrowDown} />
+									<IconButton style={{ padding: 5 }} onClick={() => this.changeOrder(data.id, 'down')} >
+										<ArrowDownIcon style={styles.arrowDown} />
 									</IconButton>
 								</td>
 							</tr>

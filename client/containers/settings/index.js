@@ -4,7 +4,6 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 
 import EmailSettingForm from '../../components/settings/Email';
 import { updateItem, fetchAll } from '../../actions/settingAction';
@@ -12,9 +11,9 @@ import { updateItem, fetchAll } from '../../actions/settingAction';
 
 function TabContainer(props) {
 	return (
-		<Typography component="div" style={styles.mainPadding}>
+		<div style={styles.mainPadding}>
 			{props.children}
-		</Typography>
+		</div>
 	);
 }
 
@@ -69,7 +68,6 @@ class SettingsContainer extends Component {
 
 	onEmailSettingSubmit = (formProps) => {
 		const { updateSetting } = this.props;
-		console.log('-------------- formProps:', formProps);
 		updateSetting( classOptions[0].value, formProps);
 	}
 

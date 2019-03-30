@@ -150,10 +150,10 @@ class EditSitting extends Component {
 								<Grid container justify="center">
 									<Grid item xs={3}></Grid>
 									<Grid item xs={3} style={{ textAlign: 'center' }}>
-										<Button type="submit" variant="raised" color="primary">Update</Button>
+										<Button type="submit" variant="contained" color="primary">Update</Button>
 									</Grid>
 									<Grid item xs={3} style={{ textAlign: 'center' }}>
-										<Link to="/admin/sittings"><Button variant="raised" color="primary">Cancel</Button></Link>
+										<Link to="/admin/sittings"><Button variant="contained" color="primary">Cancel</Button></Link>
 									</Grid>
 									<Grid item xs={3}></Grid>
 								</Grid>
