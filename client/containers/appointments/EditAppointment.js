@@ -107,7 +107,7 @@ class EditService extends Component {
     					<h1>Edit</h1>
     				</Grid>
     				<Grid item xs={6} style={{ textAlign: 'right' }}>
-    					<Button variant="raised" color="secondary" onClick={this.onDelete}>Delete</Button>
+    					<Button variant="contained" color="secondary" onClick={this.onDelete}>Delete</Button>
     				</Grid>
     				<br/>
     				<Grid item xs={6}>
@@ -208,10 +208,10 @@ class EditService extends Component {
     			<Grid container justify="center">
     				<Grid item xs={3}></Grid>
     				<Grid item xs={3} style={{ textAlign: 'center' }}>
-    					<Button type="submit" variant="raised" color="primary">Update</Button>
+    					<Button type="submit" variant="contained" color="primary">Update</Button>
     				</Grid>
     				<Grid item xs={3} style={{ textAlign: 'center' }}>
-    					<Link to="/admin/services"><Button variant="raised" color="primary">Cancel</Button></Link>
+    					<Link to="/admin/services"><Button variant="contained" color="primary">Cancel</Button></Link>
     				</Grid>
     				<Grid item xs={3}></Grid>
     			</Grid>

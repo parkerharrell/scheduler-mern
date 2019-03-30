@@ -54,7 +54,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 LoginContainer.propTypes = {
-	actions: PropTypes.array,
+	actions: PropTypes.object,
 	errorMessage: PropTypes.string,
 };
 

@@ -55,7 +55,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 NoRedirectLoginContainer.propTypes = {
-	actions: PropTypes.array,
+	actions: PropTypes.object,
 	errorMessage: PropTypes.string,
 	onSignup: PropTypes.func,
 };
