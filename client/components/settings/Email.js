@@ -85,7 +85,7 @@ const EmailSettingForm = props => {
           <Grid item xs={6} />
         </Grid>
         <div className={classes.btnDiv}>
-          <Button className={classes.btn} type="submit" variant="raised" color="primary">Save</Button>
+          <Button className={classes.btn} type="submit" variant="contained" color="primary">Save</Button>
         </div>
       </form>
     </>

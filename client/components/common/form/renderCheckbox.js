@@ -7,10 +7,7 @@ const renderCheckbox = ({input, label, meta: {touched, error, invalid}}) => (
 	<FormControlLabel
 		control={
 			<Checkbox
-				error={touched && invalid}
-				helperText={touched && error}
 				margin="normal"
-				fullWidth={true}
 				{...input}
 			/>
 		} 

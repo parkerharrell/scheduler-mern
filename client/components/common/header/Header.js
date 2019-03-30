@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import {withStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -61,9 +60,8 @@ class Header extends Component {
 							className={classNames(!navDrawerOpen && classes.menuButton, navDrawerOpen && classes.menuButtonShift)}>
 							<MenuIcon />
 						</IconButton>
-						<Typography type="title" color="inherit" className={classes.flex}>
-
-						</Typography>
+						<span color="inherit" className={classes.flex}>
+						</span>
 						<Button onClick={this.logOut.bind(this)}>Logout</Button>
 					</Toolbar>
 				</AppBar>

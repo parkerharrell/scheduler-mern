@@ -134,7 +134,7 @@ class SignUpForm extends Component {
 										type="text"
 										name="phone"
 										component={renderText}
-										label="Contact Phone"
+										label="Contact Phone *"
 									/>
 								</Grid>
 								<Grid item md={6} xs={12}>
@@ -271,7 +271,7 @@ class SignUpForm extends Component {
 							</Grid>
 													
 							<div className={classes.btnDiv}>
-								<Button className={classes.btn} type="submit" variant="raised" color="primary">Create New
+								<Button className={classes.btn} type="submit" variant="contained" color="primary">Create New
 																	Account</Button>
 								{onLogin !== undefined &&
 									<p>Already have an account? <a  href="#" onClick={onLogin}>Login</a>.</p>
@@ -298,6 +298,7 @@ const validateSignUp = values => {
 		'last_name',
 		'email',
 		'zipcode',
+		'phone',
 		'preseller_initials',
 	];
 	requiredFields.forEach(field => {

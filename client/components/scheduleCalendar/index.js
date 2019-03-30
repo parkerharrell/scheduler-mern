@@ -132,15 +132,15 @@ class Selectable extends React.Component {
   				<div className={ !expanded ? 'schedule__daypicker__wrapper' : 'schedule__daypicker__wrapper open' }>
 						{expanded &&
 							<div className="expandedicon">
-								<IconButton style={{ padding: 3 }}>
-									<ExpandMoreIcon style={{ fontSize: 36 }} onClick={this.expandedHandler}/>
+								<IconButton style={{ padding: 3 }} onClick={this.expandedHandler}>
+									<ExpandMoreIcon style={{ fontSize: 36 }} />
 								</IconButton>
 							</div>
 						}
 						{!expanded &&
 							<div className="expandedicon">
-								<IconButton style={{ padding: 3 }}>
-									<ExpandLessIcon style={{ fontSize: 36 }} onClick={this.expandedHandler}/>
+								<IconButton style={{ padding: 3 }} onClick={this.expandedHandler}>
+									<ExpandLessIcon style={{ fontSize: 36 }} />
 								</IconButton>
 							</div>
 						}
@@ -169,7 +169,7 @@ class Selectable extends React.Component {
 										</Grid>
 										{timeSlot.data.map((event, index) => (
 											<Grid item key={`${slotId}-${index}`}>
-												<BookButton variant="outlined" color="primary large" onClick={() => this.handleSelect(event.format())}>
+												<BookButton variant="outlined" color="primary" onClick={() => this.handleSelect(event.format())}>
 													{event.format('hh:mm a')}
 												</BookButton>
 											</Grid>
