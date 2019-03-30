@@ -157,11 +157,11 @@ class LocationsContainer extends Component {
 								<td>{data.email}</td>
 								<td>{data.phone}</td>
 								<td align="right">
-									<IconButton style={{ padding: 5 }}>
-										<ArrowUpIcon onClick={() => this.changeOrder(data.id, 'up')}  style={styles.arrowUp} />
+									<IconButton style={{ padding: 5 }} onClick={() => this.changeOrder(data.id, 'up')}>
+										<ArrowUpIcon style={styles.arrowUp} />
 									</IconButton>
-									<IconButton style={{ padding: 5 }}>
-										<ArrowDownIcon onClick={() => this.changeOrder(data.id, 'down')} style={styles.arrowDown} />
+									<IconButton onClick={() => this.changeOrder(data.id, 'down')} style={{ padding: 5 }}>
+										<ArrowDownIcon style={styles.arrowDown} />
 									</IconButton>
 								</td>
 							</tr>

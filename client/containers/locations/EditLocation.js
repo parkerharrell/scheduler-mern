@@ -159,9 +159,9 @@ class EditLocation extends Component {
     					<h1>Edit</h1>
     				</Grid>
     				<Grid item xs={6} style={{ textAlign: 'right' }}>
-							<Button variant="raised" color="primary" onClick={this.showDetails}>Browse</Button>&nbsp;&nbsp;
-							<Button variant="raised" color="primary" onClick={this.showAppointments}>List Appointments</Button>&nbsp;&nbsp;
-    					<Button variant="raised" color="secondary" onClick={this.onDelete}>Delete</Button>
+							<Button variant="contained" color="primary" onClick={this.showDetails}>Browse</Button>&nbsp;&nbsp;
+							<Button variant="contained" color="primary" onClick={this.showAppointments}>List Appointments</Button>&nbsp;&nbsp;
+    					<Button variant="contained" color="secondary" onClick={this.onDelete}>Delete</Button>
     				</Grid>
     				<br/>
 					</Grid>
@@ -232,8 +232,8 @@ class EditLocation extends Component {
 								</Grid>
 								<br/><br/>
 								<Grid container justify="flex-end">
-									<Button type="submit" variant="raised" color="primary">Update</Button>&nbsp;&nbsp;
-									<Link to="/admin/locations"><Button variant="raised" color="primary">Cancel</Button></Link>
+									<Button type="submit" variant="contained" color="primary">Update</Button>&nbsp;&nbsp;
+									<Link to="/admin/locations"><Button variant="contained" color="primary">Cancel</Button></Link>
 								</Grid>
 							</>
 						}
@@ -267,11 +267,11 @@ class EditLocation extends Component {
 												<td>{data.email}</td>
 												<td>{data.phone}</td>
 												<td align="right">
-													<IconButton style={{ padding: 5 }}>
-														<ArrowUpIcon onClick={() => this.changeOrder(data.id, 'up')}  style={styles.arrowUp} />
+													<IconButton style={{ padding: 5 }} onClick={() => this.changeOrder(data.id, 'up')}>
+														<ArrowUpIcon style={styles.arrowUp} />
 													</IconButton>
-													<IconButton style={{ padding: 5 }}>
-														<ArrowDownIcon onClick={() => this.changeOrder(data.id, 'down')} style={styles.arrowDown} />
+													<IconButton style={{ padding: 5 }} onClick={() => this.changeOrder(data.id, 'down')}>
+														<ArrowDownIcon style={styles.arrowDown} />
 													</IconButton>
 												</td>
 											</tr>
