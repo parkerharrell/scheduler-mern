@@ -257,7 +257,7 @@ class UsersContainer extends Component {
 						<h1>Customers</h1>
 					</Grid>
 					<Grid item>
-						<Link to='/admin/users/new'><Button variant="contained" color="primary">Create New</Button></Link>
+						<Link to='/admin/customers/new'><Button variant="contained" color="primary">Create New</Button></Link>
 					</Grid>
 				</Grid>
 				<br/>
@@ -328,7 +328,7 @@ class UsersContainer extends Component {
 								</td>
 								<td>
 									<div style={{ textTransform: 'captialize' }}>{`${data.first_name} ${data.last_name}`}</div>
-									<div><Link to={`/admin/users/${data.id}`}>Details</Link>&nbsp;|&nbsp;
+									<div><Link to={`/admin/customers/${data.id}`}>Details</Link>&nbsp;|&nbsp;
 									<Link to={`/admin/appointments?user=${data.id}`}>Appointments</Link>&nbsp;|&nbsp;
 									<a onClick={() => this.openModal(data.id)}>Remove</a></div>
 								</td>

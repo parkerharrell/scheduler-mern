@@ -24,7 +24,7 @@ class SignUpContainer extends Component {
      * @param {object} formProps
      */
 	submitForm(formProps) {
-		formProps.created = moment.tz(formProps.tz).unix();
+		formProps.created = moment().unix();
 		this.props.actions.submitForm(USERS, formProps);
 	}
 
