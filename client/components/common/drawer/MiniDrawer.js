@@ -25,7 +25,8 @@ const drawerWidth = 250;
 const styles = theme => ({
 	drawerPaper: {
 		position: 'relative',
-		height: '100vh',
+		height: '100%',
+		minHeight: '100vh',
 		width: drawerWidth,
 		transition: theme.transitions.create('width', {
 			easing: theme.transitions.easing.sharp,

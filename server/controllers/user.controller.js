@@ -73,11 +73,11 @@ export function findById(req, res) {
  * @returns {*}
  */
 export function store(req, res) {
-	// let cryptedPassword;
-	// if (req.body.password) {
-	// 	cryptedPassword = bcrypt.hashSync(req.body.password, 10);
-	// }
 	const params = _.assign({}, req.body);
+	if (req.body.password) {
+		const cryptedPassword = bcrypt.hashSync(req.body.password, 10);
+		params.password = cryptedPassword;
+	}
 
 	User.forge({
 		...params,
@@ -109,10 +109,16 @@ export function store(req, res) {
  * @returns {*}
  */
 export function update(req, res) {
+	const params = _.assign({}, req.body);
+	if (req.body.password) {
+		const cryptedPassword = bcrypt.hashSync(req.body.password, 10);
+		params.password = cryptedPassword;
+	}
+
 	User.forge({id: req.params.id})
 		.fetch({require: true})
 		.then(user => user.save({
-			...req.body,
+			...params,
 		})
 			.then(() => res.json({
 				error: false,
