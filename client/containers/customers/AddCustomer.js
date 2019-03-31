@@ -25,7 +25,7 @@ import styles from './AddCustomer.style.js';
 class AddCustomer extends Component {
   state = {
     paymenttype: 'cash',
-    passwordValue: 'padsfsdf',
+    passwordValue: null,
     showPassword: false,
   }
 
