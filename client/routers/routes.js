@@ -28,7 +28,7 @@ import Appointments from '../containers/appointments';
 import AddAppointment from '../containers/appointments/AddAppointment';
 import EditAppointment from '../containers/appointments/EditAppointment';
 import Settings from '../containers/settings';
-
+import AddCustomer from '../containers/customers/AddCustomer';
 
 import AuthenticatedRoute from './AuthenticatedRoute';
 import Home from '../containers/Home';
@@ -53,6 +53,7 @@ const Router = () => (
 					<AuthenticatedRoute exact path="/admin/sittings/new" component={AddSitting}/>
 					<AuthenticatedRoute exact path="/admin/sittings/:id" component={EditSitting}/>
 					<AuthenticatedRoute exact path="/admin/customers" component={Customers}/>
+					<AuthenticatedRoute exact path="/admin/customers/new" component={AddCustomer}/>
 					<AuthenticatedRoute exact path="/admin/customers/:id" component={CustomerDetails}/>
 					<AuthenticatedRoute exact path="/admin/administrators" component={Administrators}/>
 					<AuthenticatedRoute exact path="/admin/administrators/:id" component={AdministratorDetails}/>
