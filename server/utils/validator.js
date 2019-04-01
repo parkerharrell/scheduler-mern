@@ -169,4 +169,26 @@ export default {
 			id: Joi.string().hex().required()
 		}
 	},
+	storeUser: {
+		body: {
+			first_name: Joi.string().required(),
+			last_name: Joi.string().required(),
+			username: Joi.string(),
+			email: Joi.string().email().required(),
+			password: Joi.string(),
+		}
+	},
+
+	updateAdmin: {
+		body: {
+			first_name: Joi.string().required(),
+			last_name: Joi.string().required(),
+			username: Joi.string(),
+			email: Joi.string().email().required(),
+			password: Joi.string().min(6).required(),
+		},
+		params: {
+			userId: Joi.string().hex().required()
+		}
+	},
 };

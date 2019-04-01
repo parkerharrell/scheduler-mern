@@ -181,7 +181,7 @@ router.route('/:id')
 
 /**
      * @swagger
-     * /services/{id}:
+     * /locations/{id}:
      *   delete:
      *     tags:
      *       - service
