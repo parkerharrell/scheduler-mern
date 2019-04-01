@@ -19,8 +19,8 @@ import {
 	ENTITY_FETCH,
 	ENTITY_DELETE,
 	SELECT_ENTITY_ITEM,
-	CLEAR_ENTITY_LIST
-
+	CLEAR_ENTITY_LIST,
+	USERS_INITIALVALUES_UPDATE
 } from '../constants/actionType';
 
 function failure(error) {
@@ -46,6 +46,13 @@ function update(id, data) {
 		entity: 'users',
 		data: data,
 		id: id,
+	};
+}
+
+function updatePassword(data) {
+	return {
+		type: USERS_INITIALVALUES_UPDATE,
+		data: data,
 	};
 }
 
@@ -80,6 +87,12 @@ function clearList(user) {
 	return {
 		type: CLEAR_ENTITY_LIST,
 		entity: 'users'
+	};
+}
+
+export function updateInitialValues(data) {
+	return function (dispatch) {
+		dispatch(updatePassword(data));
 	};
 }
 

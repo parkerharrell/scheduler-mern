@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-const renderCheckbox = ({input, label, meta: {touched, error, invalid}}) => (
+const renderCheckbox = ({input, labelPlacement, label, meta: {touched, error, invalid}}) => (
 	<FormControlLabel
 		control={
 			<Checkbox
@@ -12,8 +12,8 @@ const renderCheckbox = ({input, label, meta: {touched, error, invalid}}) => (
 			/>
 		} 
 		label={label}
-		labelPlacement="start"
-		style={{ marginLeft: 0 }}
+		labelPlacement={labelPlacement || 'start'}
+		style={{ marginLeft: labelPlacement === 'start' ? 0 : -12 }}
 	/>
 );
 

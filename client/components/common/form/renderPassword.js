@@ -6,13 +6,12 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
-const renderPassword = ({ input, initialValue, label, showPassword, handleClickShowPassword, meta: {touched, error, invalid}}) => (
+const renderPassword = ({ input, label, showPassword, handleClickShowPassword, meta: {touched, error, invalid}}) => (
   <>
     <TextField
       id="adornment-password"
       type={showPassword ? 'text' : 'password'}
       {...input}
-      value={initialValue}
       error={touched && invalid}
       label={label}
       fullWidth={true}

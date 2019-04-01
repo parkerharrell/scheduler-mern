@@ -18,35 +18,35 @@ import renderTextarea from '../../components/common/form/renderTextarea';
 import renderSelect from '../../components/common/form/renderSelect';
 import renderPassword from '../../components/common/form/renderPassword';
 import USAStateList from '../../utils/us-states.list';
-import { storeItem } from '../../actions/userAction';
+import { storeItem, updateInitialValues } from '../../actions/userAction';
 import renderText from '../../components/common/form/renderText';
 import styles from './AddCustomer.style.js';
+import renderTimezonebox from '../../components/common/form/renderTimezonebox';
 
 class AddCustomer extends Component {
   state = {
     paymenttype: 'cash',
-    passwordValue: null,
     showPassword: false,
   }
 
   onSubmit = (formProps) => {
     const { createCustomer } = this.props;
+    const { paymenttype } = this.state;
     const result = cloneDeep(formProps);
     result.created = moment().unix();
+    result.paymenttype = paymenttype;
     delete result.confirm_password;
     createCustomer(result);
   }
 
   handlePaymentType = event => {
     this.setState({ paymenttype: event.target.value });
-    const { updateAppointmentOpen, appointmentdata } = this.props;
-    const data = Object.assign({}, appointmentdata.openBook);
-    data.paymenttype = event.target.value;
-    updateAppointmentOpen(data);
   };
 
   generateRandomPassword = () => {
-    this.setState({ passwordValue: Math.random().toString(36).slice(-8) });
+    const { updateUserInitials } = this.props;
+    const password = Math.random().toString(36).slice(-8);
+    updateUserInitials({ password, confirm_password: password });
   }
 
   handlePaymentTypeClick (e) {
@@ -192,30 +192,52 @@ class AddCustomer extends Component {
                 label="Notes"
               />
             </Grid>
-            <Grid item md={6} xs={6}>
+            <Grid item md={6} xs={12}>
+              <br/>
+              <Field
+                name="timezone"
+                component={renderTimezonebox}
+                label="Timezone"
+                className="timezone-selectbox"
+              />
+              <br/>
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <Field
+                type="checkbox"
+                name="can_notify"
+                component={renderCheckbox}
+                labelPlacement={'end'}
+                label="Notify Customer on Account Creation"
+              />
+            </Grid>
+            <Grid item md={12} xs={12}>
               <br/>
               <h1 style={{fontSize: '1.3em'}}>Password</h1>
-              <div>
+              <div style={{ width: '50%' }}>
                 <Field
                   name="password"
                   component={renderPassword}
                   label="Password *"
-                  initialValue={passwordValue}
                   showPassword={showPassword}
                   handleClickShowPassword={this.handleShowPasswordChange}
                 />
               </div>
-              <div>
-                <Field
-                  type="password"
-                  name="confirm_password"
-                  component={renderText}
-                  label="Confirm Password *"
-                />
+              <div style={{ display: 'flex', width: '100%', alignItems: 'flex-end' }}>
+                <div style={{ width: '50%' }}>
+                  <Field
+                    type="password"
+                    name="confirm_password"
+                    component={renderText}
+                    label="Confirm Password *"
+                  />
+                </div>
+                <div style={styles.passwordGenerateBtn}>
+                  <Button variant="contained" size="small"  onClick={this.generateRandomPassword} >Generate password</Button>
+                </div>
               </div>
               <br/>
             </Grid>
-            <Grid item md={6} xs={6} ></Grid>
             <Grid item md={12} xs={12}>
               <h1 style={{fontSize: '1.3em'}}>Open Appointment Payment</h1>
               <br/>
@@ -229,13 +251,11 @@ class AddCustomer extends Component {
                 <FormControlLabel
                   value="cash"
                   control={<Radio color="primary" />}
-                  style={styles.label}
                   label="Cash"
                 />
                 <FormControlLabel
                   value="credit"
                   control={<Radio color="primary" />}
-                  style={styles.label}
                   label="Credit Card"
                 />
               </RadioGroup>
@@ -264,7 +284,7 @@ const validateAddCustomer = values => {
     'password',
     'preseller_initials',
     'confirm_password',
-	];
+  ];
 	requiredFields.forEach(field => {
 		if (!values[field]) {
 			errors[field] = '' + field + ' field is required';
@@ -274,17 +294,23 @@ const validateAddCustomer = values => {
     errors['password'] = '';
     errors['confirm_password'] = '(Password fields does not match.)';
   }
+  if (values['zipcode'] && values['zipcode'].length < 5) {
+    errors['zipcode'] = 'zipcode is invalid';
+  }
 	if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
 		errors.email = '(Invalid email address.)';
 	}
 	return errors;
 };
 
-/**
- * Map the actions to props.
- */
+
+const mapStateToProps = state => ({
+	initialValues: state.data.userInitialValues,
+});
+
 const mapDispatchToProps = dispatch => ({
-	createCustomer: bindActionCreators(storeItem, dispatch),
+  createCustomer: bindActionCreators(storeItem, dispatch),
+  updateUserInitials: bindActionCreators(updateInitialValues, dispatch),
 });
 
 AddCustomer.propTypes = {
@@ -292,7 +318,8 @@ AddCustomer.propTypes = {
 	createCustomer: PropTypes.func,
 };
 
-export default connect(null, mapDispatchToProps)(reduxForm({
+export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
 	form: 'AddCustomerForm',
-	validate: validateAddCustomer
+  validate: validateAddCustomer,
+  enableReinitialize : true,
 })(AddCustomer));
