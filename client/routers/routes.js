@@ -22,6 +22,7 @@ import AddSitting from '../containers/sittings/AddSitting';
 import EditSitting from '../containers/sittings/EditSitting';
 import Customers from '../containers/customers';
 import CustomerDetails from '../containers/customers/CustomerDetails';
+import Newsletter from '../containers/customers/Newsletter';
 import Administrators from '../containers/administrators';
 import AdministratorDetails from '../containers/administrators/AdministratorDetails';
 import Appointments from '../containers/appointments';
@@ -54,6 +55,7 @@ const Router = () => (
 					<AuthenticatedRoute exact path="/admin/sittings/:id" component={EditSitting}/>
 					<AuthenticatedRoute exact path="/admin/customers" component={Customers}/>
 					<AuthenticatedRoute exact path="/admin/customers/new" component={AddCustomer}/>
+					<AuthenticatedRoute exact path="/admin/customers/newsletter" component={Newsletter}/>
 					<AuthenticatedRoute exact path="/admin/customers/:id" component={CustomerDetails}/>
 					<AuthenticatedRoute exact path="/admin/administrators" component={Administrators}/>
 					<AuthenticatedRoute exact path="/admin/administrators/:id" component={AdministratorDetails}/>

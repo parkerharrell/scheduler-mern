@@ -65,6 +65,8 @@ export default function (state, action) {
 		settings: {},
 		total: {},
 		userInitialValues: {},
+		admins: [],
+		selectedAdmin: {},
 	};
 
 	state = state || initialState;
@@ -90,7 +92,6 @@ export default function (state, action) {
 		return newState;
 
 	case ENTITY_FETCH: {
-		console.log('--------------', action);
 		const apiData = action.data.slice();
 		let result = [];
 		const tz = moment.tz.guess();
@@ -110,6 +111,13 @@ export default function (state, action) {
 			result = apiData;
 		}
 		if (action.entity === 'users') {
+			result = apiData.map(data => {
+				data.createdAt = moment(data.created * 1000).tz(tz).format('YYYY/MM/DD');
+				return data;
+			});
+			newState['total'] = action.total;
+		}
+		if (action.entity === 'admins') {
 			result = apiData.map(data => {
 				data.createdAt = moment(data.created * 1000).tz(tz).format('YYYY/MM/DD');
 				return data;
@@ -155,6 +163,9 @@ export default function (state, action) {
 			data.lead_out_mins = (data.lead_out % 3600) / 60;
 		}
 		if (action.entity === 'selectedUser') {
+			data.createdAt = moment(data.created * 1000).tz(tz1).format('YYYY-MM-DD');
+		}
+		if (action.entity === 'selectedAdmin') {
 			data.createdAt = moment(data.created * 1000).tz(tz1).format('YYYY-MM-DD');
 		}
 		newState[action.entity] = Object.assign({}, data);

@@ -257,7 +257,8 @@ class UsersContainer extends Component {
 						<h1>Customers</h1>
 					</Grid>
 					<Grid item>
-						<Link to='/admin/customers/new'><Button variant="contained" color="primary">Create New</Button></Link>
+						<Link to='/admin/customers/new'><Button variant="contained" size="small" color="primary">Create New</Button></Link>&nbsp;&nbsp;&nbsp;
+						<Link to='/admin/customers/newsletter'><Button variant="contained" size="small" color="primary">Newsletter</Button></Link>
 					</Grid>
 				</Grid>
 				<br/>
