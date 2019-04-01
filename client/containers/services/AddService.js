@@ -8,7 +8,6 @@ import Grid from '@material-ui/core/Grid';
 import { cloneDeep } from 'lodash';
 import Button from '@material-ui/core/Button';
 import {Field, reduxForm} from 'redux-form';
-import * as moment from 'moment';
 
 import { storeItem } from '../../actions/serviceAction';
 import renderText from '../../components/common/form/renderText';
@@ -68,50 +67,21 @@ class AddService extends Component {
 							<Field
 								name="description"
 								component={renderTextarea}
-								label="Description *"
+								label="Description"
 							/>
 						</Grid>
 						<Grid item xs={4}></Grid>
-						<Grid item xs={2}>
+						{/* Duration */}
+						<Grid item xs={12} md={4} >
 							<Field
-								name="minfromnow_number"
-								label="Min Available *"
-								type="number"
-								fullWidth={false}
-								component={renderText}
-							/>
-						</Grid>:
-						<Grid item xs={2}>
-							<Field
-								name="minfromnow_options"
-								label="Available Options *"
+								name="duration"
+								label="Duration"
+								data={durationData}
+								component={renderSelect}
 								type="select"
-								fullWidth={false}
-								data={availableOptions}
-								component={renderSelect}
 							/>
 						</Grid>
-						<Grid item xs={1}></Grid>
-						<Grid item xs={2}>
-							<Field
-								name="maxfromnow_number"
-								label="Max Available *"
-								component={renderText}
-								type="number"
-								fullWidth={false}
-							/>
-						</Grid>:
-						<Grid item xs={2}>
-							<Field
-								name="maxfromnow_options"
-								label="Available Options *"
-								data={availableOptions}
-								component={renderSelect}
-								fullWidth={false}
-								type="date"
-							/>
-						</Grid>
-						<Grid item xs={2}></Grid>
+						<Grid item xs={0} md={8}></Grid>
 						{/* Lead In */}
 						<Grid item xs={2}>
 							<Field
@@ -155,6 +125,61 @@ class AddService extends Component {
 							/>
 						</Grid>
 						<Grid item xs={1}></Grid>
+						{/* Price */}
+						<Grid item xs={4}>
+							<Field
+								type="text"
+								name="price"
+								component={renderText}
+								label="Price"
+							/>
+						</Grid>
+						<Grid item xs={8}></Grid>
+						<Grid item xs={12} md={12}>
+							<br/>
+							<h3>Availability</h3>
+						</Grid>
+						<Grid item xs={2}>
+							<Field
+								name="minfromnow_number"
+								label="Min Available *"
+								type="number"
+								fullWidth={false}
+								component={renderText}
+							/>
+						</Grid>:
+						<Grid item xs={2}>
+							<Field
+								name="minfromnow_options"
+								label="Available Options *"
+								type="select"
+								fullWidth={false}
+								data={availableOptions}
+								component={renderSelect}
+							/>
+						</Grid>
+						<Grid item xs={1}></Grid>
+						<Grid item xs={2}>
+							<Field
+								name="maxfromnow_number"
+								label="Max Available *"
+								component={renderText}
+								type="number"
+								fullWidth={false}
+							/>
+						</Grid>:
+						<Grid item xs={2}>
+							<Field
+								name="maxfromnow_options"
+								label="Available Options *"
+								data={availableOptions}
+								component={renderSelect}
+								fullWidth={false}
+								type="date"
+							/>
+						</Grid>
+						<Grid item xs={2}></Grid>
+						
 						{/* Min Cancellation */}
 						<Grid item xs={2}>
 							<Field
@@ -176,27 +201,6 @@ class AddService extends Component {
 							/>
 						</Grid>
 						<Grid item xs={1}></Grid>
-						{/* Duration */}
-						<Grid item xs={3}>
-							<Field
-								name="duration"
-								label="Duration *"
-								data={durationData}
-								component={renderSelect}
-								type="select"
-							/>
-						</Grid>
-						<Grid item xs={3}></Grid>
-						{/* Price */}
-						<Grid item xs={3}>
-							<Field
-								type="text"
-								name="price"
-								component={renderText}
-								label="Price *"
-							/>
-						</Grid>
-						<Grid item xs={8}></Grid>
 					</Grid>
     			<br/><br/>
     			<Grid container justify="center">
@@ -212,14 +216,12 @@ const validateAddService = values => {
 	const errors = {};
 	const requiredFields = [
 		'title',
-		'description',
 		'minfromnow_number',
 		'minfromnow_options',
 		'maxfromnow_number',
 		'maxfromnow_options',
 		'min_cancel_number',
 		'min_cancel_options',
-		'duration',
 	];
 	requiredFields.forEach(field => {
 		if (!values[field]) {

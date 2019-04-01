@@ -1,4 +1,5 @@
 import history from '../utils/history';
+import { pickBy } from 'lodash';
 
 /**
  * Import all httpLocation as an object.
@@ -112,7 +113,9 @@ export function fetchById(id) {
 	};
 }
   
-export function storeItem(data) {
+export function storeItem(params) {
+	const data = pickBy(params, _.identity);
+
 	return function (dispatch) {
 		return httpLocation.storeEntity('locations', data).then(() => {
 			history.goBack();
@@ -123,7 +126,9 @@ export function storeItem(data) {
 	};
 }
 
-export function updateItem(id, data) {
+export function updateItem(id, params) {
+	const data = pickBy(params, _.identity);
+
 	return function (dispatch) {
 		return httpLocation.updateEntity('locations', data, id).then((res) => {
 			dispatch(update(id, res['data'].data));

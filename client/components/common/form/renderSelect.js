@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 
-const renderSelect = ({input, label, data }) => (
+const renderSelect = ({input, label, data, meta: {touched, error, invalid} }) => (
 	<TextField
 		select
 		label={label}
 		margin="normal"
+		error={touched && invalid}
+		helperText={touched && error}
 		fullWidth={true}
 		{...input}
 	>

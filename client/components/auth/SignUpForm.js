@@ -201,6 +201,7 @@ class SignUpForm extends Component {
 										name="preseller_initials"
 										component={renderText}
 										label="Preseller Initials *"
+										className="presellerInput"
 									/>
 									<em>{`If this doesn't apply, just enter in "N/A"`}</em>
 								</Grid>

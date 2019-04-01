@@ -1,5 +1,5 @@
 import history from '../utils/history';
-
+import { pickBy } from 'lodash';
 /**
  * Import all httpService as an object.
  */
@@ -96,7 +96,8 @@ export function updateInitialValues(data) {
 	};
 }
 
-export function fetchAll(data) {
+export function fetchAll(params) {
+	const data = pickBy(params, _.identity);
 	return function (dispatch) {
 		return httpService.fetchEntityWithData('users', data).then((response) => {
 			dispatch(fetch(response['data']['data'].data, response['data']['data'].total));
@@ -118,7 +119,9 @@ export function fetchById(id) {
 	};
 }
   
-export function storeItem(data) {
+export function storeItem(params) {
+	const data = pickBy(params, _.identity);
+
 	return function (dispatch) {
 		return httpService.storeEntity('users', data).then(() => {
 			history.goBack();
@@ -129,7 +132,8 @@ export function storeItem(data) {
 	};
 }
 
-export function updateItem(id, data) {
+export function updateItem(id, params) {
+	const data = pickBy(params, _.identity);
 	return function (dispatch) {
 		return httpService.updateEntity('users', data, id).then(() => {
 			dispatch(update(id, res['data'].data));

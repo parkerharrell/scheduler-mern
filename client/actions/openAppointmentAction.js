@@ -1,5 +1,5 @@
 import history from '../utils/history';
-
+import { pickBy } from 'lodash';
 /**
  * Import all httpOpenAppointment as an object.
  */
@@ -103,7 +103,8 @@ export function fetchById(id) {
 	};
 }
   
-export function storeOpenAppointment(data) {
+export function storeOpenAppointment(params) {
+	const data = pickBy(params, _.identity);
 	return function (dispatch) {
 		return httpService.storeEntity('openAppointments', data).then(() => {
 			dispatch(success());
@@ -114,7 +115,9 @@ export function storeOpenAppointment(data) {
 	};
 }
 
-export function updateOpenAppointment(id, data) {
+export function updateOpenAppointment(id, params) {
+	const data = pickBy(params, _.identity);
+
 	return function (dispatch) {
 		return httpService.updateEntity('openAppointments', data, id).then((res) => {
 			dispatch(update(id, res['data'].data));
