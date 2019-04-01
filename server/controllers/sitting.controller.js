@@ -14,7 +14,7 @@ import serviceModel from '../models/service.model';
 export function findAll(req, res) {
 	const query = _.pickBy(req.query, _.identity);
 	console.log('query:', query);
-	sitting.where(query)
+	sitting.where({ ...query, status: 1 })
 		.query('orderBy', 'show_order', 'asc')
 		.fetchAll()
 		.then(sittings => {
