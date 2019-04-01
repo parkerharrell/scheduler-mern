@@ -67,7 +67,7 @@ export function store(req, res) {
 			const params = Object.assign({}, req.body);
 			params.show_order = services.length;
 			return Service.forge({
-				...req.body
+				...params
 			}, {hasTimestamps: false}).save()
 		})
 		.then(service => res.json({
