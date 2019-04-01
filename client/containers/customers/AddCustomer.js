@@ -207,6 +207,7 @@ class AddCustomer extends Component {
                 type="checkbox"
                 name="can_notify"
                 component={renderCheckbox}
+                checked={true}
                 labelPlacement={'end'}
                 label="Notify Customer on Account Creation"
               />
