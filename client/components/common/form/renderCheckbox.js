@@ -13,7 +13,7 @@ const renderCheckbox = ({input, labelPlacement, label, meta: {touched, error, in
 		} 
 		label={label}
 		labelPlacement={labelPlacement || 'start'}
-		style={{ marginLeft: labelPlacement === 'start' ? 0 : -12 }}
+		style={{ marginLeft: 0 }}
 	/>
 );
 

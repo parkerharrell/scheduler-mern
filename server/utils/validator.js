@@ -169,7 +169,7 @@ export default {
 			id: Joi.string().hex().required()
 		}
 	},
-	storeUser: {
+	storeAdmin: {
 		body: {
 			first_name: Joi.string().required(),
 			last_name: Joi.string().required(),
