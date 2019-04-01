@@ -9,6 +9,7 @@ import {
 	EVENT_CREATE_SUCCESS,
 	RESET_EVENT,
 	APPOINTMENT_UPDATE,
+	USERS_INITIALVALUES_UPDATE,
 } from '../constants/actionType';
 const moment = require('moment-timezone');
 import * as _ from 'lodash';
@@ -63,6 +64,7 @@ export default function (state, action) {
 		selectedSitting: {},
 		settings: {},
 		total: {},
+		userInitialValues: {},
 	};
 
 	state = state || initialState;
@@ -172,7 +174,9 @@ export default function (state, action) {
 	case APPOINTMENT_UPDATE:
 		newState.appointmentdata[action.entity] = action.data;
 		return newState;
-
+	case USERS_INITIALVALUES_UPDATE:
+		newState.userInitialValues = action.data;
+		return newState;
 	default:
 		return state;
 	}

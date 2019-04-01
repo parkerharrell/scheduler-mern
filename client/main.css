@@ -228,3 +228,36 @@ a:hover, a:visited, a:active {
 td {
 	padding: 10px 0 10px 10px;
 }
+
+.timezone-selectbox {
+	width: 100%;
+}
+
+.timezone-selectbox > input {
+	border: none !important;
+	border-bottom: 1px solid #333 !important;
+	padding-left: 0 !important;
+	font-weight: 500 !important;
+	color: black !important;
+	border-radius: 0 !important;
+	font-size: 15px !important;
+}
+
+.timezone-selectbox > ul {
+	background: white;
+	z-index: 100;
+	overflow-x: hidden;
+	top: -25vh !important;
+	max-height: 50vh !important;
+	display: block;
+	font-size: 16px;
+	padding: 1em 0 !important;
+	list-style: none;
+	background-color: white;
+	box-shadow: rgba(0, 0, 0, 0.25) 0 1px 13px -1px;
+}
+
+.timezone-selectbox ul button {
+	padding: 1em;
+	box-sizing: border-box;
+}

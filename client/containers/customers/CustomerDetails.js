@@ -38,19 +38,17 @@ class UserDetails extends Component {
 	}
 
   onSubmit = (formProps) => {
+		const { paymenttype } = this.state;
     const { createCustomer } = this.props;
     const result = cloneDeep(formProps);
-    result.created = moment().unix();
+		result.created = moment().unix();
+		result.paymenttype = paymenttype;
     delete result.confirm_password;
     createCustomer(result);
   }
 
   handlePaymentType = event => {
     this.setState({ paymenttype: event.target.value });
-    const { updateAppointmentOpen, appointmentdata } = this.props;
-    const data = Object.assign({}, appointmentdata.openBook);
-    data.paymenttype = event.target.value;
-    updateAppointmentOpen(data);
   };
 
   generateRandomPassword = () => {
@@ -264,13 +262,43 @@ class UserDetails extends Component {
 				</Grid>
 				<div style={{padding: '50px 0'}}>
 					<Button type="submit" variant="contained" color="primary">Update</Button>&nbsp;&nbsp;
-					<Link to="/admin/locations"><Button variant="contained" color="primary">Cancel</Button></Link>
+					<Link to="/admin/customers"><Button variant="contained" color="primary">Cancel</Button></Link>
 				</div>
 			</form>
 		);
 	}
 }
 
+
+const validateEditCustomer = values => {
+	const errors = {};
+	const requiredFields = [
+    'email',
+    'first_name',
+    'last_name',
+		'phone',
+    'zipcode',
+    'password',
+    'preseller_initials',
+    'confirm_password',
+	];
+	requiredFields.forEach(field => {
+		if (!values[field]) {
+			errors[field] = '' + field + ' field is required';
+    }
+  });
+  if (values['password'] !== values['confirm_password']) {
+    errors['password'] = '';
+    errors['confirm_password'] = '(Password fields does not match.)';
+  }
+  if (values['zipcode'] && values['zipcode'].length < 5) {
+    errors['zipcode'] = 'zipcode is invalid';
+  }
+	if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+		errors.email = '(Invalid email address.)';
+	}
+	return errors;
+};
 
 /**
  * Map the actions to props.
@@ -296,4 +324,5 @@ UserDetails.propTypes = {
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
 	form: 'EditUserForm',
 	enableReinitialize : true,
+	validate: validateEditCustomer,
 })(UserDetails));
