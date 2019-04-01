@@ -54,6 +54,7 @@ class Selectable extends React.Component {
 		const minfromnow_number = appointmentdata.service.minfromnow_number;
 		const minfromnow_options = availableDateOptions[appointmentdata.service.minfromnow_options];
 		const minDate = moment(new Date()).add(minfromnow_number, minfromnow_options).toDate();
+
 		// Calculate max date:
 		const maxfromnow_number = appointmentdata.service.maxfromnow_number;
 		const maxfromnow_options = availableDateOptions[appointmentdata.service.maxfromnow_options];
@@ -62,10 +63,10 @@ class Selectable extends React.Component {
 		fetchAll(moment(minDate).format(), appointmentdata.location.street);
 
 		this.state = { 
-			appointmentDate: moment(new Date()).add(1, 'days').toDate(),
+			appointmentDate: minDate,
 			visible: false,
 			timeSlots: [],
-			minDate: moment(new Date()).add(1, 'days').toDate(),
+			minDate: minDate,
 			maxDate: maxDate,
 			loading: false,
 			expanded: false,
