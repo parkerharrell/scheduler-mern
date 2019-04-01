@@ -57,11 +57,11 @@ export default {
 	storeService: {
 		body: {
 			title: Joi.string().required(),
-			description: Joi.string().required(),
+			description: Joi.string(),
 			min_from_now: Joi.number().required(),
 			max_from_now: Joi.number().required(),
 			price: Joi.number(),
-			duration: Joi.number().required(),
+			duration: Joi.number(),
 			recur_total: Joi.string(),
 			recur_options: Joi.string(),
 			lead_in: Joi.number(),
@@ -77,7 +77,7 @@ export default {
 	updateService: {
 		body: {
 			title: Joi.string().required(),
-			description: Joi.string().required(),
+			description: Joi.string(),
 			min_from_now: Joi.number().required(),
 			max_from_now: Joi.number().required(),
 			price: Joi.number(),

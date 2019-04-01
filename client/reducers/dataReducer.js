@@ -104,6 +104,7 @@ export default function (state, action) {
 				const { options: options1, number: number1 } = fancyTimeFormat(data.max_from_now);
 				data.maxfromnow_number = number1;
 				data.maxfromnow_options = options1;
+				console.log('-------- maxfromnow options;', options1, number1);
 				return data;
 			});
 		}
@@ -153,7 +154,7 @@ export default function (state, action) {
 			data.minfromnow_options = options;
 			const { options: options1, number: number1 } = fancyTimeFormat(data.max_from_now);
 			data.maxfromnow_number = number1;
-			data.min_cancel_options = options1;
+			data.maxfromnow_options = options1;
 			const { options: options2, number: number2 } = fancyTimeFormat(data.min_cancel);
 			data.min_cancel_number = number2;
 			data.min_cancel_options = options2;
