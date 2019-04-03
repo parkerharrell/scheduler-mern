@@ -18,6 +18,7 @@ import Grid from '@material-ui/core/Grid';
 import renderText from '../common/form/renderText';
 import renderCheckbox from '../common/form/renderCheckbox';
 import renderTextarea from '../common/form/renderTextarea';
+import renderPhoneNumber from '../common/form/renderPhoneNumber';
 import renderSelect from '../common/form/renderSelect';
 import { updateAppointmentOpen } from '../../actions/serviceAction';
 import USAStateList from '../../utils/us-states.list';
@@ -136,7 +137,7 @@ class SignUpForm extends Component {
 									<Field
 										type="text"
 										name="phone"
-										component={renderText}
+										component={renderPhoneNumber}
 										label="Contact Phone *"
 									/>
 								</Grid>
@@ -144,7 +145,7 @@ class SignUpForm extends Component {
 									<Field
 										type="text"
 										name="alternate_phone"
-										component={renderText}
+										component={renderPhoneNumber}
 										label="Alternate Phone"
 									/>
 								</Grid>
@@ -308,7 +309,7 @@ const validateSignUp = values => {
 	];
 	requiredFields.forEach(field => {
 		if (!values[field]) {
-			errors[field] = '(The ' + field + ' field is required.)';
+			errors[field] = field + ' field is required.';
 		}
 		// if (values['password'] !== values['confirm_password']) {
 		// 	errors['password'] = '';
@@ -317,7 +318,13 @@ const validateSignUp = values => {
 	});
 
 	if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-		errors.email = '(Invalid email address.)';
+		errors.email = 'Invalid email address.';
+	}
+	if (values.phone && !/^[1-9]\d\d-\d{3}-\d{4}$/i.test(values.phone)) {
+		errors.phone = 'Phone number is invalid.';
+	}
+	if (values.alternate_phone && !/^[1-9]\d\d-\d{3}-\d{4}$/i.test(values.alternate_phone)) {
+		errors.alternate_phone = 'Alternate Phone number is invalid.';
 	}
 	
 	return errors;

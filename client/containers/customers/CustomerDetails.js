@@ -20,6 +20,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 import { fetchById, updateItem, destroyItem } from '../../actions/userAction';
 import renderText from '../../components/common/form/renderText';
+import renderPhoneNumber from '../../components/common/form/renderPhoneNumber';
 import renderCheckbox from '../../components/common/form/renderCheckbox';
 import renderPassword from '../../components/common/form/renderPassword';
 import renderTextarea from '../../components/common/form/renderTextarea';
@@ -189,7 +190,7 @@ class UserDetails extends Component {
 								<Field
 									type="text"
 									name="phone"
-									component={renderText}
+									component={renderPhoneNumber}
 									label="Contact Phone *"
 								/>
 							</Grid>
@@ -197,7 +198,7 @@ class UserDetails extends Component {
 								<Field
 									type="text"
 									name="alternate_phone"
-									component={renderText}
+									component={renderPhoneNumber}
 									label="Alternate Phone"
 								/>
 							</Grid>
@@ -426,6 +427,12 @@ const validateEditCustomer = values => {
   }
 	if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
 		errors.email = '(Invalid email address.)';
+	}
+	if (values.phone && !/^[1-9]\d\d-\d{3}-\d{4}$/i.test(values.phone)) {
+		errors.phone = 'Phone number is invalid.';
+	}
+	if (values.alternate_phone && !/^[1-9]\d\d-\d{3}-\d{4}$/i.test(values.alternate_phone)) {
+		errors.alternate_phone = 'Alternate Phone number is invalid.';
 	}
 	return errors;
 };

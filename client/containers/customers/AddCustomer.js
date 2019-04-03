@@ -20,6 +20,8 @@ import renderPassword from '../../components/common/form/renderPassword';
 import USAStateList from '../../utils/us-states.list';
 import { storeItem, updateInitialValues } from '../../actions/userAction';
 import renderText from '../../components/common/form/renderText';
+import renderPhoneNumber from '../../components/common/form/renderPhoneNumber';
+
 import styles from './AddCustomer.style.js';
 import renderTimezonebox from '../../components/common/form/renderTimezonebox';
 
@@ -114,7 +116,7 @@ class AddCustomer extends Component {
               <Field
                 type="text"
                 name="phone"
-                component={renderText}
+                component={renderPhoneNumber}
                 label="Contact Phone *"
               />
             </Grid>
@@ -122,7 +124,7 @@ class AddCustomer extends Component {
               <Field
                 type="text"
                 name="alternate_phone"
-                component={renderText}
+                component={renderPhoneNumber}
                 label="Alternate Phone"
               />
             </Grid>
@@ -300,6 +302,12 @@ const validateAddCustomer = values => {
   }
 	if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
 		errors.email = '(Invalid email address.)';
+  }
+  if (values.phone && !/^[1-9]\d\d-\d{3}-\d{4}$/i.test(values.phone)) {
+		errors.phone = 'Phone number is invalid.';
+	}
+	if (values.alternate_phone && !/^[1-9]\d\d-\d{3}-\d{4}$/i.test(values.alternate_phone)) {
+		errors.alternate_phone = 'Alternate Phone number is invalid.';
 	}
 	return errors;
 };

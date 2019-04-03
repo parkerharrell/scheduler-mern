@@ -17,7 +17,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 import { updateItem, fetchById, destroyItem } from '../../actions/locationAction';
 import renderText from '../../components/common/form/renderText';
-
+import renderPhoneNumber from '../../components/common/form/renderPhoneNumber';
 
 const styles = {
 	table: {
@@ -194,7 +194,7 @@ class EditLocation extends Component {
 									<Field
 										type="text"
 										name="phone"
-										component={renderText}
+										component={renderPhoneNumber}
 										label="Contact Phone *"
 									/>
 								</Grid>
@@ -321,7 +321,12 @@ const validateEditLocation = values => {
 			errors[field] = '' + field + ' field is required';
 		}
 	});
-
+	if (values.phone && !/^[1-9]\d\d-\d{3}-\d{4}$/i.test(values.phone)) {
+		errors.phone = 'Phone number is invalid.';
+	}
+	if (values.alternate_phone && !/^[1-9]\d\d-\d{3}-\d{4}$/i.test(values.alternate_phone)) {
+		errors.alternate_phone = 'Alternate Phone number is invalid.';
+	}
 	return errors;
 };
 

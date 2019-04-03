@@ -81,21 +81,19 @@ class Services extends Component {
     						<Item data={item} active={active === index} onclick={() => this.setService(index)}/>
     					</Grid>
 						)}
-						{rowData.length > 0 &&
-							<Grid item md={4} key={'open-appointment'} className="services__griditem">
-								<div className="services__card"  onClick={this.showOpenAppointment}>
-									<span className="title">Open Appointment</span>
-									<div style={{ fontSize: '0.9em' }}>
-										<Truncate lines={4} ellipsis={<span>...</span>}>
-											{'This appointment allows you to reserve without a specific day and time. We accept cash, credit and debit for any additional purchases. If you have questions or need directions to our studio, please give us a call.'}
-										</Truncate>
-									</div>
-									<div className={`overlay ${active ? 'active' : ''}`} onClick={onclick}>
-										<AddIcon className="checkbox"  />
-									</div>
+						<Grid item md={4} key={'open-appointment'} className="services__griditem">
+							<div className="services__card"  onClick={this.showOpenAppointment}>
+								<span className="title">Open Appointment</span>
+								<div style={{ fontSize: '0.9em' }}>
+									<Truncate lines={4} ellipsis={<span>...</span>}>
+										{'This appointment allows you to reserve without a specific day and time. We accept cash, credit and debit for any additional purchases. If you have questions or need directions to our studio, please give us a call.'}
+									</Truncate>
 								</div>
-							</Grid>
-						}
+								<div className={`overlay ${active ? 'active' : ''}`} onClick={onclick}>
+									<AddIcon className="checkbox"  />
+								</div>
+							</div>
+						</Grid>
     			</Grid>
     		</div>
     	);
