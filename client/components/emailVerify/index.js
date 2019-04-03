@@ -11,8 +11,6 @@ class EmailVerify extends Component {
 	constructor(props) {
 		super(props);
 		const { verifyEmail, location } = this.props;
-		const confirmCode = location.search.confirm_code;
-
 		const { confirm_code: confirmCode } = qs.parse(location.search);
 		verifyEmail(confirmCode);
 	}
