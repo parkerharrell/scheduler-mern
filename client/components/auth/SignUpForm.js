@@ -61,10 +61,13 @@ const styles = theme => ({
 	radiogroup: {
 		flexDirection: 'row',
 		marginLeft: -12,
-    zoom: 0.8,
 		marginTop: 2,
 		zIndex: 1000,
 		position: 'relative',
+	},
+	radiogrouplabel: {
+		fontWeight: 400,
+    color: 'rgba(0, 0, 0, 0.6)',
 	},
 	label: {
 		height: 30,
@@ -245,24 +248,25 @@ class SignUpForm extends Component {
 									</React.Fragment>
 								}
 								<Grid item md={12} xs={12}>
-									<h2>Open Appointment Payment</h2>
+									<br />
+									<h4 className={classes.radiogrouplabel}>Payment Method</h4>
 									<RadioGroup
 										name="paymenttype"
 										value={paymenttype}
 										onChange={this.handlePaymentType}
 										onClick={this.handlePaymentTypeClick}
-										style={styles.radiogroup}
+										className={classes.radiogroup}
 									>
 										<FormControlLabel
 											value="cash"
 											control={<Radio color="primary" />}
-											style={styles.label}
+											className={classes.label}
 											label="Cash"
 										/>
 										<FormControlLabel
 											value="credit"
 											control={<Radio color="primary" />}
-											style={styles.label}
+											className={classes.label}
 											label="Credit Card"
 										/>
 									</RadioGroup>	
