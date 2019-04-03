@@ -30,6 +30,7 @@ import AddAppointment from '../containers/appointments/AddAppointment';
 import EditAppointment from '../containers/appointments/EditAppointment';
 import Settings from '../containers/settings';
 import AddCustomer from '../containers/customers/AddCustomer';
+import EmailVerify from '../components/emailVerify';
 
 import AuthenticatedRoute from './AuthenticatedRoute';
 import Home from '../containers/Home';
@@ -40,6 +41,7 @@ const Router = () => (
 			<Route exact path="/"  component={Home}/>
 			<Route exact path="/signup" component={SignUpForm}/>
 			<Route exact path="/login" component={LoginForm}/>
+			<Route exact path="/email-verify" component={EmailVerify}/>
 
 			<MainLayout>
 				<Switch>

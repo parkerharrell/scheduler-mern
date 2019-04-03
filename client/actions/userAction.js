@@ -20,7 +20,8 @@ import {
 	ENTITY_DELETE,
 	SELECT_ENTITY_ITEM,
 	CLEAR_ENTITY_LIST,
-	USERS_INITIALVALUES_UPDATE
+	USERS_INITIALVALUES_UPDATE,
+	UPDATE_VERIFY_STATUS,
 } from '../constants/actionType';
 
 function failure(error) {
@@ -90,6 +91,13 @@ function clearList(user) {
 	};
 }
 
+function updateVerifyStatus() {
+	return {
+		type: UPDATE_VERIFY_STATUS,
+		data: true,
+	}
+}
+
 export function updateInitialValues(data) {
 	return function (dispatch) {
 		dispatch(updatePassword(data));
@@ -148,6 +156,17 @@ export function destroyItem(id) {
 	return function (dispatch) {
 		return httpService.destroyEntity('users', id).then(() => {
 			dispatch(fetchAll());
+		})
+			.catch((error) => {
+				dispatch(failure(error));
+			});
+	};
+}
+
+export function verifyEmail(params) {
+	return function (dispatch) {
+		return httpService.fetchEntityWithData('users', { confirm_code: params }).then((response) => {
+			dispatch(updateVerifyStatus());
 		})
 			.catch((error) => {
 				dispatch(failure(error));

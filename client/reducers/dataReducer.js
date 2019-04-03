@@ -10,6 +10,7 @@ import {
 	RESET_EVENT,
 	APPOINTMENT_UPDATE,
 	USERS_INITIALVALUES_UPDATE,
+	UPDATE_VERIFY_STATUS,
 } from '../constants/actionType';
 const moment = require('moment-timezone');
 import * as _ from 'lodash';
@@ -67,6 +68,7 @@ export default function (state, action) {
 		userInitialValues: {},
 		admins: [],
 		selectedAdmin: {},
+		verifyStatus: false,
 	};
 
 	state = state || initialState;
@@ -188,6 +190,9 @@ export default function (state, action) {
 		return newState;
 	case USERS_INITIALVALUES_UPDATE:
 		newState.userInitialValues = action.data;
+		return newState;
+	case UPDATE_VERIFY_STATUS:
+		newState.verifyStatus = action.data;
 		return newState;
 	default:
 		return state;

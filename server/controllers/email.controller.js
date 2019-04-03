@@ -2,6 +2,7 @@ import HttpStatus from 'http-status-codes';
 import User from '../models/user.model';
 import Admin from '../models/admin.model';
 const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey('SG.' + 'SbBCuVDmTtSnWW2HT6wIIw.VsqLHSCtei5zLJgIWA7DW99gnYBXIbr4lM-WD_eU_eg');
 
 function sendMail(to, subject, message, res) {
   const msg = {
@@ -12,21 +13,21 @@ function sendMail(to, subject, message, res) {
     html: message,
   };
   sgMail.send(msg, function(err, json) {
-    if (err) { 
+    if (err && res) { 
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
         error: err
       });
     }
-    return res.json({
-      error: false,
-    });
+    if (res)
+      return res.json({
+        error: false,
+      });
+    return;
   });
 }
 
 export function store(req, res) {
   const { subject, message, to, toAdmin } = req.body;
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
   if (to) {
     sendMail(to, subject, message);
   } else if (toAdmin) {
@@ -46,4 +47,10 @@ export function store(req, res) {
         sendMail(emails, subject, message, res);
       })
   }
+}
+
+export function confirmEmail(email, first_name, last_name, link) {
+  const subject = 'Confirm Your Email Address';
+  const message = `Hello ${first_name} ${last_name}, Please Click on the link to verify your email.<br><a style="border-radius: 5px; border: 1px sold lightgray;" href="${link}">Verify Email</a>`;
+  sendMail(email, subject, message);
 }
