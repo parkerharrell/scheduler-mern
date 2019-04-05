@@ -1,0 +1,10 @@
+.emailverify__container {
+  padding-top: 100px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .emailverify__container {
+    padding-top: 70px;
+  }
+}

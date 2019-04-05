@@ -2,9 +2,14 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import { Link } from 'react-router-dom';
 import * as qs from 'query-string';
+import Button from '@material-ui/core/Button';
+import HomeIcon from '@material-ui/icons/Home';
 
 import { verifyEmail } from '../../actions/userAction';
+import HomeHeader from '../common/homeHeader';
+import './emailVerify.style.css';
 
 class EmailVerify extends Component {
 
@@ -19,16 +24,19 @@ class EmailVerify extends Component {
 		const { verifyStatus } = this.props;
 		return (
 			<>
-				{verifyStatus &&
-					<div>
-						<h1>Your Email Address was verified successfully</h1>
-					</div>
-				}
-				{!verifyStatus &&
-					<div>
-						<h1>Verifying Email Address</h1>
-					</div>
-				}
+				<HomeHeader />
+				<div className="emailverify__container">
+					{verifyStatus &&
+						<>
+							<h2>Your Email Address has been successfully verified</h2>
+							<br/><br/>
+							<Link to='/'><Button type="submit" variant="contained" color="primary">Go to <HomeIcon /> Home</Button></Link>
+						</>
+					}
+					{!verifyStatus &&
+						<h2>Verifying Email Address</h2>
+					}
+				</div>
 			</>
 		);
 	}
