@@ -11,6 +11,7 @@ import {
 	APPOINTMENT_UPDATE,
 	USERS_INITIALVALUES_UPDATE,
 	UPDATE_VERIFY_STATUS,
+	SEND_API_REQUEST,
 } from '../constants/actionType';
 const moment = require('moment-timezone');
 import * as _ from 'lodash';
@@ -69,132 +70,137 @@ export default function (state, action) {
 		admins: [],
 		selectedAdmin: {},
 		verifyStatus: false,
+		loading: false,
 	};
 
 	state = state || initialState;
 	let newState = Object.assign({}, state);
+	newState.loading = false;
 
 	switch (action.type) {
-	case ENTITY_CREATE:
-		newState[action.entity] = Object.assign({}, state, action.data);
-		return newState;
+		case ENTITY_CREATE:
+			newState[action.entity] = Object.assign({}, state, action.data);
+			return newState;
 
-	case ENTITY_UPDATE:
-		if (action.id) {
-			const entityArr = newState[action.entity].map(item => {
-				if (parseInt(item.id, 10) === parseInt(action.id, 10)) {
-					return action.data;
-				}
-				return item;
-			});
-			newState[action.entity] = _.orderBy(entityArr, ['show_order'],['asc']);
-		} else {
-			newState[action.entity] = action.data.slice();
+		case ENTITY_UPDATE:
+			if (action.id) {
+				const entityArr = newState[action.entity].map(item => {
+					if (parseInt(item.id, 10) === parseInt(action.id, 10)) {
+						return action.data;
+					}
+					return item;
+				});
+				newState[action.entity] = _.orderBy(entityArr, ['show_order'],['asc']);
+			} else {
+				newState[action.entity] = action.data.slice();
+			}
+			return newState;
+
+		case ENTITY_FETCH: {
+			const apiData = action.data.slice();
+			let result = [];
+			const tz = moment.tz.guess();
+
+			if(action.entity === 'services') {
+				result = apiData.map(data => {
+					const { options, number } = fancyTimeFormat(data.min_from_now);
+					data.minfromnow_number = number;
+					data.minfromnow_options = options;
+					const { options: options1, number: number1 } = fancyTimeFormat(data.max_from_now);
+					data.maxfromnow_number = number1;
+					data.maxfromnow_options = options1;
+					console.log('-------- maxfromnow options;', options1, number1);
+					return data;
+				});
+			}
+			if (action.entity === 'locations') {
+				result = apiData;
+			}
+			if (action.entity === 'users') {
+				result = apiData.map(data => {
+					data.createdAt = moment(data.created * 1000).tz(tz).format('YYYY/MM/DD');
+					return data;
+				});
+				newState['total'] = action.total;
+			}
+			if (action.entity === 'admins') {
+				result = apiData.map(data => {
+					data.createdAt = moment(data.created * 1000).tz(tz).format('YYYY/MM/DD');
+					return data;
+				});
+				newState['total'] = action.total;
+			}
+			if (action.entity === 'events') {
+				result = apiData;
+			}
+			if (action.entity === 'openAppointments') {
+				result = apiData;
+			}
+			if (action.entity === 'sittings') {
+				result = apiData;
+			}
+			if (action.entity === 'settings') {
+				result = apiData;
+			}
+			newState[action.entity] = result;
+			return newState;
 		}
-		return newState;
+		case ENTITY_DELETE:
+			newState[action.entity] = state[action.entity].filter(item => item.id !== action.id);
+			
+			return newState;
 
-	case ENTITY_FETCH: {
-		const apiData = action.data.slice();
-		let result = [];
-		const tz = moment.tz.guess();
-
-		if(action.entity === 'services') {
-			result = apiData.map(data => {
+		case SELECT_ENTITY_ITEM: {
+			const data = Object.assign({}, action.data);
+			const tz1 = moment.tz.guess();
+			if(action.entity === 'selectedService') {
 				const { options, number } = fancyTimeFormat(data.min_from_now);
 				data.minfromnow_number = number;
 				data.minfromnow_options = options;
 				const { options: options1, number: number1 } = fancyTimeFormat(data.max_from_now);
 				data.maxfromnow_number = number1;
 				data.maxfromnow_options = options1;
-				console.log('-------- maxfromnow options;', options1, number1);
-				return data;
-			});
+				const { options: options2, number: number2 } = fancyTimeFormat(data.min_cancel);
+				data.min_cancel_number = number2;
+				data.min_cancel_options = options2;
+				data.lead_in_hrs = ~~(data.lead_in / 3600);
+				data.lead_in_mins = (data.lead_in % 3600) / 60;
+				data.lead_out_hrs = ~~(data.lead_out / 3600);
+				data.lead_out_mins = (data.lead_out % 3600) / 60;
+			}
+			if (action.entity === 'selectedUser') {
+				data.createdAt = moment(data.created * 1000).tz(tz1).format('YYYY-MM-DD');
+			}
+			if (action.entity === 'selectedAdmin') {
+				data.createdAt = moment(data.created * 1000).tz(tz1).format('YYYY-MM-DD');
+			}
+			newState[action.entity] = Object.assign({}, data);
+			return newState;
 		}
-		if (action.entity === 'locations') {
-			result = apiData;
-		}
-		if (action.entity === 'users') {
-			result = apiData.map(data => {
-				data.createdAt = moment(data.created * 1000).tz(tz).format('YYYY/MM/DD');
-				return data;
-			});
-			newState['total'] = action.total;
-		}
-		if (action.entity === 'admins') {
-			result = apiData.map(data => {
-				data.createdAt = moment(data.created * 1000).tz(tz).format('YYYY/MM/DD');
-				return data;
-			});
-			newState['total'] = action.total;
-		}
-		if (action.entity === 'events') {
-			result = apiData;
-		}
-		if (action.entity === 'openAppointments') {
-			result = apiData;
-		}
-		if (action.entity === 'sittings') {
-			result = apiData;
-		}
-		if (action.entity === 'settings') {
-			result = apiData;
-		}
-		newState[action.entity] = result;
-		return newState;
-	}
-	case ENTITY_DELETE:
-		newState[action.entity] = state[action.entity].filter(item => item.id !== action.id);
-		
-		return newState;
+		case CLEAR_ENTITY_LIST:
+			newState[action.entity] = {};
+			return newState;
 
-	case SELECT_ENTITY_ITEM: {
-		const data = Object.assign({}, action.data);
-		const tz1 = moment.tz.guess();
-		if(action.entity === 'selectedService') {
-			const { options, number } = fancyTimeFormat(data.min_from_now);
-			data.minfromnow_number = number;
-			data.minfromnow_options = options;
-			const { options: options1, number: number1 } = fancyTimeFormat(data.max_from_now);
-			data.maxfromnow_number = number1;
-			data.maxfromnow_options = options1;
-			const { options: options2, number: number2 } = fancyTimeFormat(data.min_cancel);
-			data.min_cancel_number = number2;
-			data.min_cancel_options = options2;
-			data.lead_in_hrs = ~~(data.lead_in / 3600);
-			data.lead_in_mins = (data.lead_in % 3600) / 60;
-			data.lead_out_hrs = ~~(data.lead_out / 3600);
-			data.lead_out_mins = (data.lead_out % 3600) / 60;
-		}
-		if (action.entity === 'selectedUser') {
-			data.createdAt = moment(data.created * 1000).tz(tz1).format('YYYY-MM-DD');
-		}
-		if (action.entity === 'selectedAdmin') {
-			data.createdAt = moment(data.created * 1000).tz(tz1).format('YYYY-MM-DD');
-		}
-		newState[action.entity] = Object.assign({}, data);
-		return newState;
-	}
-	case CLEAR_ENTITY_LIST:
-		newState[action.entity] = {};
-		return newState;
-
-	case EVENT_CREATE_SUCCESS:
-		newState.event_created_success = true;
-		return newState;
-		
-	case RESET_EVENT:
-		newState.event_created_success = false;
-		return newState;
-	case APPOINTMENT_UPDATE:
-		newState.appointmentdata[action.entity] = action.data;
-		return newState;
-	case USERS_INITIALVALUES_UPDATE:
-		newState.userInitialValues = action.data;
-		return newState;
-	case UPDATE_VERIFY_STATUS:
-		newState.verifyStatus = action.data;
-		return newState;
-	default:
-		return state;
+		case EVENT_CREATE_SUCCESS:
+			newState.event_created_success = true;
+			return newState;
+			
+		case RESET_EVENT:
+			newState.event_created_success = false;
+			return newState;
+		case APPOINTMENT_UPDATE:
+			newState.appointmentdata[action.entity] = action.data;
+			return newState;
+		case USERS_INITIALVALUES_UPDATE:
+			newState.userInitialValues = action.data;
+			return newState;
+		case UPDATE_VERIFY_STATUS:
+			newState.verifyStatus = action.data;
+			return newState;
+		case SEND_API_REQUEST:
+			newState.loading = true;
+			return newState;
+		default:
+			return state;
 	}
 }

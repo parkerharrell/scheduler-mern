@@ -66,34 +66,39 @@ class Services extends Component {
 		}
 
     render() {
-			const { services, appointmentdata } = this.props;
+			const { services, loading } = this.props;
 			const { active } =  this.state;
-    	let rowData = [];
-    	if (!isUndefined(services)) {
-    		rowData = services;
-    	}
+
+			console.log('========= loading:', loading);
 
     	return (
     		<div className="services__container">
     			<Grid container spacing={24}>
-    				{rowData.map((item, index) =>
+						{loading &&
+							<div className="services__loading">
+								<img src={'img/loading.gif'} height={100}/>
+							</div>
+						}
+    				{!loading && services.map((item, index) =>
     					<Grid item md={4} key={index} className="services__griditem" >
     						<Item data={item} active={active === index} onclick={() => this.setService(index)}/>
     					</Grid>
 						)}
-						<Grid item md={4} key={'open-appointment'} className="services__griditem">
-							<div className="services__card"  onClick={this.showOpenAppointment}>
-								<span className="title">Open Appointment</span>
-								<div style={{ fontSize: '0.9em' }}>
-									<Truncate lines={4} ellipsis={<span>...</span>}>
-										{'This appointment allows you to reserve without a specific day and time. We accept cash, credit and debit for any additional purchases. If you have questions or need directions to our studio, please give us a call.'}
-									</Truncate>
+						{!loading &&
+							<Grid item md={4} key={'open-appointment'} className="services__griditem">
+								<div className="services__card"  onClick={this.showOpenAppointment}>
+									<span className="title">Open Appointment</span>
+									<div style={{ fontSize: '0.9em' }}>
+										<Truncate lines={4} ellipsis={<span>...</span>}>
+											{'This appointment allows you to reserve without a specific day and time. We accept cash, credit and debit for any additional purchases. If you have questions or need directions to our studio, please give us a call.'}
+										</Truncate>
+									</div>
+									<div className={`overlay ${active ? 'active' : ''}`} onClick={onclick}>
+										<AddIcon className="checkbox"  />
+									</div>
 								</div>
-								<div className={`overlay ${active ? 'active' : ''}`} onClick={onclick}>
-									<AddIcon className="checkbox"  />
-								</div>
-							</div>
-						</Grid>
+							</Grid>
+						}
     			</Grid>
     		</div>
     	);
@@ -106,6 +111,7 @@ class Services extends Component {
  */
 const mapStateToProps = state => ({
 	services: state.data.services,
+	loading: state.data.loading,
 	appointmentdata: state.data.appointmentdata,
 });
 

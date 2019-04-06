@@ -21,6 +21,7 @@ import {
 	ENTITY_DELETE,
 	SELECT_ENTITY_ITEM,
 	CLEAR_ENTITY_LIST,
+	SEND_API_REQUEST,
 } from '../constants/actionType';
 
 function failure(error) {
@@ -90,9 +91,17 @@ function clearList(sitting) {
 	};
 }
 
+function sendRequest() {
+	return {
+		type: SEND_API_REQUEST,
+	}
+}
+
 export function fetchAllResources(entity, data) {
 
 	return function (dispatch) {
+		dispatch(sendRequest());
+
 		return httpSitting.fetchEntityWithData('sittings', data).then((response) => {
 			dispatch(fetchByEntity(entity, response['data'].data));
 		})
@@ -106,6 +115,8 @@ export function fetchAllResources(entity, data) {
 export function fetchAll() {
 
 	return function (dispatch) {
+		dispatch(sendRequest());
+
 		return httpSitting.fetchEntity('sittings').then((response) => {
 			dispatch(fetch(response['data'].data));
 		})
@@ -130,6 +141,8 @@ export function storeItem(params) {
 	const data = pickBy(params, _.identity);
 
 	return function (dispatch) {
+		dispatch(sendRequest());
+
 		return httpSitting.storeEntity('sittings', data).then(() => {
 			history.goBack();
 		})
@@ -143,6 +156,7 @@ export function updateItem(id, params) {
 	const data = pickBy(params, _.identity);
 
 	return function (dispatch) {
+		dispatch(sendRequest());
 		return httpSitting.updateEntity('sittings', data, id).then((res) => {
 			dispatch(update(id, res['data'].data));
 		})
@@ -154,6 +168,8 @@ export function updateItem(id, params) {
 
 export function destroyItem(id) {
 	return function (dispatch) {
+	dispatch(sendRequest());
+
 		return httpSitting.destroyEntity('sittings', id).then(() => {
 			dispatch(fetchAll());
 		})
