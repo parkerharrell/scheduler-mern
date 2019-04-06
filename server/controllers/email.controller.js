@@ -1,6 +1,8 @@
 import HttpStatus from 'http-status-codes';
 import User from '../models/user.model';
 import Admin from '../models/admin.model';
+import verifyTemplate from '../utils/verifyemail-template';
+
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey('SG.' + 'SbBCuVDmTtSnWW2HT6wIIw.VsqLHSCtei5zLJgIWA7DW99gnYBXIbr4lM-WD_eU_eg');
 
@@ -9,7 +11,6 @@ function sendMail(to, subject, message, res) {
     to: to,
     from: 'projects@andraemichaels.com',
     subject,
-    text: message,
     html: message,
   };
   sgMail.send(msg, function(err, json) {
@@ -50,7 +51,7 @@ export function store(req, res) {
 }
 
 export function confirmEmail(email, first_name, last_name, link) {
-  const subject = 'Confirm Your Email Address';
-  const message = `Hello ${first_name} ${last_name}, Please Click on the link to verify your email.<br><a style="border-radius: 5px; border: 1px sold lightgray;" href="${link}">Verify Email</a>`;
+  const subject = 'Confirm your Email Address';
+  const message = verifyTemplate(first_name, last_name, link);
   sendMail(email, subject, message);
 }
