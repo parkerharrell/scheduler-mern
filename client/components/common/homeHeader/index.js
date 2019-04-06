@@ -17,12 +17,14 @@ class HomeHeader extends Component {
 	}
 
 	render() {
-		const { isAuthenticated } = this.props;
+		const { isAuthenticated, admin } = this.props;
 		return (
 			<div>
 				<AppBar style={{ background: 'white' }}>
 					<Toolbar style={{ justifyContent: 'flex-end' }}>
-						<Link to='/admin'><Button>Admin</Button></Link>
+						{admin && 
+							<Link to='/admin'><Button>Admin</Button></Link>
+						}
 						{isAuthenticated &&
 							<Button onClick={this.logOut.bind(this)}>Logout</Button>
 						}
@@ -35,10 +37,15 @@ class HomeHeader extends Component {
 
 HomeHeader.propTypes = {
 	classes: PropTypes.object,
+	admin: PropTypes.bool,
 	actions: PropTypes.object,
 	navDrawerOpen: PropTypes.bool,
 	handleToggleDrawer: PropTypes.func,
 };
+
+HomeHeader.defaultProps = {
+	admin: true,
+}
 
 /**
  * Map the actions to props.

@@ -24,13 +24,13 @@ class EmailVerify extends Component {
 		const { verifyStatus } = this.props;
 		return (
 			<>
-				<HomeHeader />
+				<HomeHeader admin={false} />
 				<div className="emailverify__container">
 					{verifyStatus &&
 						<>
 							<h2>Your Email Address has been successfully verified</h2>
 							<br/><br/>
-							<Link to='/'><Button type="submit" variant="contained" color="primary">Go to <HomeIcon /> Home</Button></Link>
+							<Link to='/'><Button type="submit" variant="contained" color="primary">Go&nbsp;&nbsp;to&nbsp;&nbsp;&nbsp;<HomeIcon />&nbsp;&nbsp;Home</Button></Link>
 						</>
 					}
 					{!verifyStatus &&
