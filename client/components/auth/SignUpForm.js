@@ -316,7 +316,9 @@ const validateSignUp = values => {
 		// 	errors['confirm_password'] = '(Password fields does not match.)';
 		// }
 	});
-
+  if (values['zipcode'] && values['zipcode'].length !== 5) {
+    errors['zipcode'] = 'Zipcode is Invalid. The length should be 5.';
+  }
 	if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
 		errors.email = 'Invalid email address.';
 	}

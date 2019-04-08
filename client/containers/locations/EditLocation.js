@@ -315,12 +315,16 @@ const validateEditLocation = values => {
 	const requiredFields = [
 		'title',
 		'description',
+		'zipcode',
 	];
 	requiredFields.forEach(field => {
 		if (!values[field]) {
 			errors[field] = '' + field + ' field is required';
 		}
 	});
+	if (values['zipcode'] && values['zipcode'].length !== 5) {
+    errors['zipcode'] = 'Zipcode is Invalid. The length should be 5.';
+  }
 	if (values.phone && !/^[1-9]\d\d-\d{3}-\d{4}$/i.test(values.phone)) {
 		errors.phone = 'Phone number is invalid.';
 	}
