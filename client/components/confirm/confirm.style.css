@@ -2,6 +2,19 @@
   padding: 24px 80px;
 }
 
+.title__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.title__row h2 {
+  margin: 0;
+  font-size: 25px;
+  margin-left: -4px;
+}
+
 @media (max-width: 600px) {
   .confirm__container {
     padding: 0;

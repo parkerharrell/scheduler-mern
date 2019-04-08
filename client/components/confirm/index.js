@@ -7,7 +7,7 @@ import { storeItem } from '../../actions/eventAction';
 import Button from '@material-ui/core/Button';
 
 import { storeOpenAppointment } from '../../actions/openAppointmentAction';
-
+import './confirm.style.css';
 import moment from 'moment';
 
 class ConfirmPage extends Component {
@@ -52,7 +52,10 @@ class ConfirmPage extends Component {
 				{openBooked &&
 					<React.Fragment>
 						<br/>
-						<h2>Your Open Appointment Approved</h2>
+						<div className="title__row">
+							<h2>Your Open Appointment Approved</h2>
+							<a href="/" ><Button variant="contained" size="medium" color="primary" >Continue</Button></a>
+						</div>
 						<br/>
 						<p>Hi, this is Andrae Michaels Portrait Studio. This email is in regards to your Open Appointment.</p> 
 
@@ -67,14 +70,15 @@ class ConfirmPage extends Component {
 							<em>{appointmentdata.location.phone}</em><br/>
 							<em>{appointmentdata.location.email}</em>
 						</p>
-						<br/><br/>
-						<a href="/" ><Button variant="outlined" size="small" color="primary" >Continue</Button></a>
 					</React.Fragment>
 				}
 				{!openBooked && event_created_success &&
 					<React.Fragment>
 						<br/>
-						<h2>Your Appointment Approved</h2>
+						<div className="title__row">
+							<h2>Your Appointment Approved</h2>
+							<a href="/" ><Button variant="contained" size="medium" color="primary" >Continue</Button></a>
+						</div>
 						<br/>
 						<p>Hi, this is Andrae Michaels Portrait Studio. This email is in regards to your Photo Sitting on {moment(appointmentdata.startDate).format('MM/DD/YYYY')} at {moment(appointmentdata.startDate).format('hh:mm a')}.</p> 
 
@@ -96,8 +100,6 @@ class ConfirmPage extends Component {
 							<em>{appointmentdata.location.phone}</em><br/>
 							<em>{appointmentdata.location.email}</em>
 						</p>
-						<br/><br/>
-						<a href="/" ><Button variant="outlined" size="small" color="primary" >Continue</Button></a>
 					</React.Fragment>
 				}
 			</div>
