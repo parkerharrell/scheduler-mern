@@ -6,7 +6,6 @@ import {bindActionCreators} from 'redux';
 import { storeItem } from '../../actions/eventAction';
 import Button from '@material-ui/core/Button';
 
-import { resetEventData } from '../../actions/eventAction';
 import { storeOpenAppointment } from '../../actions/openAppointmentAction';
 
 import moment from 'moment';
@@ -121,13 +120,11 @@ const mapStateToProps = state => ({
  */
 const mapDispatchToProps = dispatch => ({
 	createEvent: bindActionCreators(storeItem, dispatch),
-	resetEvent: bindActionCreators(resetEventData, dispatch),
 	createOpenAppointment: bindActionCreators(storeOpenAppointment, dispatch),
 });
 
 ConfirmPage.propTypes = {
 	createEvent: PropTypes.func,
-	resetEvent: PropTypes.func,
 	appointmentdata: PropTypes.object,
 	createOpenAppointment: PropTypes.func,
 };

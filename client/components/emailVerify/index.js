@@ -30,7 +30,7 @@ class EmailVerify extends Component {
 						<>
 							<h2>Your Email Address has been successfully verified</h2>
 							<br/><br/>
-							<Link to='/'><Button type="submit" variant="contained" color="primary">Go&nbsp;&nbsp;to&nbsp;&nbsp;&nbsp;<HomeIcon />&nbsp;&nbsp;Home</Button></Link>
+							<Link to='/'><Button type="submit" variant="contained" color="primary">Go&nbsp;&nbsp;to&nbsp;&nbsp;&nbsp;<HomeIcon />&nbsp;Home</Button></Link>
 						</>
 					}
 					{!verifyStatus &&

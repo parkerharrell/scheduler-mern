@@ -187,6 +187,7 @@ export default function (state, action) {
 			
 		case RESET_EVENT:
 			newState.event_created_success = false;
+			newState.appointmentdata.openBook = false;
 			return newState;
 		case APPOINTMENT_UPDATE:
 			newState.appointmentdata[action.entity] = action.data;

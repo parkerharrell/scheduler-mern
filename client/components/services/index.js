@@ -6,12 +6,13 @@ import {bindActionCreators} from 'redux';
 import Truncate from 'react-truncate';
 
 import Grid from '@material-ui/core/Grid';
-import { isUndefined } from 'lodash';
 import AddIcon from '@material-ui/icons/AddRounded';
 
 import { fetchAll, updateAppointmentService, updateAppointmentOpen } from '../../actions/serviceAction';
 import { fetchAllResources } from '../../actions/sittingAction';
 import './services.style.css';
+import { resetEventData } from '../../actions/eventAction';
+
 
 const Item = ({ data, onclick, active }) => (
 	<div className="services__card"   onClick={onclick}>
@@ -40,7 +41,8 @@ class Services extends Component {
     }
 
     componentDidMount() {
-			const { fetchAllResources, appointmentdata, fetchAll } = this.props;
+			const { fetchAllResources, appointmentdata, fetchAll, resetEvent } = this.props;
+			resetEvent();
 			if (appointmentdata.location)
 	    	fetchAllResources('services', { location: appointmentdata.location.id });
 			else
@@ -68,8 +70,6 @@ class Services extends Component {
     render() {
 			const { services, loading } = this.props;
 			const { active } =  this.state;
-
-			console.log('========= loading:', loading);
 
     	return (
     		<div className="services__container">
@@ -121,6 +121,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 	fetchAllResources: bindActionCreators(fetchAllResources, dispatch),
 	fetchAll: bindActionCreators(fetchAll, dispatch),
+	resetEvent: bindActionCreators(resetEventData, dispatch),
 	updateAppointmentService: bindActionCreators(updateAppointmentService, dispatch),
 	updateAppointmentOpen: bindActionCreators(updateAppointmentOpen, dispatch),
 });
@@ -133,6 +134,7 @@ Services.propTypes = {
 	goToNextStep: PropTypes.func,
 	updateAppointmentService: PropTypes.func,
 	updateAppointmentOpen: PropTypes.func,
+	resetEvent: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Services);

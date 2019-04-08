@@ -10,6 +10,7 @@ import AddIcon from '@material-ui/icons/AddRounded';
 
 import { fetchAll, updateAppointmentLocation } from '../../actions/locationAction';
 import './locations.css';
+import { resetEventData } from '../../actions/eventAction';
 
 
 const Item = ({ data, onclick, active }) => {
@@ -55,7 +56,8 @@ class Locations extends Component {
     }
 
     componentDidMount() {
-    	const { fetchAll } = this.props;
+			const { fetchAll, resetEvent } = this.props;
+			resetEvent();
     	fetchAll();
     }
 
@@ -103,6 +105,7 @@ const mapStateToProps = state => ({
  */
 const mapDispatchToProps = dispatch => ({
 	fetchAll: bindActionCreators(fetchAll, dispatch),
+	resetEvent: bindActionCreators(resetEventData, dispatch),
 	updateAppointmentLocation: bindActionCreators(updateAppointmentLocation, dispatch),
 });
 
@@ -110,6 +113,7 @@ Locations.propTypes = {
 	locations: PropTypes.array,
 	fetchAll: PropTypes.func,
 	goToNextStep: PropTypes.func,
+	resetEvent: PropTypes.func,
 	updateAppointmentLocation: PropTypes.func,
 };
 
