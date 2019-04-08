@@ -74,10 +74,36 @@
   height: 250px;
 }
 
+.modal__title {
+  font-size: 25px;
+  margin: 8px 0;
+  color: #5d91bf;
+}
+
+.more__link {
+  color: #1890ff;
+}
+
+.services__morelink__modal {
+  position: fixed;
+  width: 50%;
+  z-index: 10000;
+  left: 25%;
+}
+
+.services__morelink__modal > div > div {
+  position: absolute !important;
+}
 
 @media (max-width: 480px) {
   .services__container {
     margin: -12px;
+  }
+
+  .services__morelink__modal {
+    width: calc(100% - 20px);
+    top: 50vh;
+    left: 10px;
   }
 
   .services__griditem {

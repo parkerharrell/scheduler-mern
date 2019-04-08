@@ -1,8 +1,17 @@
 
 export const durationData = [
 	{
+		value: 300,
+		label: '5 mins'
+	}, {
+		value: 600,
+		label: '10 mins'
+	}, {
 		value: 900,
 		label: '15 mins'
+	}, {
+		value: 1200,
+		label: '20 mins'
 	}, {
 		value: 1800,
 		label: '30 mins'
