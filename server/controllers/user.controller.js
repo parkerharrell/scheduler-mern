@@ -127,11 +127,8 @@ export function store(req, res) {
 			user = resp;
 			// Sending Confirm Email
 			const verificationCode = generate_random_string(20);
-			console.log('----- verification code:', verificationCode);
 			const verify_link = `${process.env.APP_HOST}:${process.env.APP_PORT}/email-verify?${CONFIRM_CODE}=${verificationCode}`;
-			console.log('----- verify_link :', verify_link);
 			confirmEmail(user.get('email'), user.get('first_name'), user.get('last_name'), verify_link);
-			console.log('----- confirm email sent :');
 			return Meta.forge({
 				obj_class: 'users',
 				obj_id: user.get('id'),

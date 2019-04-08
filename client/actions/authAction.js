@@ -27,10 +27,9 @@ export function logoutSuccess() {
 	};
 }
 
-export function signupSuccess(data) {
+export function signupSuccess() {
 	return {
-		type: SIGN_UP_SUCCESS,
-		data
+		type: SIGN_UP_SUCCESS
 	};
 }
 
