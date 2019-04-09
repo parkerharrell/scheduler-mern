@@ -154,6 +154,7 @@ export default {
 			title: Joi.string().required(),
 			location: Joi.number().required(),
 			service: Joi.number().required(),
+			description: Joi.string().required(),
 		}
 	},
 
@@ -163,6 +164,7 @@ export default {
 			location: Joi.number().required(),
 			service: Joi.number().required(),
 			status: Joi.number().required(),
+			description: Joi.string(),
 			show_order: Joi.number().required(),
 		},
 		params: {
