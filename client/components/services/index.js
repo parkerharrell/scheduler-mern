@@ -71,7 +71,9 @@ class Services extends Component {
 			e.stopPropagation();
 			const { appointmentdata, updateAppointmentOpen } = this.props;
 			const { goToNextStep } = this.props;
-			updateAppointmentOpen(appointmentdata);
+			const data = Object.assign({}, appointmentdata);
+			data.openBook = true;
+			updateAppointmentOpen(data);
 			goToNextStep(1);
 		}
 

@@ -85,10 +85,6 @@ class SignUpForm extends Component {
 
 	handlePaymentType = event => {
 		this.setState({ paymenttype: event.target.value });
-		const { updateAppointmentOpen, appointmentdata } = this.props;
-		const data = Object.assign({}, appointmentdata.openBook);
-		data.paymenttype = event.target.value;
-		updateAppointmentOpen(data);
 	};
 
 	handlePaymentTypeClick (e) {
