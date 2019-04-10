@@ -3,244 +3,437 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { Link } from 'react-router-dom';
+import {Field, reduxForm} from 'redux-form';
 
 import Grid from '@material-ui/core/Grid';
-import { cloneDeep } from 'lodash';
-import Button from '@material-ui/core/Button';
-import {Field, reduxForm} from 'redux-form';
 import { isEmpty } from 'lodash';
-import * as moment from 'moment';
+import Button from '@material-ui/core/Button';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { Tabs } from 'antd';
+import ArrowUpIcon from '@material-ui/icons/ArrowUpwardRounded';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownwardRounded';
+import Modal from 'react-awesome-modal';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
 
-import { updateItem, fetchById, destroyItem } from '../../actions/serviceAction';
+import { fetchById, updateItem, destroyItem } from '../../actions/appointmentAction';
 import renderText from '../../components/common/form/renderText';
+import renderPhoneNumber from '../../components/common/form/renderPhoneNumber';
+import renderCheckbox from '../../components/common/form/renderCheckbox';
+import renderPassword from '../../components/common/form/renderPassword';
 import renderTextarea from '../../components/common/form/renderTextarea';
 import renderSelect from '../../components/common/form/renderSelect';
+import USAStateList from '../../utils/us-states.list';
+import styles from './AddAppointment.style.js';
 
+const TabPane = Tabs.TabPane;
 
-const durationData = [
-	{
-		value: 900,
-		label: '15 mins'
-	}, {
-		value: 1800,
-		label: '30 mins'
-	}, {
-		value: 2700,
-		label: '45 mins'
-	}, {
-		value: 3600,
-		label: '60 mins'
-	}, , {
-		value: 5400,
-		label: '90 mins'
-	}
-];
-
-const availableOptions = [
-	{
-		value: 60,
-		label: 'mins'
-	}, {
-		value: 3600,
-		label: 'hrs'
-	}, {
-		value: 86400,
-		label: 'days'
-	}, {
-		value: 604800,
-		label: 'weeks'
-	},
-];
-
-class EditService extends Component {
+class AppointmentDetails extends Component {
 
 	constructor(props) {
 		super(props);
-		const { match, getServiceInfo } = props;
-		const serviceId = match.params.id;
+		const { match, getAppointmentInfo } = props;
+		const appointmentId = match.params.id;
 		this.state = {
-			serviceId,
+			appointmentId,
+			paymenttype: 'cash',
+			showPassword: false,
+			appointmentData: [],
+			visible: false,
+			deleteAppointmentId: null,
 		};
-		getServiceInfo(serviceId);
+		getAppointmentInfo(appointmentId);
 	}
 
-    onSubmit = (formProps) => {
-    	const { updateService } = this.props;
-    	const { serviceId } = this.state;
-    	const result = cloneDeep(formProps);
-    	result.min_from_now = formProps['minfromnow_number'] * formProps['minfromnow_options'];
-			result.max_from_now = formProps['maxfromnow_number'] * formProps['maxfromnow_options'];
-			delete result.minfromnow_number;
-			delete result.minfromnow_options;
-			delete result.maxfromnow_number;
-			delete result.maxfromnow_options;
-    	updateService(serviceId, result);
-    }
+  onSubmit = (formProps) => {
+		const { appointmentId, paymenttype } = this.state;
+		const { updateAppointmentInfo } = this.props;
+		const result = cloneDeep(formProps);
+		result.created = moment().unix();
+		result.paymenttype = paymenttype;
+    delete result.confirm_password;
+		updateAppointmentInfo(appointmentId, result);
+		this.props.history.goBack();
+  }
 
-    onDelete = () => {
-    	const { deleteService } = this.props;
-    	const { serviceId } = this.state;
-    	deleteService(serviceId);
-    	this.props.history.push('/admin/services');
-    }
+  handlePaymentType = event => {
+    this.setState({ paymenttype: event.target.value });
+  };
 
-    render() {
-    	const { handleSubmit, currentService } = this.props;
-    	if (isEmpty(currentService)) {
-    		return (
-    			<div>
-            Loading ...      
-    			</div>
-    		);
-    	}
-    	
-    	return (
-    		<form key={currentService} method="post" onSubmit={handleSubmit(this.onSubmit)} >
-    			<Link to='/admin/services'><span>services</span></Link> / <span>{currentService.id}</span>
-    			<br/><br/>
-    			<Grid
-    				container
-    				alignItems="center"
-    				spacing={24}
-    			>
-    				<Grid item xs={6}>
-    					<h1>Edit</h1>
-    				</Grid>
-    				<Grid item xs={6} style={{ textAlign: 'right' }}>
-    					<Button variant="contained" color="secondary" onClick={this.onDelete}>Delete</Button>
-    				</Grid>
-    				<br/>
-    				<Grid item xs={6}>
-    					<Field
-    						type="text"
-    						name="title"
-    						component={renderText}
-    						label="title *"
-    					/>
-    				</Grid>
-    				<Grid item xs={6}>
-    				</Grid>
-    				<Grid item xs={12}>
-    					<Field
-    						name="description"
-    						component={renderTextarea}
-    						label="Description *"
-    					/>
-    				</Grid>
-    				<Grid item xs={2}>
-    					<Field
-    						name="minfromnow_number"
-    						label="Min Available *"
-								type="number"
-								fullWidth={false}
-    						component={renderText}
-    					/>
-						</Grid>:
-						<Grid item xs={2}>
-							<Field
-    						name="minfromnow_options"
-								label="Available Options *"
-								type="select"
-								fullWidth={false}
-								data={availableOptions}
-    						component={renderSelect}
-    					/>
-    				</Grid>
-						<Grid item xs={1}></Grid>
-						<Grid item xs={2}>
-    					<Field
-    						name="maxfromnow_number"
-								label="Max Available *"
-    						component={renderText}
-								type="number"
-								fullWidth={false}
-    					/>
-						</Grid>:
-						<Grid item xs={2}>
-							<Field
-    						name="maxfromnow_options"
-								label="Available Options *"
-								data={availableOptions}
-								component={renderSelect}
-								fullWidth={false}
-    						type="date"
-    					/>
-    				</Grid>
-						<Grid item xs={2}></Grid>
-    				<Grid item xs={3}>
-    					<Field
-    						type="text"
-    						name="price"
-    						component={renderText}
-    						label="Price *"
-    					/>
-    				</Grid>
-						<Grid item xs={3}>
-							<Field
-								name="duration"
-								label="Duration *"
-								data={durationData}
-								component={renderSelect}
-								type="date"
-							/>
-    				</Grid>
-						<Grid item xs={6}></Grid>
-    				<Grid item xs={3}>
-    					<Field
-    						type="text"
-    						name="recur_total"
-    						component={renderText}
-    						label="Recurring Total"
-    					/>
-    				</Grid>
-    				<Grid item xs={3}>
-    					<Field
-    						type="text"
-    						name="recur_options"
-    						component={renderText}
-    						label="Recurring Options"
-    					/>
-    				</Grid>
-    				<Grid item xs={6}>
-    				</Grid>
-    			</Grid>
-    			<br/><br/>
-    			<Grid container justify="center">
-    				<Grid item xs={3}></Grid>
-    				<Grid item xs={3} style={{ textAlign: 'center' }}>
-    					<Button type="submit" variant="contained" color="primary">Update</Button>
-    				</Grid>
-    				<Grid item xs={3} style={{ textAlign: 'center' }}>
-    					<Link to="/admin/services"><Button variant="contained" color="primary">Cancel</Button></Link>
-    				</Grid>
-    				<Grid item xs={3}></Grid>
-    			</Grid>
-    		</form>
-    	);
-    }
+	handlePaymentTypeClick (e) {
+    e.stopPropagation();
+	}
+	
+	changeStatus = (status) => {
+		const { appointmentId } = this.state;
+		updateAppointmentInfo(appointmentId, { status });
+	}
+
+	handleShowPasswordChange = () => {
+    const { showPassword } = this.state;
+    this.setState({
+      showPassword: !showPassword,
+    })
+	}
+	// Modal APIs
+	openModal = (id) => {
+		this.setState({
+			visible : true,
+			deleteAppointmentId: id,
+		});
+	}
+
+	closeModal = () => {
+		this.setState({
+			visible : false,
+			deleteAppointmentId: null,
+		});
+	}
+
+	confirmModal() {
+		const { deleteAppointmentId } = this.state;
+		const { deleteAppointment } = this.props;
+		deleteAppointment(deleteAppointmentId);
+		this.setState({
+			visible: false,
+			deleteAppointmentId: null,
+		});
+	}
+
+	onDelete = () => {
+		const { deleteAppointmentInfo } = this.props;
+		const { appointmentId } = this.state;
+		deleteAppointmentInfo(appointmentId);
+		this.props.history.push('/admin/appointments');
+	}
+
+	render() {
+		const { currentAppointment, handleSubmit } = this.props;
+		const { paymenttype, appointmentData, visible, showPassword } = this.state;
+
+		if (isEmpty(currentAppointment)) {
+			return (
+				<div>
+          Loading ...      
+				</div>
+			);
+		}
+		
+		return (
+			<form key={currentAppointment} method="post"  onSubmit={handleSubmit(this.onSubmit)} >
+				<Link to='/admin/appointments'><span>appointments</span></Link> / <span>{currentAppointment.id}</span>
+				<br/><br/>
+				<Grid
+					container
+					alignItems="center"
+					spacing={24}
+				>
+					<Grid item xs={6}>
+						<h1>Appointment Details</h1>
+					</Grid>
+					<Grid item xs={6} style={{ textAlign: 'right' }}>
+						<Button variant="contained" color="secondary" onClick={this.onDelete}>Delete</Button>
+					</Grid>
+				</Grid>
+				<br/>
+				<Tabs defaultActiveKey="1" onChange={this.handleChange}>
+					<TabPane tab="Edit" key="1">
+						<Grid container spacing={24}>
+							<Grid item md={7} xs={12}>
+								<Field
+									type="text"
+									name="email"
+									component={renderText}
+									label="Email *"
+								/>
+							</Grid>
+							<Grid item md={5} xs={12} style={styles.statusSection}>
+								<b>Status:&nbsp;</b>
+								{currentAppointment.email_confirmed == 0 &&
+									<span>Not Confirmed</span>
+								}
+								{currentAppointment.status === 1 && currentAppointment.email_confirmed == 1 &&
+									<span>Activated</span>
+								}
+								{currentAppointment.status !== 1 && currentAppointment.email_confirmed == 1 &&
+									<span>Suspended</span>
+								}
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								{currentAppointment.status === 1 &&
+									<Button variant="contained" size="small" color="secondary"  style={styles.statusBtnActive} onClick={() => this.changeStatus(0)}>Suspend</Button>
+								}
+								{currentAppointment.status !== 1 &&
+									<Button variant="contained" size="small" color="primary" style={styles.statusBtn} onClick={() => this.changeStatus(1)} >Activate</Button>
+								}
+							</Grid>
+							<Grid item md={6} xs={12}>
+								<Field
+									type="text"
+									name="first_name"
+									component={renderText}
+									label="First Name *"
+								/>
+							</Grid>
+							<Grid item md={6} xs={12}>
+								<Field
+									type="text"
+									name="last_name"
+									component={renderText}
+									label="Last Name *"
+								/>
+							</Grid>
+						</Grid>
+						<Grid container spacing={24}>
+							<Grid item md={6} xs={12}>
+								<Field
+									type="text"
+									name="phone"
+									component={renderPhoneNumber}
+									label="Contact Phone *"
+								/>
+							</Grid>
+							<Grid item md={6} xs={12}>
+								<Field
+									type="text"
+									name="alternate_phone"
+									component={renderPhoneNumber}
+									label="Alternate Phone"
+								/>
+							</Grid>
+							<Grid item md={6} xs={12}>
+								<Field
+									type="text"
+									name="street_address"
+									component={renderText}
+									label="Street Address"
+								/>
+							</Grid>
+							<Grid item md={6} xs={12}>
+								<Field
+									type="text"
+									name="address_2"
+									component={renderText}
+									label="Address 2 (Apt/Suite)"
+								/>
+							</Grid>
+							<Grid item md={4} xs={12}>
+								<Field
+									type="text"
+									name="city"
+									component={renderText}
+									label="City"
+								/>
+							</Grid>
+							<Grid item md={4} xs={12}>
+								<Field
+									name="state"
+									component={renderSelect}
+									data={USAStateList}
+									fullWidth={false}
+									type="select"
+									label="State"
+								/>
+							</Grid>
+							<Grid item md={4} xs={12}>
+								<Field
+									type="text"
+									name="zipcode"
+									component={renderText}
+									label="Zipcode *"
+								/>
+							</Grid>
+							<Grid item md={12} xs={12}>
+								<Field
+									type="checkbox"
+									name="ex_appointment"
+									component={renderCheckbox}
+									label="Existing Appointment"
+								/>
+							</Grid>
+							<Grid item md={12} xs={12}>
+								<Field
+									type="text"
+									name="preseller_initials"
+									component={renderText}
+									label="Preseller Initials *"
+								/>
+								<em>{`If this doesn't apply, just enter in "N/A"`}</em>
+							</Grid>
+							<Grid item md={12} xs={12}>
+								<Field
+									name="notes"
+									component={renderTextarea}
+									label="Notes"
+								/>
+							</Grid>
+							<Grid item md={12} xs={12}>
+								<h1 style={{fontSize: '1.3em'}}>Open Appointment Payment</h1>
+								<br/>
+								<RadioGroup
+									name="paymenttype"
+									value={paymenttype}
+									onChange={this.handlePaymentType}
+									onClick={this.handlePaymentTypeClick}
+									style={styles.radiogroup}
+								>
+									<FormControlLabel
+										value="cash"
+										control={<Radio color="primary" />}
+										style={styles.label}
+										label="Cash"
+									/>
+									<FormControlLabel
+										value="credit"
+										control={<Radio color="primary" />}
+										style={styles.label}
+										label="Credit Card"
+									/>
+								</RadioGroup>
+							</Grid>
+							<Grid item md={12} xs={12}>
+							</Grid>
+						</Grid>
+						<div style={{padding: '50px 0'}}>
+							<Button type="submit" variant="contained" color="primary">Update</Button>&nbsp;&nbsp;
+							<Link to="/admin/appointments"><Button variant="contained" color="primary">Cancel</Button></Link>
+						</div>
+					</TabPane>
+					<TabPane tab="List Appointments" key="2">
+						<>
+							<table key={appointmentData} style={styles.table}>
+								<thead>
+									<tr>
+										<th style={styles.th}>AppointmentId</th>
+										<th style={styles.th}>Service</th>
+										<th style={styles.th}>Location</th>
+										<th style={styles.th}>Appointment</th>
+										<th style={styles.th}>StartAt</th>
+										<th style={styles.th}>Duration</th>
+										<th style={styles.th}>Status</th>
+									</tr>
+								</thead>
+								<tbody>
+									{appointmentData.length == 0 &&
+										<tr>
+											<td colspan={7} align="center">No Data to show.</td>
+										</tr>
+									}
+									{appointmentData.map((data, index) => (
+										<tr key={index} style={index % 2 === 0 ? styles.oddTr : {}}>
+											<td>
+												<div>{data.title}</div>
+												<div><Link to={`/admin/locations/${data.id}`}>Details</Link>&nbsp;|&nbsp;
+												<a onClick={() => this.openModal(data.id)}>Remove</a></div>
+											</td>
+											<td>{data.email}</td>
+											<td>{data.phone}</td>
+											<td align="right">
+												<IconButton style={{ padding: 5 }} onClick={() => this.changeOrder(data.id, 'up')}>
+													<ArrowUpIcon style={styles.arrowUp} />
+												</IconButton>
+												<IconButton style={{ padding: 5 }} onClick={() => this.changeOrder(data.id, 'down')}>
+													<ArrowDownIcon style={styles.arrowDown} />
+												</IconButton>
+											</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+							<Modal visible={visible} width="480" height="200" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+								<div style={{ padding: 20 }}>
+									<Grid container alignItems="flex-end">
+										<Grid item xs={12} style={{ textAlign: 'right' }}>
+											<CloseIcon onClick={() => this.closeModal()} />
+										</Grid>
+										<br/>
+										<Grid item xs={12} style={{ fontSize: '1.4em', fontWeight: 500, padding: '20px 0' }}>
+												Do you really want to delete the location? 
+										</Grid>
+										<br/>
+										<Grid item xs={12} style={{ textAlign: 'right', paddingTop: 20 }}>
+											<Button variant="contained" color="primary" onClick={() => this.confirmModal()} >
+													Yes
+											</Button>
+												&nbsp;&nbsp;&nbsp;
+											<Button variant="contained" color="secondary" onClick={() => this.closeModal()} >
+													No
+											</Button>
+										</Grid>
+									</Grid>
+								</div>
+							</Modal>
+						</>
+					</TabPane>
+					<TabPane tab="Change Password" key="3">
+						<Grid item md={12} xs={12}>
+              <br/>
+              <h1 style={{fontSize: '1.3em'}}>Password</h1>
+              <div style={{ width: '50%' }}>
+                <Field
+                  name="password"
+                  component={renderPassword}
+                  label="Password *"
+                  showPassword={showPassword}
+                  handleClickShowPassword={this.handleShowPasswordChange}
+                />
+              </div>
+              <div style={{ display: 'flex', width: '100%', alignItems: 'flex-end' }}>
+                <div style={{ width: '50%' }}>
+                  <Field
+                    type="password"
+                    name="confirm_password"
+                    component={renderText}
+                    label="Confirm Password *"
+                  />
+                </div>
+                <div style={styles.passwordGenerateBtn}>
+                  <Button variant="contained" size="small"  onClick={this.generateRandomPassword} >Generate password</Button>
+                </div>
+              </div>
+              <br/>
+            </Grid>
+						<div style={{padding: '50px 0'}}>
+							<Button type="submit" variant="contained" color="primary">Update</Button>&nbsp;&nbsp;
+							<Link to="/admin/appointments"><Button variant="contained" color="primary">Cancel</Button></Link>
+						</div>
+					</TabPane>
+				</Tabs>
+
+			</form>
+		);
+	}
 }
 
 
-const validateEditService = values => {
+const validateEditAppointment = values => {
 	const errors = {};
 	const requiredFields = [
-		'title',
-		'description',
-		'minfromnow_number',
-		'minfromnow_options',
-		'maxfromnow_number',
-		'maxfromnow_options',
-		'duration',
+    'email',
+    'first_name',
+    'last_name',
+		'phone',
+    'zipcode',
+    'preseller_initials',
 	];
 	requiredFields.forEach(field => {
 		if (!values[field]) {
 			errors[field] = '' + field + ' field is required';
-		}
-		if (values['minfromnow_number'] * values['minfromnow_options'] > values['maxfromnow_number'] * values['maxfromnow_options']) {
-			errors['minfromnow_number'] = 'Max Available Booking should be bigger than Min Available Booking';
-		}
-	});
-
+    }
+  });
+  if (values['zipcode'] && values['zipcode'].length !== 5) {
+    errors['zipcode'] = 'Zipcode is Invalid. The length should be 5.';
+  }
+	if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+		errors.email = '(Invalid email address.)';
+	}
+	if (values.phone && !/^[1-9]\d\d-\d{3}-\d{4}$/i.test(values.phone)) {
+		errors.phone = 'Phone number is invalid.';
+	}
+	if (values.alternate_phone && !/^[1-9]\d\d-\d{3}-\d{4}$/i.test(values.alternate_phone)) {
+		errors.alternate_phone = 'Alternate Phone number is invalid.';
+	}
 	return errors;
 };
 
@@ -248,30 +441,26 @@ const validateEditService = values => {
  * Map the actions to props.
  */
 const mapStateToProps = state => ({
-	currentService: state.data.selectedService,
-	initialValues: state.data.selectedService,
+	currentAppointment: state.data.selectedAppointment,
+	initialValues: state.data.selectedAppointment,
 });
 
 
 const mapDispatchToProps = dispatch => ({
-	getServiceInfo: bindActionCreators(fetchById, dispatch),
-	updateService: bindActionCreators(updateItem, dispatch),
-	deleteService: bindActionCreators(destroyItem, dispatch),
+	getAppointmentInfo: bindActionCreators(fetchById, dispatch),
+	updateAppointmentInfo: bindActionCreators(updateItem, dispatch),
+	deleteAppointmentInfo: bindActionCreators(destroyItem, dispatch),
+	deleteAppointment: bindActionCreators(destroyItem, dispatch),
 });
 
-EditService.propTypes = {
-	createService: PropTypes.func,
-	handleSubmit: PropTypes.func,
-	getServiceInfo: PropTypes.func,
-	currentService: PropTypes.object,
-	deleteService: PropTypes.func,
-	updateService: PropTypes.func,
-	history: PropTypes.object,
+AppointmentDetails.propTypes = {
+	currentAppointment: PropTypes.object,
+	getAppointmentInfo: PropTypes.func,
 	match: PropTypes.object,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
-	form: 'EditServiceForm',
-	validate: validateEditService,
+	form: 'EditAppointmentForm',
 	enableReinitialize : true,
-})(EditService));
+	validate: validateEditAppointment,
+})(AppointmentDetails));

@@ -1,0 +1,62 @@
+.appointments__pagination .ant-pagination-item,
+.appointments__pagination .ant-pagination-prev,
+.appointments__pagination .ant-pagination-next {
+  width: 20px;
+  min-width: 20px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 11px;
+}
+
+.appointments__pagination .ant-pagination-total-text {
+  width: 100px;
+  text-align: right;
+}
+
+.appointments__pagination .ant-pagination {
+  width: 400px;
+  display: inline-block;
+}
+
+.appointments__pagination .ant-select {
+  width: 150px;
+  font-size: 12px;
+  height: 24px;
+  margin: 0 10px;
+}
+
+.appointments__pagination .ant-calendar-picker-input {
+  width: 250px !important;
+}
+
+.appointments__pagination .ant-select-selection--single {
+  height: 24px;
+}
+
+.appointments__pagination .ant-select-selection__rendered {
+  line-height: 24px;
+}
+
+.appointments__pagination {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.appointments__pagination .ant-btn {
+  font-size: 12px;
+  height: 22px;
+}
+
+.appointments__pagination .ant-input {
+  width: 150px;
+  font-size: 12px;
+  margin: 0 10px;
+  height: 24px;
+}
+
+.appointments__pagination h3 {
+  font-size: 14px;
+  line-height: 24px;
+  margin: 0;
+}
