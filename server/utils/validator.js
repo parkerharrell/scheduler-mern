@@ -193,4 +193,23 @@ export default {
 			userId: Joi.string().hex().required()
 		}
 	},
+	storeAppointment: {
+		body: {
+			location_id: Joi.number().required(),
+			service_id: Joi.number().required(),
+			sitting_id: Joi.number().required(),
+			customer_id: Joi.string().required(),
+		}
+	},
+	updateAppointment: {
+		body: {
+			location_id: Joi.number().required(),
+			service_id: Joi.number().required(),
+			sitting_id: Joi.number().required(),
+			customer_id: Joi.string().required(),
+		},
+		params: {
+			id: Joi.string().hex().required()
+		}
+	}
 };

@@ -2,9 +2,9 @@ import bookshelf from '../config/bookshelf';
 bookshelf.plugin(require('bookshelf-simplepaginate'));
 
 /**
- * User model.
+ * Admin model.
  */
-class User extends bookshelf.Model {
+class Admin extends bookshelf.Model {
     
 	get tableName() {
 		return 'ha45_admins';
@@ -19,4 +19,4 @@ class User extends bookshelf.Model {
 	}
 }
 
-export default User;
+export default Admin;
