@@ -70,15 +70,9 @@ export function findById(req, res) {
  */
 export function store(req, res) {
 	Appointment
-		.forge()
-		.fetchAll()
-		.then(appointments => {
-			const params = Object.assign({}, req.body);
-			params.show_order = appointments.length;
-			return appointment.forge({
-				...params
-			}, {hasTimestamps: false}).save();
-		})
+		.forge({
+				...req.body
+			}, {hasTimestamps: false}).save()
 		.then(appointment => res.json({
 			success: true,
 			data: appointment.toJSON()

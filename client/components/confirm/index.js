@@ -22,11 +22,11 @@ class ConfirmPage extends Component {
 		const { appointmentdata, user, createAppointment } = this.props;
 		const data = {};
 		if (appointmentdata && user) {
-			console.log('----------- datas: ', data, user);
-			data.location = appointmentdata.location;
-			data.service = appointmentdata.service;
+			console.log('----------- datas: ', appointmentdata, user);
+			data.location = appointmentdata.location.id;
+			data.service = appointmentdata.service.id;
 			data.customer = user.id;
-
+			data.openBook = appointmentdata.openBook;
 			if (!appointmentdata.openBook) {
 				data.startAt = appointmentdata.startDate;
 				createAppointment(data);

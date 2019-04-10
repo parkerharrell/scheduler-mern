@@ -194,7 +194,7 @@ export default {
 			location: Joi.number().required(),
 			service: Joi.number().required(),
 			openBook: Joi.boolean().required(),
-			customer: Joi.string().required(),
+			customer: Joi.number().required(),
 			startAt: Joi.string(),
 		}
 	},
@@ -203,7 +203,7 @@ export default {
 			location: Joi.number().required(),
 			service: Joi.number().required(),
 			openBook: Joi.boolean().required(),
-			customer: Joi.string().required(),
+			customer: Joi.number().required(),
 			confirmed: Joi.boolean(),
 			cancelled: Joi.boolean(),
 			startAt: Joi.string(),

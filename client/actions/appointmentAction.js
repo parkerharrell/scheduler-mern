@@ -104,9 +104,9 @@ export function fetchById(id) {
 }
   
 export function storeAppointment(params) {
-	const data = pickBy(params, _.identity);
+	// const data = pickBy(params, _.identity);
 	return function (dispatch) {
-		return httpService.storeEntity('appointments', data).then(() => {
+		return httpService.storeEntity('appointments', params).then(() => {
 			dispatch(success());
 		})
 			.catch((error) => {
@@ -116,10 +116,10 @@ export function storeAppointment(params) {
 }
 
 export function updateAppointment(id, params) {
-	const data = pickBy(params, _.identity);
+	// const data = pickBy(params, _.identity);
 
 	return function (dispatch) {
-		return httpService.updateEntity('appointments', data, id).then((res) => {
+		return httpService.updateEntity('appointments', params, id).then((res) => {
 			dispatch(update(id, res['data'].data));
 		})
 			.catch((error) => {
