@@ -65,10 +65,12 @@ export default function (state, action) {
 		sittings: [],
 		selectedSitting: {},
 		settings: {},
-		total: {},
+		total: 0,
 		userInitialValues: {},
 		admins: [],
 		selectedAdmin: {},
+		appointments: [],
+		selectedAppointment: {},
 		verifyStatus: false,
 		loading: false,
 	};

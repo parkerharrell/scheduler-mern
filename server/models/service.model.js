@@ -1,7 +1,7 @@
 import bookshelf from '../config/bookshelf';
 
 /**
- * User model.
+ * Service model.
  */
 class Service extends bookshelf.Model {
     

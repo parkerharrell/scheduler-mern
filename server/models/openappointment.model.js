@@ -1,7 +1,7 @@
 import bookshelf from '../config/bookshelf';
 
 /**
- * User model.
+ * OpenAppointment model.
  */
 class OpenAppointment extends bookshelf.Model {
     

@@ -1,7 +1,7 @@
 import bookshelf from '../config/bookshelf';
 
 /**
- * User model.
+ * Sitting model.
  */
 class Sitting extends bookshelf.Model {
     
