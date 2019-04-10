@@ -55,8 +55,9 @@ export function storeItem(entity, data) {
 
 export function createUser(entity, data) {
 	return function (dispatch) {
-		return httpService.storeEntity(entity, data).then(() => {
-			dispatch(AuthAction.signupSuccess());
+		return httpService.storeEntity(entity, data).then((res) => {
+			console.log('------ api response :', res.data);
+			dispatch(AuthAction.signupSuccess(res.data));
 		})
 			.catch((error) => {
 				dispatch(commonAction.failure(error));

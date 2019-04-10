@@ -23,14 +23,38 @@ const router = express.Router();
  *         type: integer
  *         description: Unique identifier representing a specific appointment
  *         example: 2
- *       title:
+ *       service:
+ *         type: integer
+ *         description: Service Id
+ *         example: 1
+ *       location:
+ *         type: integer
+ *         description: Location Id
+ *         example: 1
+ *       customer:
+ *         type: integer
+ *         description: Customer Id
+ *         example: 1
+ *       openBook:
+ *         type: bool
+ *         description: Book Type
+ *         example: false
+ *       confirmed:
+ *         type: bool
+ *         description: Book Approved or not
+ *         example: false
+ *       cancelled:
+ *         type: bool
+ *         description: Book Cancelled or not
+ *         example: false
+ *       no_show:
+ *         type: bool
+ *         description: Now show
+ *         example: false
+ *       startAt:
  *         type: string
- *         description: title
- *         example: Timilsina
- *       description:
- *         type: string
- *         description: description
- *         example: Krishna
+ *         description: Appointment StartTime
+ *         example: "2019-01-20T00:00:00-05:00"
  *   Error:
  *     type: object
  *     properties:

@@ -7,6 +7,7 @@ import { storeItem } from '../../actions/eventAction';
 import Button from '@material-ui/core/Button';
 
 import { storeOpenAppointment } from '../../actions/openAppointmentAction';
+import { storeAppointment } from '../../actions/appointmentAction';
 import './confirm.style.css';
 import moment from 'moment';
 
@@ -14,40 +15,56 @@ class ConfirmPage extends Component {
 	state = {
 		visible: false,
 		openBooked: undefined,
+		error: false,
 	};
 
 	componentDidMount() {
-		const { appointmentdata, createOpenAppointment, user } = this.props;
-		if (!appointmentdata.openBook)
-			this.createSchedule();
-		else {
-			this.setState({ openBooked: true });
-			const data = Object.assign({}, appointmentdata.openBook);
-			data.user = user || 1;
-			data.payment = user.paymenttype || 'cash';
-			createOpenAppointment(data);
+		const { appointmentdata, user, createAppointment } = this.props;
+		const data = {};
+		if (appointmentdata && user) {
+			console.log('----------- datas: ', data, user);
+			data.location = appointmentdata.location;
+			data.service = appointmentdata.service;
+			data.customer = user.id;
+
+			if (!appointmentdata.openBook) {
+				data.startAt = appointmentdata.startDate;
+				createAppointment(data);
+				this.createSchedule();
+			} else {
+				createAppointment(data);
+				this.setState({ openBooked: true });
+			}
+		} else {
+			this.setState({ error: true });
 		}
 	}
 
 	createSchedule = () => {
-		const { createEvent, appointmentdata, useremail } = this.props;
+		const { createEvent, appointmentdata, user } = this.props;
 		const event = {};
 		event.summary = appointmentdata.service.title;
 		event.start = moment(appointmentdata.startDate).format();
 		event.end = moment(appointmentdata.startDate).add(appointmentdata.service.duration, 'seconds').format();
 		event.location = `${appointmentdata.location.street}, ${appointmentdata.location.city}, ${appointmentdata.location.state} ${appointmentdata.location.zipcode}`;
 		event.description = appointmentdata.service.description;
-		event.email = useremail || 'admin@test.com';
+		event.email = user.email;
 		createEvent(event);
 	}
 
 	render() {
 		const { appointmentdata, event_created_success } = this.props;
-		const { openBooked } = this.state;
+		const { openBooked, error } = this.state;
 		return (
 			<div className="confirm__container">
 				{!openBooked && !event_created_success &&
 					<div>Loading ...</div>
+				}
+				{error &&
+					<>
+						<div>Appointment Schedule Failed ... Please try to book again.</div><br/><br/>
+						<a href="/" ><Button variant="contained" size="medium" color="primary" >Go to Home</Button></a>
+					</>
 				}
 				{openBooked &&
 					<React.Fragment>
@@ -112,7 +129,6 @@ class ConfirmPage extends Component {
  */
 const mapStateToProps = state => ({
 	appointmentdata: state.data.appointmentdata,
-	useremail: state.auth.useremail,
 	user: state.auth.user,
 	event_created_success: state.data.event_created_success,
 });
@@ -123,12 +139,14 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 	createEvent: bindActionCreators(storeItem, dispatch),
 	createOpenAppointment: bindActionCreators(storeOpenAppointment, dispatch),
+	createAppointment: bindActionCreators(storeAppointment, dispatch),
 });
 
 ConfirmPage.propTypes = {
 	createEvent: PropTypes.func,
 	appointmentdata: PropTypes.object,
 	createOpenAppointment: PropTypes.func,
+	createAppointment: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConfirmPage);

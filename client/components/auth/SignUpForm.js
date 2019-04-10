@@ -91,8 +91,16 @@ class SignUpForm extends Component {
 		e.stopPropagation();
 	}
 
+	onDataSubmit = (formProps) => {
+		const { onSubmit } = this.props;
+		const { paymenttype } = this.state;
+		const data = Object.assign({}, formProps);
+		data.paymenttype = paymenttype;
+		onSubmit(data);
+	}
+
 	render() {
-		const {handleSubmit, onSubmit, classes, onLogin, hideLoginDetails, appointmentdata} = this.props;
+		const {handleSubmit, classes, onLogin, hideLoginDetails, appointmentdata} = this.props;
 		const { paymenttype } = this.state;
 	
 		return (
@@ -103,7 +111,7 @@ class SignUpForm extends Component {
 						title="Register"
 					/>
 					<CardContent>
-						<form method="post" onSubmit={handleSubmit(onSubmit)}>
+						<form method="post" onSubmit={handleSubmit(this.onDataSubmit)}>
 							<Grid container spacing={24}>
 								<Grid item md={12} xs={12}>
 									<Field

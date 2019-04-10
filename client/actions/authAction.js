@@ -27,9 +27,10 @@ export function logoutSuccess() {
 	};
 }
 
-export function signupSuccess() {
+export function signupSuccess(data) {
 	return {
-		type: SIGN_UP_SUCCESS
+		type: SIGN_UP_SUCCESS,
+		data
 	};
 }
 

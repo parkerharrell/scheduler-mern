@@ -145,8 +145,7 @@ export function store(req, res) {
 			return res.json({
 				success: true,
 				token,
-				username:  user.get('username'),
-				email: user.get('email'),
+				user: user.toJSON(),
 			})
 		})
 		.catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({

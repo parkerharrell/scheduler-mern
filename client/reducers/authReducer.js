@@ -7,8 +7,6 @@ var initialState = {
 	isLoading: false,
 	isAdmin: false,
 	errorMessage: null,
-	useremail: '',
-	username: '',
 	user: {},
 };
 
@@ -25,9 +23,7 @@ export default function (state, action) {
 			isAdmin: true,
 			isLoading: false,
 			token: action.data.token,
-			useremail: action.data.email,
-			username: action.data.username,
-			user: action.data,
+			user: action.data.user,
 			errorMessage: null,
 		});
 
@@ -37,6 +33,7 @@ export default function (state, action) {
 			isLoading: false,
 			isAdmin: false,
 			token: null,
+			user: {},
 			errorMessage: action.error.message || 'LogIn Failed.'
 		});
 
@@ -47,13 +44,16 @@ export default function (state, action) {
 			isAdmin: false,
 			token: null,
 			errorMessage: null,
+			user: {},
 		});
 
 	case SIGN_UP_SUCCESS:
 		return Object.assign({}, state, {
 			isAuthenticated: true,
+			token: action.data.token,
 			isLoading: false,
 			errorMessage: null,
+			user: action.data.user,
 		});
 
 	default:

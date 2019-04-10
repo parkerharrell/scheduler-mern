@@ -23,7 +23,6 @@ export default {
 			paymenttype: Joi.string(),
 		}
 	},
-
 	updateUser: {
 		body: {
 			first_name: Joi.string().required(),
@@ -73,7 +72,6 @@ export default {
 			payment: Joi.string(),
 		}
 	},
-
 	updateService: {
 		body: {
 			title: Joi.string().required(),
@@ -107,7 +105,6 @@ export default {
 			zipcode: Joi.string().required(),
 		}
 	},
-
 	updateLocation: {
 		body: {
 			title: Joi.string().required(),
@@ -180,7 +177,6 @@ export default {
 			password: Joi.string(),
 		}
 	},
-
 	updateAdmin: {
 		body: {
 			first_name: Joi.string().required(),
@@ -195,18 +191,23 @@ export default {
 	},
 	storeAppointment: {
 		body: {
-			location_id: Joi.number().required(),
-			service_id: Joi.number().required(),
-			sitting_id: Joi.number().required(),
-			customer_id: Joi.string().required(),
+			location: Joi.number().required(),
+			service: Joi.number().required(),
+			openBook: Joi.boolean().required(),
+			customer: Joi.string().required(),
+			startAt: Joi.string(),
 		}
 	},
 	updateAppointment: {
 		body: {
-			location_id: Joi.number().required(),
-			service_id: Joi.number().required(),
-			sitting_id: Joi.number().required(),
-			customer_id: Joi.string().required(),
+			location: Joi.number().required(),
+			service: Joi.number().required(),
+			openBook: Joi.boolean().required(),
+			customer: Joi.string().required(),
+			confirmed: Joi.boolean(),
+			cancelled: Joi.boolean(),
+			startAt: Joi.string(),
+			no_show: Joi.boolean(),
 		},
 		params: {
 			id: Joi.string().hex().required()
