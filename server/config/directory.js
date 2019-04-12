@@ -4,7 +4,7 @@ var rootPath = path.normalize(__dirname + '/../..');
 const directory = {
 	root: rootPath,
 	distDir: rootPath + '/dist',
-	assetsDir: rootPath + '/public'
+	assetsDir: rootPath + '/html'
 };
 
 export default directory;

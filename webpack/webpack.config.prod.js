@@ -22,7 +22,7 @@ var config = {
     },
     mode: 'production',
     output: {
-        path: path.resolve(CURRENT_WORKING_DIR, 'public'), //  destination
+        path: path.resolve(CURRENT_WORKING_DIR, 'html'), //  destination
         filename: 'client.bundle.js',
         publicPath: '/',
     },

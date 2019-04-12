@@ -6,6 +6,6 @@
 package-lock.json
 npm-debug.log
 
-/public/client.bundle.js
-/public/client.bundle.js.map
+/html/client.bundle.js
+/html/client.bundle.js.map
 sendgrid.env

@@ -83,7 +83,8 @@ class AppointmentsContainer extends Component {
 				first_name: null,
 				last_name: null,
 			},
-			customers: [],
+			locations: [],
+			services: [],
 		};
 		const { fetchAll, fetchAllLocations, fetchAllServices, fetchAllSittings } = this.props;
 		fetchAll({ page: 1, limit: PAGE_SIZE });
@@ -93,14 +94,28 @@ class AppointmentsContainer extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		const { appointments, total } = nextProps;
+		const { appointments, total, customers, locations, services } = nextProps;
 		const totalAppointmentsNumber = total;
-		this.setState({ rowData: appointments, totalAppointmentsNumber });
+		const resortedLocations = {};
+		const resortedCustomers = {};
+		const resortedServices = {};
+
+		locations.map(item => {
+			resortedLocations[item.id] = item;
+		});
+		services.map(item => {
+			resortedServices[item.id] = item;
+		});
 		if (appointments.length > 0 && customers.length === 0) {
-			const customerIds = appointments.map(item => item.customer_id);
+			const customerIds = appointments.map(item => item.customer);
 			const { fetchCustomers } = this.props;
 			fetchCustomers({ users: customerIds });
+		} else {
+			customers.map(item => {
+				resortedCustomers[item.id] = item;
+			});
 		}
+		this.setState({ rowData: appointments, totalAppointmentsNumber, locations: resortedLocations, services: resortedServices, customers: resortedCustomers  });
 
 	}
 
@@ -261,8 +276,8 @@ class AppointmentsContainer extends Component {
 	}
 	
 	render() {
-		const { visible, rowData, pageNumber, totalAppointmentsNumber, isCheckAllClicked, statusOption,
-			filters, services, locations, appointments,  } = this.state;
+		const { visible, rowData, pageNumber, totalAppointmentsNumber, isCheckAllClicked, services, locations, customers } = this.state;
+		console.log('----- servcies, locations:', services, locations, customers);
 		return (
 			<div>
 				<Grid
@@ -337,8 +352,6 @@ class AppointmentsContainer extends Component {
 						<tr>
 							<th style={{...styles.th, width: 30 }}><Checkbox checked={isCheckAllClicked} onChange={() => this.checkAllItems()}></Checkbox></th>
 							<th style={{...styles.th, width: 300 }}>Resource</th>
-							<th style={styles.th}>Location</th>
-							<th style={styles.th}>Service</th>
 							<th style={styles.th}>Customer</th>
 							<th style={styles.th}>StartAt</th>
 							<th style={styles.th}>Duration</th>
@@ -353,28 +366,22 @@ class AppointmentsContainer extends Component {
 									<Checkbox checked={this.showCheckMark(data.id)} onChange={() => this.checkboxChange(data.id)}></Checkbox>
 								</td>
 								<td>
-									<div style={{ textTransform: 'captialize' }}>{sittings[data.sitting_id].title}</div>
+									<div style={{ textTransform: 'captialize' }}>{`${locations[data.location] && locations[data.location].title || ''} ${services[data.service] && services[data.service].title}` || ''}</div>
 									<div><Link to={`/admin/appointments/${data.id}`}>Details</Link>&nbsp;|&nbsp;
 									<Link to={`/admin/appointments?appointment=${data.id}`}>Appointments</Link>&nbsp;|&nbsp;
 									<a onClick={() => this.openModal(data.id)}>Remove</a></div>
 								</td>
 								<td>
-									{locations[data.location_id].title || ''}
+									{`${customers[data.customer] && customers[data.customer].first_name || ''} ${customers[data.customer] && customers[data.customer].last_name}` || ''}
 								</td>
 								<td>
-									{services[data.service_id].title || ''}
+									{services[data.service] && services[data.service].startAt || ''}
 								</td>
 								<td>
-									{`${customers[data.customer_id].first_name} ${customers[data.customer_id].last_name}` || ''}
+									{services[data.service] && services[data.service].duration || ''}
 								</td>
 								<td>
-									{services[data.service_id].startAt || ''}
-								</td>
-								<td>
-									{services[data.service_id].duration || ''}
-								</td>
-								<td>
-									{services[data.service_id].price || ''}
+									{services[data.service] && services[data.service].price || ''}
 								</td>
 								<td>
 									{data.approved == 1 &&
@@ -391,7 +398,8 @@ class AppointmentsContainer extends Component {
 									}
 								</td>
 							</tr>
-						))}
+						)
+					)}
 					</tbody>
 				</table>
 				<Modal visible={visible} width="480" height="200" effect="fadeInUp" onClickAway={() => this.closeModal()}>
@@ -430,7 +438,6 @@ const mapStateToProps = state => ({
 	appointments: state.data.appointments,
 	services: state.data.services,
 	locations: state.data.locations,
-	sittings: state.data.sittings,
 	customers: state.data.users,
 	total: state.data.total,
 });

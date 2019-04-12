@@ -100,7 +100,7 @@ export default function (state, action) {
 
 		case ENTITY_FETCH: {
 			const apiData = action.data.slice();
-			let result = [];
+			let result = apiData;
 			const tz = moment.tz.guess();
 
 			if(action.entity === 'services') {
@@ -114,9 +114,6 @@ export default function (state, action) {
 					console.log('-------- maxfromnow options;', options1, number1);
 					return data;
 				});
-			}
-			if (action.entity === 'locations') {
-				result = apiData;
 			}
 			if (action.entity === 'users') {
 				result = apiData.map(data => {
@@ -132,17 +129,8 @@ export default function (state, action) {
 				});
 				newState['total'] = action.total;
 			}
-			if (action.entity === 'events') {
-				result = apiData;
-			}
-			if (action.entity === 'openAppointments') {
-				result = apiData;
-			}
-			if (action.entity === 'sittings') {
-				result = apiData;
-			}
-			if (action.entity === 'settings') {
-				result = apiData;
+			if (action.entity === 'appointments') {
+				newState['total'] = action.total;
 			}
 			newState[action.entity] = result;
 			return newState;

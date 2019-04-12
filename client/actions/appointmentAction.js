@@ -1,7 +1,7 @@
 import history from '../utils/history';
 import { pickBy } from 'lodash';
 /**
- * Import all httpAppointment as an object.
+ * Import all httpService as an object.
  */
 import * as httpService from '../services/httpService';
 
@@ -20,6 +20,8 @@ import {
 	ENTITY_DELETE,
 	SELECT_ENTITY_ITEM,
 	CLEAR_ENTITY_LIST,
+	USERS_INITIALVALUES_UPDATE,
+	UPDATE_VERIFY_STATUS,
 } from '../constants/actionType';
 
 function failure(error) {
@@ -43,16 +45,25 @@ function update(id, data) {
 	return {
 		type: ENTITY_UPDATE,
 		entity: 'appointments',
+		data: data,
 		id: id,
-		data: data
 	};
 }
 
-function fetch(data) {
+function updatePassword(data) {
+	return {
+		type: USERS_INITIALVALUES_UPDATE,
+		data: data,
+	};
+}
+
+function fetch(data, total) {
+	console.log('=-=====: da:', data, total);
 	return {
 		type: ENTITY_FETCH,
 		entity: 'appointments',
-		data: data
+		data: data,
+		total: total,
 	};
 }
 
@@ -65,7 +76,7 @@ function destroy(id) {
 	};
 }
 
-function selectAppointment(data) {
+function selectItem(data) {
 	return {
 		type: SELECT_ENTITY_ITEM,
 		entity: 'selectedAppointment',
@@ -81,10 +92,11 @@ function clearList(appointment) {
 	};
 }
 
-export function fetchAll() {
+export function fetchAll(params) {
+	const data = pickBy(params, _.identity);
 	return function (dispatch) {
-		return httpService.fetchEntity('appointments').then((response) => {
-			dispatch(fetch(response['data'].data));
+		return httpService.fetchEntityWithData('appointments', data).then((response) => {
+			dispatch(fetch(response['data']['data'].data, response['data']['data'].total));
 		})
 			.catch((error) => {
 				dispatch(failure(error));
@@ -95,7 +107,7 @@ export function fetchAll() {
 export function fetchById(id) {
 	return function (dispatch) {
 		return httpService.fetchEntityById('appointments', id).then((response) => {
-			dispatch(selectAppointment(response['data'].data));
+			dispatch(selectItem(response['data'].data));
 		})
 			.catch((error) => {
 				dispatch(failure(error));
@@ -103,11 +115,12 @@ export function fetchById(id) {
 	};
 }
   
-export function storeAppointment(params) {
-	// const data = pickBy(params, _.identity);
+export function storeItem(params) {
+	const data = pickBy(params, _.identity);
+
 	return function (dispatch) {
-		return httpService.storeEntity('appointments', params).then(() => {
-			dispatch(success());
+		return httpService.storeEntity('appointments', data).then(() => {
+			history.goBack();
 		})
 			.catch((error) => {
 				dispatch(failure(error));
@@ -116,10 +129,9 @@ export function storeAppointment(params) {
 }
 
 export function updateAppointment(id, params) {
-	// const data = pickBy(params, _.identity);
-
+	const data = pickBy(params, _.identity);
 	return function (dispatch) {
-		return httpService.updateEntity('appointments', params, id).then((res) => {
+		return httpService.updateEntity('appointments', data, id).then(() => {
 			dispatch(update(id, res['data'].data));
 		})
 			.catch((error) => {
@@ -138,3 +150,4 @@ export function destroyAppointment(id) {
 			});
 	};
 }
+
