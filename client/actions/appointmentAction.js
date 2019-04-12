@@ -115,7 +115,7 @@ export function fetchById(id) {
 	};
 }
   
-export function storeItem(params) {
+export function storeAppointment(params) {
 	const data = pickBy(params, _.identity);
 
 	return function (dispatch) {
